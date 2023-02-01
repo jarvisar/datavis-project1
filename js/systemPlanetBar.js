@@ -88,7 +88,7 @@ class SystemPlanetBar {
 
   updateVis(dataArray){
     let vis = this;
-    vis.svg.selectAll('rect')
+    vis.rects = vis.svg.selectAll('rect')
       .data(dataArray)
       .enter()
       .append('rect')
@@ -96,6 +96,18 @@ class SystemPlanetBar {
       .attr('y', d => vis.yScale(d.count))
       .attr('width', vis.xScale.bandwidth())
       .attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
-      .style('fill', '#104494');
+      .style('fill', '#104494')
+      .attr('class', (d) => "pbar-"+d.sy_pnum);
+
+    vis.rects.on('mouseover', (event, d) => {
+      console.log("." + "pbar-"+d.sy_pnum);
+      d3.select("." + "pbar-"+d.sy_pnum)
+        .style('filter', 'brightness(85%)');
+    })
+
+    vis.rects.on('mouseleave', (event, d) => {
+      d3.select("." + "pbar-"+d.sy_pnum)
+        .style('filter', 'none');
+    });
   }
 }

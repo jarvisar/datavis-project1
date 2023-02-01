@@ -85,7 +85,7 @@ class TypeBar {
 
 	updateVis(dataArray){
 	let vis = this;
-	vis.svg.selectAll('rect')
+	vis.rects = vis.svg.selectAll('rect')
 		.data(dataArray)
 		.enter()
 		.append('rect')
@@ -93,6 +93,18 @@ class TypeBar {
 		.attr('y', d => vis.yScale(d.count))
 		.attr('width', vis.xScale.bandwidth())
 		.attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
-		.style('fill', '#1a0f35');
+		.style('fill', '#1a0f35')
+		.attr('class', (d) => d.st_spectype.replace(/[/\\*]/g, ""));
+
+	vis.rects.on('mouseover', (event, d) => {
+		console.log("." + d.st_spectype.replace(/[/\\*]/g, ""));
+		d3.select("." + d.st_spectype.replace(/[/\\*]/g, ""))
+			.style('filter', 'brightness(140%)');
+		})
+	
+	vis.rects.on('mouseleave', (event, d) => {
+		d3.select("." + d.st_spectype.replace(/[/\\*]/g, ""))
+			.style('filter', 'none');
+		});
 	}
 }

@@ -72,7 +72,7 @@ class HabitabilityBar {
 	// Convert the counts object to an array of objects
 	const dataArray = [];
 	for (let key in counts) {
-		dataArray.push({st_spectype: key, count: counts[key]});
+		dataArray.push({habitable: key, count: counts[key]});
 	}
 
 	vis.svg = d3.select(vis.config.parentElement)
@@ -86,7 +86,7 @@ class HabitabilityBar {
 
 	// Set the scales
 	vis.xScale = d3.scaleBand()
-	.domain(dataArray.map(d => d.st_spectype))
+	.domain(dataArray.map(d => d.habitable))
 	.range([margin, width - margin])
 	.padding(0.1);
 
@@ -115,16 +115,28 @@ class HabitabilityBar {
 	vis.updateVis(dataArray);
 	}
 
-	updateVis(dataArray){
+  updateVis(dataArray){
 	let vis = this;
-	vis.svg.selectAll('rect')
+	vis.rects = vis.svg.selectAll('rect')
 		.data(dataArray)
 		.enter()
 		.append('rect')
-		.attr('x', d => vis.xScale(d.st_spectype))
+		.attr('x', d => vis.xScale(d.habitable))
 		.attr('y', d => vis.yScale(d.count))
 		.attr('width', vis.xScale.bandwidth())
 		.attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
-		.style('fill', '#a1e9f7');
-	}
+		.style('fill', '#a1e9f7')
+		.attr('class', (d) => d.habitable.replace(/\s+/g, '-').toLowerCase());
+
+	vis.rects.on('mouseover', (event, d) => {
+		console.log("." + d.habitable.replace(/\s+/g, '-').toLowerCase());
+		d3.select("." + d.habitable.replace(/\s+/g, '-').toLowerCase())
+			.style('filter', 'brightness(92%)');
+		})
+	
+	vis.rects.on('mouseleave', (event, d) => {
+		d3.select("." + d.habitable.replace(/\s+/g, '-').toLowerCase())
+			.style('filter', 'none');
+		});
+  }
 }

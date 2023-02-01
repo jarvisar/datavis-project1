@@ -47,6 +47,7 @@ class MethodBar {
 	vis.svg = d3.select(vis.config.parentElement)
 	  .attr('width', vis.config.containerWidth)
 	  .attr('height', vis.config.containerHeight)
+	  .classed('svg', true);
 
 	// Set the dimensions of the chart
 	const width = vis.config.containerWidth;
@@ -70,41 +71,55 @@ class MethodBar {
 	.style("font-family", "Roboto")
 	.style("font-size", "14px")
 	.text("Exoplanets by Discovery Method");
-	
-
-	// Add the x axis
+		// Add the y axis
 	vis.svg.append('g')
-  .attr('transform', `translate(0, ${height - margin})`)
-  .call(d3.axisBottom(vis.xScale))
-  .selectAll("text")
-    .style("text-anchor", "start")
-	.style("word-wrap", "break-word")
-	.style("font-family", "Roboto")
-	.style("color", "black")
-	.style("font-size", "9px")
-    .attr("dx", "0.5em")
-    .attr("dy", "-0.5em")
-    .attr("transform", "rotate(-90)");
+		.attr('transform', `translate(${margin}, 0)`)
+		.call(d3.axisLeft(vis.yScale));
 	
-
-	// Add the y axis
-	vis.svg.append('g')
-	.attr('transform', `translate(${margin}, 0)`)
-	.call(d3.axisLeft(vis.yScale));
-
 	vis.updateVis(dataArray);
   }
 
   updateVis(dataArray){
     let vis = this;
-    vis.svg.selectAll('rect')
-      .data(dataArray)
-      .enter()
-      .append('rect')
-      .attr('x', d => vis.xScale(d.method))
-      .attr('y', d => vis.yScale(d.count))
-      .attr('width', vis.xScale.bandwidth())
-      .attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
-      .style('fill', '#66d9ef');
+    vis.rects = vis.svg.selectAll('rect')
+		.data(dataArray)
+		.enter()
+		.append('rect')
+		.attr('x', d => vis.xScale(d.method))
+		.attr('y', d => vis.yScale(d.count))
+		.attr('width', vis.xScale.bandwidth())
+		.attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
+		.style('fill', '#66d9ef')
+		.attr('class', (d) => d.method.replace(/\s+/g, '-').toLowerCase())
+
+	vis.rects.on('mouseover', (event, d) => {
+		console.log("." + d.method.replace(/\s+/g, '-').toLowerCase());
+		d3.select("." + d.method.replace(/\s+/g, '-').toLowerCase())
+			.style('filter', 'brightness(90%)');
+	})
+
+	vis.rects.on('mouseleave', (event, d) => {
+		d3.select("." + d.method.replace(/\s+/g, '-').toLowerCase())
+			.style('filter', 'none');
+	});
+
+	// Add the x axis
+	vis.svg.append('g')
+		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
+		.call(d3.axisBottom(vis.xScale))
+		.selectAll("text")
+		.style("text-anchor", "start")
+		.style("word-wrap", "break-word")
+		.style("font-family", "Roboto")
+		.style("color", "black")
+		.style("font-size", "9px")
+		.attr("dx", "0.5em")
+		.attr("dy", "-0.5em")
+		.attr("transform", "rotate(-90)");
+
+	d3.selectAll('.svg rect').on('click', function(event, d) {
+		console.log('works!');
+		console.log(d);
+	});
   }
 }

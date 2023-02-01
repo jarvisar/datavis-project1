@@ -73,7 +73,7 @@ class SystemStarBar {
 
   updateVis(dataArray){
     let vis = this;
-    vis.svg.selectAll('rect')
+    vis.rects = vis.svg.selectAll('rect')
       .data(dataArray)
       .enter()
       .append('rect')
@@ -81,6 +81,19 @@ class SystemStarBar {
       .attr('y', d => vis.yScale(d.count))
       .attr('width', vis.xScale.bandwidth())
       .attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
-      .style('fill', '#0483e9');
+      .style('fill', '#0483e9')
+	  .attr('class', (d) => "sbar-"+d.sy_snum);
+
+	vis.rects.on('mouseover', (event, d) => {
+	console.log("." + "sbar-"+d.sy_snum);
+	d3.select("." + "sbar-"+d.sy_snum)
+		.style('filter', 'brightness(85%)');
+	})
+
+	vis.rects.on('mouseleave', (event, d) => {
+	d3.select("." + "sbar-"+d.sy_snum)
+		.style('filter', 'none');
+	});
   }
 }
+
