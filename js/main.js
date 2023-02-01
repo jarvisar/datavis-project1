@@ -31,7 +31,7 @@ d3.csv('data/exoplanets-1.csv')
 			'containerWidth': 300
 		}, data);
 		
-		
+
 		let habitabilityBar = new HabitabilityBar({
 			'parentElement': '#habitablebar',
 			'containerHeight': 400,
