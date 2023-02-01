@@ -100,14 +100,13 @@ class SystemPlanetBar {
       .attr('class', (d) => "pbar-"+d.sy_pnum);
 
     vis.rects.on('mouseover', (event, d) => {
-      console.log("." + "pbar-"+d.sy_pnum);
       d3.select("." + "pbar-"+d.sy_pnum)
         .style('filter', 'brightness(85%)');
-    })
+      })
 
     vis.rects.on('mouseleave', (event, d) => {
       d3.select("." + "pbar-"+d.sy_pnum)
         .style('filter', 'none');
-    });
+      });
   }
 }

@@ -93,7 +93,6 @@ class MethodBar {
 		.attr('class', (d) => d.method.replace(/\s+/g, '-').toLowerCase())
 
 	vis.rects.on('mouseover', (event, d) => {
-		console.log("." + d.method.replace(/\s+/g, '-').toLowerCase());
 		d3.select("." + d.method.replace(/\s+/g, '-').toLowerCase())
 			.style('filter', 'brightness(90%)');
 	})
@@ -117,8 +116,7 @@ class MethodBar {
 		.attr("dy", "-0.5em")
 		.attr("transform", "rotate(-90)");
 
-	d3.selectAll('.svg rect').on('click', function(event, d) {
-		console.log('works!');
+	vis.rects.on('click', (event, d) => {
 		console.log(d);
 	});
   }

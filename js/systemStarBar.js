@@ -85,15 +85,14 @@ class SystemStarBar {
 	  .attr('class', (d) => "sbar-"+d.sy_snum);
 
 	vis.rects.on('mouseover', (event, d) => {
-	console.log("." + "sbar-"+d.sy_snum);
-	d3.select("." + "sbar-"+d.sy_snum)
-		.style('filter', 'brightness(85%)');
-	})
+		d3.select("." + "sbar-"+d.sy_snum)
+			.style('filter', 'brightness(85%)');
+		})
 
 	vis.rects.on('mouseleave', (event, d) => {
-	d3.select("." + "sbar-"+d.sy_snum)
-		.style('filter', 'none');
-	});
+		d3.select("." + "sbar-"+d.sy_snum)
+			.style('filter', 'none');
+		});
   }
 }
 

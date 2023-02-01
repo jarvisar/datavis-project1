@@ -97,7 +97,6 @@ class TypeBar {
 		.attr('class', (d) => d.st_spectype.replace(/[/\\*]/g, ""));
 
 	vis.rects.on('mouseover', (event, d) => {
-		console.log("." + d.st_spectype.replace(/[/\\*]/g, ""));
 		d3.select("." + d.st_spectype.replace(/[/\\*]/g, ""))
 			.style('filter', 'brightness(140%)');
 		})

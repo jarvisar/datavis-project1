@@ -129,7 +129,6 @@ class HabitabilityBar {
 		.attr('class', (d) => d.habitable.replace(/\s+/g, '-').toLowerCase());
 
 	vis.rects.on('mouseover', (event, d) => {
-		console.log("." + d.habitable.replace(/\s+/g, '-').toLowerCase());
 		d3.select("." + d.habitable.replace(/\s+/g, '-').toLowerCase())
 			.style('filter', 'brightness(92%)');
 		})
