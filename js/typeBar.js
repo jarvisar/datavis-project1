@@ -63,16 +63,6 @@ class TypeBar {
 	.domain([0, d3.max(dataArray, d => d.count)])
 	.range([height - margin, margin]);
 
-	vis.svg.selectAll('rect')
-	.data(dataArray)
-	.enter()
-	.append('rect')
-	.attr('x', d => vis.xScale(d.st_spectype))
-	.attr('y', d => vis.yScale(d.count))
-	.attr('width', vis.xScale.bandwidth())
-	.attr('height', d => height - margin - vis.yScale(d.count))
-	.style('fill', '#1a0f35');
-
 	vis.svg.append("text")
 	.attr("x", width/2)
 	.attr("y", 20)
@@ -90,5 +80,19 @@ class TypeBar {
 	vis.svg.append('g')
 	.attr('transform', `translate(${margin}, 0)`)
 	.call(d3.axisLeft(vis.yScale));
+	vis.updateVis(dataArray);
+	}
+
+	updateVis(dataArray){
+	let vis = this;
+	vis.svg.selectAll('rect')
+		.data(dataArray)
+		.enter()
+		.append('rect')
+		.attr('x', d => vis.xScale(d.st_spectype))
+		.attr('y', d => vis.yScale(d.count))
+		.attr('width', vis.xScale.bandwidth())
+		.attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
+		.style('fill', '#1a0f35');
 	}
 }
