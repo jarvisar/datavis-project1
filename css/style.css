@@ -13,3 +13,25 @@ h1, h4, h5 {
 	justify-content: center;
 	flex-wrap: wrap;
 }
+
+.chart-title{
+	position: relative;
+	margin: 0 auto;
+	width: 170px;
+	text-align: center;
+  }
+  .chart-title:after{
+	content:'';
+	position: absolute;
+	border-bottom: 2px solid #666;
+	top: 90%;
+	transition: all 0.3s;
+   }
+  
+  .chart-title:after {
+	right: 50%;
+	left: 50%;
+  }
+  .chart-title:hover:after {
+	right: 0; left: 0;
+  }

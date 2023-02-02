@@ -31,8 +31,6 @@ class BarChart {
 
     vis.chart = vis.svg.append('g')
         .attr('transform', `translate(${vis.config.margin.left}, ${vis.config.margin.top})`);
-	
-	
 
 	vis.svg = d3.select(vis.config.parentElement)
 	  .attr('width', vis.config.containerWidth)
@@ -40,6 +38,21 @@ class BarChart {
 	  .classed('svg', true);
 
 	// Set the dimensions of the chart
+	const width = vis.config.containerWidth;
+	const height = vis.config.containerHeight;
+	const margin = 40;
+	vis.updateVis(dataArray);
+	
+  }
+
+  updateVis(){
+	let vis = this;
+	let dataArray = vis.data;
+    vis.clicked = {};
+
+	vis.svg.selectAll('.y-axis').remove();
+	vis.svg.selectAll('.x-axis').remove();
+
 	const width = vis.config.containerWidth;
 	const height = vis.config.containerHeight;
 	const margin = 40;
@@ -60,51 +73,44 @@ class BarChart {
 	.attr("text-anchor", "middle")
 	.style("font-family", "Roboto")
 	.style("font-size", "14px")
-	.text(vis.title);
-		// Add the y axis
+	.text(vis.title)
+	.attr('class', '.chart-title');
+
+	// Add the y axis
 	vis.svg.append('g')
 		.attr('transform', `translate(${margin}, 0)`)
-		.call(d3.axisLeft(vis.yScale));
-	
-	vis.updateVis(dataArray);
+		.call(d3.axisLeft(vis.yScale))
+		.attr('class', 'y-axis');
 
 	// Add the x axis
 	if(vis.title == "Exoplanets by Discovery Method"){
 		vis.svg.append('g')
-        .attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
-        .call(d3.axisBottom(vis.xScale))
-        .selectAll("text")
-        .style("text-anchor", "start")
-        .style("word-wrap", "break-word")
-        .style("font-family", "Roboto")
-        .style("color", "black")
-        .style("font-size", "9px")
-        .attr("dx", "0.5em")
-        .attr("dy", "-0.5em")
-        .attr("transform", "rotate(-90)")
-		.style("pointer-events", "none");
+		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
+		.call(d3.axisBottom(vis.xScale))
+		.selectAll("text")
+		.style("text-anchor", "start")
+		.style("word-wrap", "break-word")
+		.style("font-family", "Roboto")
+		.style("color", "black")
+		.style("font-size", "9px")
+		.attr("dx", "0.5em")
+		.attr("dy", "-0.5em")
+		.attr("transform", "rotate(-90)")
+		.style("pointer-events", "none")
+		.attr('class', 'x-axis');
 	} else{
 		vis.svg.append('g')
-        .attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
-        .call(d3.axisBottom(vis.xScale))
-        .selectAll("text")
-        .style("text-anchor", "middle")
-        .style("word-wrap", "break-word")
-        .style("font-family", "Roboto")
-        .style("color", "black")
-        .style("font-size", "9px")
-		.style("pointer-events", "none");
+		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
+		.call(d3.axisBottom(vis.xScale))
+		.selectAll("text")
+		.style("text-anchor", "middle")
+		.style("word-wrap", "break-word")
+		.style("font-family", "Roboto")
+		.style("color", "black")
+		.style("font-size", "9px")
+		.style("pointer-events", "none")
+		.attr('class', 'x-axis');
 	}
-  }
-
-  updateVis(){
-	let vis = this;
-	let dataArray = vis.data;
-    vis.clicked = {};
-
-	const width = vis.config.containerWidth;
-	const height = vis.config.containerHeight;
-	const margin = 40;
 
     vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
@@ -114,6 +120,7 @@ class BarChart {
         .attr('width', vis.xScale.bandwidth())
         .attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
         .style('fill', vis.color)
+		.style('transition', 'all 0.5 ease')
         .attr('class', (d) => "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase())
 
     vis.rects.on('mouseover', (event, d) => {
