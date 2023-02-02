@@ -3,7 +3,7 @@ console.log("Hello world");
 d3.csv('data/exoplanets-1.csv')
   .then(data => {
   	console.log('Data loading complete. Work with dataset.');
-    console.log(data);
+
 
 	// Discovery Method Bar Chart
 	let methodBar = new BarChart({
@@ -41,7 +41,7 @@ d3.csv('data/exoplanets-1.csv')
 	}, "#66d9ef");
 
 
-  	// Planets in System Bar Chart
+  	// # of Stars in System Bar Chart
 	let systemStarBar = new BarChart({
 		'parentElement': '#starbar',
 		'containerHeight': 400,
@@ -75,7 +75,7 @@ d3.csv('data/exoplanets-1.csv')
 	}, '#0483e9');
 
 
-	// Planets in System Bar Chart
+	// # of Planets in System Bar Chart
 	let systemPlanetBar = new BarChart({
 		'parentElement': '#planetbar',
 		'containerHeight': 400,
@@ -106,11 +106,10 @@ d3.csv('data/exoplanets-1.csv')
 			systemPlanetBar.updateVis();
 			habitabilityBar.updateVis();
 		}
-		
 	}, '#104494');
 
 
-	// Star Type Bar	
+	// Star Type Bar Chart
 	let typeBar = new BarChart({
 		'parentElement': '#typebar',
 		'containerHeight': 400,
@@ -154,13 +153,15 @@ d3.csv('data/exoplanets-1.csv')
 		}
 	}, '#1a0f35');
 
+
+	// Habitability Bar Chart
 	let habitabilityBar = new BarChart({
 		'parentElement': '#habitablebar',
 		'containerHeight': 400,
 		'containerWidth': 300
 	}, getHabitabilityCount(data), "Exoplanets by Habitability", (filterData) => { 
 		let selectedFilter = [filterData];
-		
+		// Still need to implement filtering with habitability
 		methodBar.data = getMethodCount(data);
 		console.log(methodBar.data);
 		systemStarBar.data = getStarCount(data);
@@ -253,7 +254,6 @@ function getStarCount(datar) {
 
 function getHabitabilityCount(datar){
 	const counts = {'Habitable': 0, 'Too Cold': 0, 'Too Hot': 0};
-
 	datar.forEach(d => {
 	  switch (d.st_spectype[0]) {
 		case 'A':

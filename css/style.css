@@ -24,7 +24,7 @@ h1, h4, h5 {
 	content:'';
 	position: absolute;
 	border-bottom: 2px solid #666;
-	top: 90%;
+	top: 95%;
 	transition: all 0.3s;
    }
   
