@@ -41,7 +41,7 @@ class BarChart {
 	const width = vis.config.containerWidth;
 	const height = vis.config.containerHeight;
 	const margin = 40;
-	vis.updateVis(dataArray);
+	vis.updateVis();
 	
   }
 
