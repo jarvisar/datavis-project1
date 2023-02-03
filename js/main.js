@@ -153,6 +153,7 @@ d3.csv('data/exoplanets-1.csv')
 		}
 	}, '#1a0f35');
 
+	
 
 	// Habitability Bar Chart
 	let habitabilityBar = new BarChart({
