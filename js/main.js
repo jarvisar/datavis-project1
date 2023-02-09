@@ -67,12 +67,16 @@ d3.csv('data/exoplanets-1.csv')
 		updateData(data);
 	}, '#a1e9f7');
 
-	// Habitability Bar Chart
+	// Year Line Chart
 	let yearLine = new Line({
 		'parentElement': '#yearline',
 		'containerHeight': 400,
 		'containerWidth': 700
-	}, getYearCount(data))
+	}, getYearCount(data), (filterData) => {
+		let selectedFilter = [filterData];
+		let filteredData = data.filter(d => selectedFilter.includes(d.disc_year))
+		updateData(filteredData);
+	})
 
 	
 	function updateData(filteredData){
@@ -81,11 +85,13 @@ d3.csv('data/exoplanets-1.csv')
 		systemPlanetBar.data = getPlanetCount(filteredData);
 		typeBar.data = getTypeCount(filteredData);
 		habitabilityBar.data = getHabitabilityCount(filteredData);
+		yearLine.data = getYearCount(filteredData);
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
+		yearLine.updateVis();
 	}
 
 	d3.selectAll('.reset-button').on('click', function() {
@@ -99,11 +105,13 @@ d3.csv('data/exoplanets-1.csv')
 		systemPlanetBar.data = getPlanetCount(data);
 		typeBar.data = getTypeCount(data);
 		habitabilityBar.data = getHabitabilityCount(data);
+		yearLine.data = getYearCount(data);
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
+		yearLine.updateVis();
 	}
 })
 .catch(error => {

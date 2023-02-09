@@ -1,6 +1,6 @@
 class Line {
 
-  constructor(_config, _data) {
+  constructor(_config, _data, _callback) {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 500,
@@ -9,6 +9,7 @@ class Line {
     }
 
     this.data = _data;
+    this.callback = _callback;
 
     // Call a class function
     this.initVis();
@@ -112,6 +113,19 @@ class Line {
              vis.tooltip.select('rect')
                   .attr('transform', `translate(${vis.xScale(d.key)},${0})`)
                   .style('z-index', '10');
+        })
+        .on('click', function(event){
+            // Get date that corresponds to current mouse x-coordinate
+            const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
+            const key = vis.xScale.invert(xPos);
+  
+            // Find nearest data point
+            const index = vis.bisectYear(vis.data, key, 1);
+            const a = vis.data[index - 1];
+            const b = vis.data[index];
+            const d = b && (key - a.key > b.key - key) ? b : a; 
+            console.log(d.key);
+            vis.callback(d.key);
         })
 
             
