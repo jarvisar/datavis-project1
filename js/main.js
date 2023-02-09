@@ -12,32 +12,8 @@ d3.csv('data/exoplanets-1.csv')
 		'containerWidth': 300
 	}, getMethodCount(data), "Exoplanets by Discovery Method", (filterData) => {
 		let selectedFilter = [filterData];
-		console.log(filterData);
-		if (filterData != "reset"){
-			methodBar.data = getMethodCount(data.filter(d => selectedFilter.includes(d.discoverymethod)));
-			systemStarBar.data = getStarCount(data.filter(d => selectedFilter.includes(d.discoverymethod)));
-			systemPlanetBar.data = getPlanetCount(data.filter(d => selectedFilter.includes(d.discoverymethod)));
-			typeBar.data = getTypeCount(data.filter(d => selectedFilter.includes(d.discoverymethod)));
-			habitabilityBar.data = getHabitabilityCount(data.filter(d => selectedFilter.includes(d.discoverymethod)));
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
-		} else if (filterData == "reset") {
-			methodBar.data = getMethodCount(data);
-			console.log(methodBar.data);
-			systemStarBar.data = getStarCount(data);
-			systemPlanetBar.data = getPlanetCount(data);
-			typeBar.data = getTypeCount(data);
-			habitabilityBar.data = getHabitabilityCount(data);
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
-		}
-		
+		let filteredData = data.filter(d => selectedFilter.includes(d.discoverymethod))
+		updateData(filteredData);
 	}, "#66d9ef");
 
 
@@ -48,30 +24,8 @@ d3.csv('data/exoplanets-1.csv')
 		'containerWidth': 300
 	}, getStarCount(data), "Exoplanets by # of Stars in their System", (filterData) => {
 		let selectedFilter = [filterData];
-		if (filterData != "reset"){
-			methodBar.data = getMethodCount(data.filter(d => selectedFilter.includes(d.sy_snum)));
-			systemStarBar.data = getStarCount(data.filter(d => selectedFilter.includes(d.sy_snum)));
-			systemPlanetBar.data = getPlanetCount(data.filter(d => selectedFilter.includes(d.sy_snum)));
-			typeBar.data = getTypeCount(data.filter(d => selectedFilter.includes(d.sy_snum)));
-			habitabilityBar.data = getHabitabilityCount(data.filter(d => selectedFilter.includes(d.sy_snum)));
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
-		} else if (filterData == "reset") {
-			methodBar.data = getMethodCount(data);
-			systemStarBar.data = getStarCount(data);
-			systemPlanetBar.data = getPlanetCount(data);
-			typeBar.data = getTypeCount(data);
-			habitabilityBar.data = getHabitabilityCount(data);
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
-		}
-		
+		let filteredData = data.filter(d => selectedFilter.includes(d.sy_snum));
+		updateData(filteredData);
 	}, '#0483e9');
 
 
@@ -82,30 +36,8 @@ d3.csv('data/exoplanets-1.csv')
 		'containerWidth': 300
 	}, getPlanetCount(data), "Exoplanets by # of Planets in their System", (filterData) => {
 		let selectedFilter = [filterData];
-		if (filterData != "reset"){
-			methodBar.data = getMethodCount(data.filter(d => selectedFilter.includes(d.sy_pnum)));
-			systemStarBar.data = getStarCount(data.filter(d => selectedFilter.includes(d.sy_pnum)));
-			systemPlanetBar.data = getPlanetCount(data.filter(d => selectedFilter.includes(d.sy_pnum)));
-			typeBar.data = getTypeCount(data.filter(d => selectedFilter.includes(d.sy_pnum)));
-			habitabilityBar.data = getHabitabilityCount(data.filter(d => selectedFilter.includes(d.sy_pnum)));
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
-		} else if (filterData == "reset") {
-			methodBar.data = getMethodCount(data);
-			console.log(methodBar.data);
-			systemStarBar.data = getStarCount(data);
-			systemPlanetBar.data = getPlanetCount(data);
-			typeBar.data = getTypeCount(data);
-			habitabilityBar.data = getHabitabilityCount(data);
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
-		}
+		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
+		updateData(filteredData);
 	}, '#104494');
 
 
@@ -117,39 +49,11 @@ d3.csv('data/exoplanets-1.csv')
 	}, getTypeCount(data), "Exoplanets by Star Type", (filterData) => {
 		let selectedFilter = [filterData];
 		if (filterData != "reset" && filterData != "N/A"){
-			methodBar.data = getMethodCount(data.filter(d => selectedFilter.includes(d.st_spectype[0])));
-			systemStarBar.data = getStarCount(data.filter(d => selectedFilter.includes(d.st_spectype[0])));
-			systemPlanetBar.data = getPlanetCount(data.filter(d => selectedFilter.includes(d.st_spectype[0])));
-			typeBar.data = getTypeCount(data.filter(d => selectedFilter.includes(d.st_spectype[0])));
-			habitabilityBar.data = getHabitabilityCount(data.filter(d => selectedFilter.includes(d.st_spectype[0])));
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
+			let filteredData = data.filter(d => selectedFilter.includes(d.st_spectype[0]));
+			updateData(filteredData);
 		} else if(filterData == "N/A"){
-			methodBar.data = getMethodCount(data.filter(d => d.st_spectype[0] != "A" && d.st_spectype[0] != "F" && d.st_spectype[0] != "G" && d.st_spectype[0] != "K" && d.st_spectype[0] != "M" ));
-			systemStarBar.data = getStarCount(data.filter(d => d.st_spectype[0] != "A" && d.st_spectype[0] != "F" && d.st_spectype[0] != "G" && d.st_spectype[0] != "K" && d.st_spectype[0] != "M" ));
-			systemPlanetBar.data = getPlanetCount(data.filter(d => d.st_spectype[0] != "A" && d.st_spectype[0] != "F" && d.st_spectype[0] != "G" && d.st_spectype[0] != "K" && d.st_spectype[0] != "M" ));
-			typeBar.data = getTypeCount(data.filter(d => d.st_spectype[0] != "A" && d.st_spectype[0] != "F" && d.st_spectype[0] != "G" && d.st_spectype[0] != "K" && d.st_spectype[0] != "M" ));
-			habitabilityBar.data = getHabitabilityCount(data.filter(d => d.st_spectype[0] != "A" && d.st_spectype[0] != "F" && d.st_spectype[0] != "G" && d.st_spectype[0] != "K" && d.st_spectype[0] != "M" ));
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
-		} else if (filterData == "reset"){
-			methodBar.data = getMethodCount(data);
-			console.log(methodBar.data);
-			systemStarBar.data = getStarCount(data);
-			systemPlanetBar.data = getPlanetCount(data);
-			typeBar.data = getTypeCount(data);
-			habitabilityBar.data = getHabitabilityCount(data);
-			methodBar.updateVis();
-			typeBar.updateVis();
-			systemStarBar.updateVis();
-			systemPlanetBar.updateVis();
-			habitabilityBar.updateVis();
+			let filteredData = data.filter(d => d.st_spectype[0] != "A" && d.st_spectype[0] != "F" && d.st_spectype[0] != "G" && d.st_spectype[0] != "K" && d.st_spectype[0] != "M" );
+			updateData(filteredData);
 		}
 	}, '#1a0f35');
 
@@ -160,7 +64,28 @@ d3.csv('data/exoplanets-1.csv')
 		'containerWidth': 300
 	}, getHabitabilityCount(data), "Exoplanets by Habitability", (filterData) => { 
 		let selectedFilter = [filterData];
-		// Still need to implement filtering with habitability
+		updateData(data);
+	}, '#a1e9f7');
+
+	
+	function updateData(filteredData){
+		methodBar.data = getMethodCount(filteredData);
+		systemStarBar.data = getStarCount(filteredData);
+		systemPlanetBar.data = getPlanetCount(filteredData);
+		typeBar.data = getTypeCount(filteredData);
+		habitabilityBar.data = getHabitabilityCount(filteredData);
+		methodBar.updateVis();
+		typeBar.updateVis();
+		systemStarBar.updateVis();
+		systemPlanetBar.updateVis();
+		habitabilityBar.updateVis();
+	}
+
+	d3.selectAll('.reset-button').on('click', function() {
+		resetData();
+	});
+
+	function resetData(){
 		methodBar.data = getMethodCount(data);
 		console.log(methodBar.data);
 		systemStarBar.data = getStarCount(data);
@@ -172,8 +97,7 @@ d3.csv('data/exoplanets-1.csv')
 		systemStarBar.updateVis();
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
-	}, '#a1e9f7');
-
+	}
 })
 .catch(error => {
     console.error('Error loading the data');

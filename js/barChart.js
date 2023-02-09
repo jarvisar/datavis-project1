@@ -148,33 +148,6 @@ class BarChart {
 		.style('filter', 'brightness(80%)');
     });
 
-		// Add the reset button
-	vis.resetButton = vis.svg.append('rect')
-		.attr('x', margin)
-		.attr('y', height - 20)
-		.attr('width', 70)
-		.attr('height', 20)
-		.style('fill', 'lightgray')
-		.style('cursor', 'pointer');
-
-	vis.resetButton.on('click', (event, d) => {
-		vis.clicked = {};
-		vis.rects.style('filter', `brightness(100%)`);
-		vis.callback("reset");
-	});
-
-	vis.resetButton.append('title')
-		.text('Reset');
-
-	vis.resetButtonText = vis.svg.append('text')
-		.attr('x', margin + 35)
-		.attr('y', height - 5)
-		.style('text-anchor', 'middle')
-		.style('fill', 'white')
-		.style('cursor', 'pointer')
-		.style("pointer-events", "none")
-		.text('Reset');
-
   }
 
 }
