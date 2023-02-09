@@ -78,6 +78,13 @@ d3.csv('data/exoplanets-1.csv')
 		updateData(filteredData);
 	})
 
+	// Scatterplot
+	let scatterplot = new Scatterplot({
+		'parentElement': '#scatterplot',
+		'containerHeight': 400,
+		'containerWidth': 700
+	}, getScatterData(data))
+
 	
 	function updateData(filteredData){
 		methodBar.data = getMethodCount(filteredData);
@@ -205,6 +212,16 @@ function getYearCount(datar){
 	for (let key in counts) {
 		dataArray.push({key: key, count: counts[key]});
 	}
+	console.log(dataArray) ;
+	return dataArray;
+}
+
+function getScatterData(datar){
+	// Convert the counts object to an array of objects
+	const dataArray = [];
+	datar.forEach(d => {
+		dataArray.push({pl_name: d.pl_name, radius: d.pl_rade, mass: d.pl_bmasse});
+	});
 	console.log(dataArray) ;
 	return dataArray;
 }
