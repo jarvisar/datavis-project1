@@ -67,6 +67,13 @@ d3.csv('data/exoplanets-1.csv')
 		updateData(data);
 	}, '#a1e9f7');
 
+	// Habitability Bar Chart
+	let yearLine = new Line({
+		'parentElement': '#yearline',
+		'containerHeight': 400,
+		'containerWidth': 700
+	}, getYearCount(data))
+
 	
 	function updateData(filteredData){
 		methodBar.data = getMethodCount(filteredData);
@@ -172,6 +179,25 @@ function getStarCount(datar) {
 	for (let key in counts) {
 		dataArray.push({key: key, count: counts[key]});
 	}
+	return dataArray;
+}
+
+function getYearCount(datar){
+	const counts = {};
+	datar.forEach(d => {
+		if (!counts[d.disc_year]) {
+		  counts[d.disc_year] = 1;
+		} else {
+		  counts[d.disc_year]++;
+		}
+	});
+
+	// Convert the counts object to an array of objects
+	const dataArray = [];
+	for (let key in counts) {
+		dataArray.push({key: key, count: counts[key]});
+	}
+	console.log(dataArray) ;
 	return dataArray;
 }
 
