@@ -83,7 +83,7 @@ d3.csv('data/exoplanets-1.csv')
 		'parentElement': '#scatterplot',
 		'containerHeight': 400,
 		'containerWidth': 700
-	}, getScatterData(data))
+	}, data)
 
 	
 	function updateData(filteredData){

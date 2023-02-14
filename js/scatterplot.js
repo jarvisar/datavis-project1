@@ -39,13 +39,12 @@ class Scatterplot {
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
+
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
 
     vis.yScale = d3.scaleLinear()
         .range([vis.height, 0]);
-
-    //console.log(d3.symbols.map(s => d3.symbol().type(s)()));
 
     // Initialize axes
     vis.xAxis = d3.axisBottom(vis.xScale)
@@ -85,14 +84,66 @@ class Scatterplot {
         .attr('x', vis.width + 10)
         .attr('dy', '.71em')
         .style('text-anchor', 'end')
-        .text('Distance');
+        .text('Radius');
 
     vis.svg.append('text')
         .attr('class', 'axis-title')
         .attr('x', 0)
         .attr('y', 0)
         .attr('dy', '.71em')
-        .text('Hours');
+        .text('Mass');
+
+          // Empty tooltip group (hidden by default)
+    vis.tooltip = vis.chart.append('g')
+    .attr('class', 'tooltip')
+    .style('display', 'none');
+
+vis.tooltip.append('circle')
+    .attr('r', 4);
+
+vis.tooltip.append('text');
+
+vis.bisectRadius = d3.bisector(d => d.pl_rade).left;
+
+const trackingArea = vis.chart.append('rect')
+    .attr('width', vis.width)
+    .attr('height', vis.height)
+    .attr('fill', 'none')
+    .attr('pointer-events', 'all')
+    .on('mouseenter', () => {
+    vis.tooltip.style('display', 'block');
+    })
+    .on('mouseleave', () => {
+    vis.tooltip.style('display', 'none');
+    })
+    .on('mousemove', function(event) {
+        
+        // Get date that corresponds to current mouse x-coordinate
+        const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
+        const key = vis.xScale.invert(xPos);
+
+        // Find nearest data point
+        const index = vis.bisectYear(vis.data, key, 1);
+        const a = vis.data[index - 1];
+        const b = vis.data[index];
+        const d = b && (key - a.key > b.key - key) ? b : a; 
+
+        // Update tooltip
+        vis.tooltip.select('circle')
+            .attr('transform', `translate(${vis.xScale(d.pl_bmasse)},${vis.yScale(d.pl_rade)})`)
+            .style('z-index', '10');
+        
+        vis.tooltip.select('text')
+            .attr('transform', `translate(${vis.xScale(d.pl_bmasse )},${(vis.yScale(d.pl_rade) - 15)})`)
+            .text(Math.round(d.pl_rade) + " Exoplanets")
+            .style('z-index', '10');
+
+         vis.tooltip.select('rect')
+              .attr('transform', `translate(${vis.xScale(d.pl_rade)},${0})`)
+              .style('z-index', '10');
+    })
+
+    vis.updateVis();
   }
 
   /**
@@ -104,7 +155,6 @@ class Scatterplot {
     let vis = this;
     
     // Specificy accessor functions
-
     vis.xValue = d => d.pl_rade;
     vis.yValue = d => d.pl_bmasse;
 
@@ -121,28 +171,17 @@ class Scatterplot {
    */
   renderVis() {
     let vis = this;
-  
-    // need to fix
 
     // Add circles
-    // vis.chart.selectAll('.symbol')
-    //     .data(vis.data)
-    //     .enter()
-    //   .append('path')
-    //     .attr('class', 'symbol')
-    //     .attr('transform', d => `translate(${vis.jitter(vis.xScale(vis.xValue(d)))}, ${vis.yScale(vis.yValue(d))})`)
-    //     .attr('d', d3.symbol().type(d3.symbolCircle)())
-    //     .attr('fill', 'red');
-
-    // svg.append('g')
-    // .selectAll("dot")
-    // .data(vis.data)
-    // .enter()
-    // .append("circle")
-    //   .attr("cx", function (d) { return x(d.pl_rade); } )
-    //   .attr("cy", function (d) { return y(d.pl_bmasse); } )
-    //   .attr("r", 1.5)
-    //   .style("fill", "#69b3a2")
+    vis.chart.selectAll('.point')
+        .data(vis.data)
+        .enter()
+      .append('circle')
+        .attr('class', 'point')
+        .attr('r', 4)
+        .attr('cy', d => vis.yScale(vis.yValue(d)))
+        .attr('cx', d => vis.xScale(vis.xValue(d)))
+        .attr('fill', "#69b3a2");
     
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
