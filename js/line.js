@@ -139,6 +139,8 @@ class Line {
  updateVis() { 
     let vis = this;
 
+    vis.svg.selectAll('.path').remove();
+
    // Initialize area generator- helper function 
     vis.area = d3.area()
         .x(d => vis.xScale(vis.xValue(d)))
@@ -149,6 +151,7 @@ class Line {
     vis.chart.append('path')
         .data([vis.data]) 
         .attr('fill', '#e9eff5')
+        .attr('class', 'path')
         .attr('d', vis.area);
 
 
@@ -164,6 +167,7 @@ class Line {
         .attr('stroke',  '#8693a0')
         .attr('stroke-width', 2)
         .attr('fill', 'none')
+        .attr('class', 'path')
         .attr('d', vis.line)
         .style('z-index', '5');
 
