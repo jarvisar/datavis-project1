@@ -64,8 +64,71 @@ d3.csv('data/exoplanets-1.csv')
 		'containerWidth': 300
 	}, getHabitabilityCount(data), "Exoplanets by Habitability", (filterData) => { 
 		let selectedFilter = [filterData];
-		updateData(data);
+		if (selectedFilter.includes("Habitable")){
+			let filterData = data.filter(d => {
+				let st_spectype = d.st_spectype[0];
+				let pl_orbsmax = d.pl_orbsmax;
+				switch (st_spectype) {
+					case 'A':
+						return (pl_orbsmax >= 8.5 && pl_orbsmax <= 12.5);
+					case 'F':
+						return (pl_orbsmax >= 1.5 && pl_orbsmax <= 2.2);
+					case 'G':
+						return (pl_orbsmax >= 0.95 && pl_orbsmax <= 1.4);
+					case 'K':
+						return (pl_orbsmax >= 0.38 && pl_orbsmax <= 0.56);
+					case 'M':
+						return (pl_orbsmax >= 0.08 && pl_orbsmax <= 0.12);
+					default:
+						return false;
+				}
+			});
+			updateData(filterData);
+		}
+		if (selectedFilter.includes("Too Cold")){
+			let filterData = data.filter(d => {
+				let st_spectype = d.st_spectype[0];
+				let pl_orbsmax = d.pl_orbsmax;
+				switch (st_spectype) {
+					case 'A':
+						return (pl_orbsmax < 8.5);
+					case 'F':
+						return (pl_orbsmax < 1.5);
+					case 'G':
+						return (pl_orbsmax < 0.95);
+					case 'K':
+						return (pl_orbsmax < 0.38);
+					case 'M':
+						return (pl_orbsmax < 0.08);
+					default:
+						return false;
+				}
+			});
+			updateData(filterData);
+		}
+		if (selectedFilter.includes("Too Hot")){
+			let filterData = data.filter(d => {
+				let st_spectype = d.st_spectype[0];
+				let pl_orbsmax = d.pl_orbsmax;
+				switch (st_spectype) {
+					case 'A':
+						return (pl_orbsmax > 12.5);
+					case 'F':
+						return (pl_orbsmax > 2.2);
+					case 'G':
+						return (pl_orbsmax > 1.4);
+					case 'K':
+						return (pl_orbsmax > 0.56);
+					case 'M':
+						return (pl_orbsmax > 0.12);
+					default:
+						return false;
+				}
+			});
+			updateData(filterData);
+		}
 	}, '#a1e9f7');
+
 
 	// Year Line Chart
 	let yearLine = new Line({
