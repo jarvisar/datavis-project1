@@ -4,8 +4,12 @@ body{
 	width: 100%;
 }
 
-h1, h4, h5 {
+h1, h5 {
 	text-align: center;
+}
+
+h4{
+	left: -38px;
 }
 	
 .barchart-container {

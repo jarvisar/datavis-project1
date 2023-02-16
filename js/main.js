@@ -1,4 +1,6 @@
 console.log("Hello world");
+document.getElementById("reset-button").disabled = true;
+var filterApplied = false;
 
 d3.csv('data/exoplanets-1.csv')
   .then(data => {
@@ -162,6 +164,7 @@ d3.csv('data/exoplanets-1.csv')
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
 		yearLine.updateVis();
+		document.getElementById("reset-button").disabled = false;
 	}
 
 	d3.selectAll('.reset-button').on('click', function() {
@@ -182,6 +185,7 @@ d3.csv('data/exoplanets-1.csv')
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
 		yearLine.updateVis();
+		document.getElementById("reset-button").disabled = true;
 	}
 })
 .catch(error => {
