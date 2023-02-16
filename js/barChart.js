@@ -107,12 +107,9 @@ class BarChart {
 	let dataArray = vis.data;
     vis.clicked = {};
 
-	
-
 	const width = vis.config.containerWidth;
 	const height = vis.config.containerHeight;
 	const margin = 40;
-
 
     vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
@@ -138,6 +135,25 @@ class BarChart {
         d3.select("." + barClass)
             .style('filter', `brightness(${brightness})`);
     });
+
+	if(vis.title == "Exoplanets by Discovery Method"){
+		vis.svg.selectAll('.x-axis').remove();
+		vis.svg.append('g')
+		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
+		.call(d3.axisBottom(vis.xScale))
+		.selectAll("text")
+		.style("text-anchor", "start")
+		.style("word-wrap", "break-word")
+		.style("font-family", "Roboto")
+		.style("color", "black")
+		.style("font-size", "9px")
+		.attr("dx", "0.5em")
+		.attr("dy", "-0.5em")
+		.attr("transform", "rotate(-90)")
+		.style("pointer-events", "none")
+		.attr('class', 'x-axis')
+		.style('z-index', '10');
+	} 
 
     vis.rects.on('click', (event, d) => {
         let barClass = "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase();
