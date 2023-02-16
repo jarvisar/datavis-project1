@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="css/style.css">
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 </head>
-<body>    
+<body style="width: 99%">    
     <!-- Add HTML content, SVG drawing area, ... -->
 	<h1 >Project 1: Out of this World</h1>
 	<h5 >by Adam Jarvis</h5>
 	<hr class="solid">
-	<span style="display: inline;"><button class="reset-button">Reset</button><h4 class="chart-title">General Exoplanet Data</h4></span>
+	<span style="display: flex;"><button class="reset-button">Reset Filter</button><h4 class="chart-title">General Exoplanet Data</h4></span>
 	<br>
 	<span class="barchart-container">
 		<svg id="methodbar"></svg>
@@ -20,10 +20,11 @@
 		<svg id="planetbar"></svg>
 		<svg id="typebar"></svg>
 		<svg id="habitablebar"></svg>
+		<svg id="yearline"></svg>
+		<div id="year-tooltip"></div>
+		<svg id="scatterplot"></svg>
 	</span>
-	<svg id="yearline"></svg>
-	<div id="year-tooltip"></div>
-	<svg id="scatterplot"></svg>
+	
     <!-- D3 bundle -->
     <script src="js/d3.v6.min.js"></script>
 	

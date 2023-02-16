@@ -41,22 +41,8 @@ class BarChart {
 	const width = vis.config.containerWidth;
 	const height = vis.config.containerHeight;
 	const margin = 40;
-	vis.updateVis();
+
 	
-  }
-
-  updateVis(){
-	let vis = this;
-	let dataArray = vis.data;
-    vis.clicked = {};
-
-	vis.svg.selectAll('.y-axis').remove();
-	vis.svg.selectAll('.x-axis').remove();
-
-	const width = vis.config.containerWidth;
-	const height = vis.config.containerHeight;
-	const margin = 40;
-
 	// Set the scales
 	vis.xScale = d3.scaleBand()
 	.domain(dataArray.map(d => d.key))
@@ -97,7 +83,8 @@ class BarChart {
 		.attr("dy", "-0.5em")
 		.attr("transform", "rotate(-90)")
 		.style("pointer-events", "none")
-		.attr('class', 'x-axis');
+		.attr('class', 'x-axis')
+		.style('z-index', '10');
 	} else{
 		vis.svg.append('g')
 		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
@@ -111,6 +98,21 @@ class BarChart {
 		.style("pointer-events", "none")
 		.attr('class', 'x-axis');
 	}
+	vis.updateVis();
+	
+  }
+
+  updateVis(){
+	let vis = this;
+	let dataArray = vis.data;
+    vis.clicked = {};
+
+	
+
+	const width = vis.config.containerWidth;
+	const height = vis.config.containerHeight;
+	const margin = 40;
+
 
     vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
