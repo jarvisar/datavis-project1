@@ -171,7 +171,7 @@ const trackingArea = vis.chart.append('rect')
    */
   renderVis() {
     let vis = this;
-
+    vis.svg.selectAll('.point').remove();
     // Add circles
     vis.chart.selectAll('.point')
         .data(vis.data)

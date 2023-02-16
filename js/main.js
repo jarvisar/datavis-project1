@@ -158,12 +158,14 @@ d3.csv('data/exoplanets-1.csv')
 		typeBar.data = getTypeCount(filteredData);
 		habitabilityBar.data = getHabitabilityCount(filteredData);
 		yearLine.data = getYearCount(filteredData);
+		scatterplot.data = filteredData;
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
 		yearLine.updateVis();
+		scatterplot.updateVis();
 		document.getElementById("reset-button").disabled = false;
 	}
 
@@ -179,12 +181,14 @@ d3.csv('data/exoplanets-1.csv')
 		typeBar.data = getTypeCount(data);
 		habitabilityBar.data = getHabitabilityCount(data);
 		yearLine.data = getYearCount(data);
+		scatterplot.data = data;
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
 		yearLine.updateVis();
+		scatterplot.updateVis();
 		document.getElementById("reset-button").disabled = true;
 	}
 })
