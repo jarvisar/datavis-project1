@@ -69,23 +69,8 @@ class BarChart {
 		.attr('class', 'y-axis');
 
 	// Add the x axis
-	if(vis.title == "Exoplanets by Discovery Method"){
-		vis.svg.append('g')
-		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
-		.call(d3.axisBottom(vis.xScale))
-		.selectAll("text")
-		.style("text-anchor", "start")
-		.style("word-wrap", "break-word")
-		.style("font-family", "Roboto")
-		.style("color", "black")
-		.style("font-size", "9px")
-		.attr("dx", "0.5em")
-		.attr("dy", "-0.5em")
-		.attr("transform", "rotate(-90)")
-		.style("pointer-events", "none")
-		.attr('class', 'x-axis')
-		.style('z-index', '10');
-	} else{
+	
+	if(vis.title != "Exoplanets by Discovery Method"){
 		vis.svg.append('g')
 		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
 		.call(d3.axisBottom(vis.xScale))
