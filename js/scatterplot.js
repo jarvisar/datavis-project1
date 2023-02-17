@@ -76,8 +76,6 @@ class Scatterplot {
     vis.svg = d3.select(vis.config.parentElement)
         .attr('width', vis.config.containerWidth)
         .attr('height', vis.config.containerHeight);
-      
-    
         vis.svg.selectAll('.axis').remove();
  
 
@@ -113,53 +111,58 @@ class Scatterplot {
 
           // Empty tooltip group (hidden by default)
     vis.tooltip = vis.chart.append('g')
-    .attr('class', 'tooltip')
-    .style('display', 'none');
+      .attr('class', 'tooltip')
+      .style('display', 'none');
 
-vis.tooltip.append('circle')
-    .attr('r', 4);
+    vis.tooltip.append('circle')
+        .attr('r', 4);
 
-vis.tooltip.append('text');
+    vis.tooltip.append('text');
 
-vis.bisectRadius = d3.bisector(d => d.pl_rade).left;
+    const trackingArea = vis.chart.append('rect')
+        .attr('width', vis.width)
+        .attr('height', vis.height)
+        .attr('fill', 'none')
+        .attr('pointer-events', 'all')
+        .on('mouseenter', function(event) {
+          const [xPos, yPos] = d3.pointer(event, this);
+          const isInside = trackingArea.node().contains(event.target) && xPos >= 0 && xPos <= vis.width && yPos >= 0 && yPos <= vis.height;
+          if (isInside) {
+              vis.tooltip.style('display', 'block');
+          }
+      })
+      .on('mouseleave', function(event) {
+          vis.tooltip.style('display', 'none');
+      })
+      
+        .on('mousemove', function(event) {
+          // Get mouse position relative to tracking area
+          const [xPos, yPos] = d3.pointer(event, this);
 
-const trackingArea = vis.chart.append('rect')
-    .attr('width', vis.width)
-    .attr('height', vis.height)
-    .attr('fill', 'none')
-    .attr('pointer-events', 'all')
-    .on('mouseenter', () => {
-    vis.tooltip.style('display', 'block');
-    })
-    .on('mouseleave', () => {
-    vis.tooltip.style('display', 'none');
-    })
-    .on('mousemove', function(event) {
+          const isInside = trackingArea.node().contains(event.target) && xPos >= 0 && xPos <= vis.width && yPos >= 0 && yPos <= vis.height;
+          if (!isInside) {
+              vis.tooltip.style('display', 'none');
+          }
         
-        // Get date that corresponds to current mouse x-coordinate
-        const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
-        const key = vis.xScale.invert(xPos);
-
-        // Find nearest data point
-        const index = vis.bisectYear(vis.data, key, 1);
-        const a = vis.data[index - 1];
-        const b = vis.data[index];
-        const d = b && (key - a.key > b.key - key) ? b : a; 
-
-        // Update tooltip
-        vis.tooltip.select('circle')
-            .attr('transform', `translate(${vis.xScale(d.pl_bmasse)},${vis.yScale(d.pl_rade)})`)
-            .style('z-index', '10');
+          // Get actual data values corresponding to mouse position
+          const xValue = vis.xScale.invert(xPos);
+          const yValue = vis.yScale.invert(yPos);
         
-        vis.tooltip.select('text')
-            .attr('transform', `translate(${vis.xScale(d.pl_bmasse )},${(vis.yScale(d.pl_rade) - 15)})`)
-            .text(Math.round(d.pl_rade) + " Exoplanets")
-            .style('z-index', '10');
+          // Find nearest data point
+          const bisect = d3.bisector(d => d.pl_rade).left;
+          const index = bisect(vis.data, xValue);
+          const d0 = vis.data[index - 1];
+          const d1 = vis.data[index];
+          const d = xValue - d0.pl_rade > d1.pl_rade - xValue ? d1 : d0;
+        
+          // Position tooltip over data point
+          vis.tooltip.style('display', 'block')
+          .attr('transform', `translate(${vis.xScale(d.pl_rade)}, ${vis.yScale(d.pl_bmasse)})`);
 
-         vis.tooltip.select('rect')
-              .attr('transform', `translate(${vis.xScale(d.pl_rade)},${0})`)
-              .style('z-index', '10');
-    })
+        
+          // Update tooltip text
+          
+        })
 
     // Specificy accessor functions
     vis.xValue = d => d.pl_rade;
@@ -180,6 +183,34 @@ const trackingArea = vis.chart.append('rect')
     let vis = this;
     vis.svg.selectAll('.point').remove();
 
+    var tooltip = d3.select("#scatterplot")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+
+    var mouseleave = function(d) {
+      tooltip
+        .transition()
+        .duration(200)
+        .style("opacity", 0)
+    }
+
+    var mouseover = function(d) {
+      tooltip
+        .style("opacity", 1)
+    }
+  
+    var mousemove = function(d) {
+      tooltip
+      .html(d.pl_name)
+      .attr('transform', `translate(${d3.pointer(this)[0]}, ${d3.pointer(this)[1]})`);
+    }
+
     // Add circles
     vis.chart.selectAll('.point')
         .data(vis.data)
@@ -189,7 +220,10 @@ const trackingArea = vis.chart.append('rect')
         .attr('r', 4)
         .attr('cy', d => vis.yScale(vis.yValue(d)))
         .attr('cx', d => vis.xScale(vis.xValue(d)))
-        .attr('fill', "#69b3a2");
+        .attr('fill', "#69b3a2")
+        .on("mouseover", mouseover )
+        .on("mousemove", mousemove )
+        .on("mouseleave", mouseleave );
     
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
