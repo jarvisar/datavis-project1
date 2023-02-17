@@ -65,68 +65,6 @@ class Line {
         .attr('class', 'axis y-axis')
         .call(vis.yAxis); 
 
-        // Empty tooltip group (hidden by default)
-    vis.tooltip = vis.chart.append('g')
-        .attr('class', 'tooltip')
-        .style('display', 'none');
-
-    vis.tooltip.append('circle')
-        .attr('r', 4);
-
-    vis.tooltip.append('text');
-
-    vis.bisectYear = d3.bisector(d => d.key).left;
-
-    const trackingArea = vis.chart.append('rect')
-        .attr('width', vis.width)
-        .attr('height', vis.height)
-        .attr('fill', 'none')
-        .attr('pointer-events', 'all')
-        .on('mouseenter', () => {
-        vis.tooltip.style('display', 'block');
-        })
-        .on('mouseleave', () => {
-        vis.tooltip.style('display', 'none');
-        })
-        .on('mousemove', function(event) {
-            
-            // Get date that corresponds to current mouse x-coordinate
-            const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
-            const key = vis.xScale.invert(xPos);
-  
-            // Find nearest data point
-            const index = vis.bisectYear(vis.data, key, 1);
-            const a = vis.data[index - 1];
-            const b = vis.data[index];
-            const d = b && (key - a.key > b.key - key) ? b : a; 
-  
-            // Update tooltip
-            vis.tooltip.select('circle')
-                .attr('transform', `translate(${vis.xScale(d.key)},${vis.yScale(d.count)})`)
-                .style('z-index', '10');
-            
-            vis.tooltip.select('text')
-                .attr('transform', `translate(${vis.xScale(d.key )},${(vis.yScale(d.count) - 15)})`)
-                .text(Math.round(d.count) + " Exoplanets")
-                .style('z-index', '10');
-  
-             vis.tooltip.select('rect')
-                  .attr('transform', `translate(${vis.xScale(d.key)},${0})`)
-                  .style('z-index', '10');
-        })
-        .on('click', function(event){
-            // Get date that corresponds to current mouse x-coordinate
-            const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
-            const key = vis.xScale.invert(xPos);
-  
-            // Find nearest data point
-            const index = vis.bisectYear(vis.data, key, 1);
-            const a = vis.data[index - 1];
-            const b = vis.data[index];
-            const d = b && (key - a.key > b.key - key) ? b : a; 
-            console.log(d.key);
-            vis.callback(d.key);
-        })
 
             
     vis.updateVis();
@@ -171,6 +109,84 @@ class Line {
         .attr('d', vis.line)
         .style('z-index', '5');
 
+    // Empty tooltip group (hidden by default)
+    vis.tooltip = vis.chart.append('g')
+    .attr('class', 'tooltip')
+    .style('display', 'none');
+
+    vis.tooltip.append('rect')
+    .attr('width', 130)
+    .attr('height', 40)
+    .attr('fill', 'white')
+    .style('stroke', 'black')
+    .style('stroke-width', 2);
+
+    vis.tooltip.append('text')
+    .attr('x', 10)
+    .attr('y', 25);
+
+    vis.tooltip.append('circle')
+        .attr('r', 4);
+
+
+    vis.bisectYear = d3.bisector(d => d.key).left;
+    const trackingArea = vis.chart.append('rect')
+    .attr('width', vis.width)
+    .attr('height', vis.height)
+    .attr('fill', 'none')
+    .attr('pointer-events', 'all')
+    .on('mouseenter', () => {
+        vis.tooltip.style('display', 'block');
+    })
+    .on('mouseleave', () => {
+    vis.tooltip.style('display', 'none');
+    })
+    .on('mousemove', function(event) {
+        
+    // Get date that corresponds to current mouse x-coordinate
+    const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
+    const key = vis.xScale.invert(xPos);
+    
+    // Find nearest data point
+    const index = vis.bisectYear(vis.data, key, 1);
+    const a = vis.data[index - 1];
+    const b = vis.data[index];
+    const d = b && (key - a.key > b.key - key) ? b : a; 
+
+    // Update tooltip
+    vis.tooltip.select('rect')
+        .attr('transform', `translate(${vis.xScale(d.key) + 5},${vis.yScale(d.count) - 50})`)
+        .style('display', 'block')
+        .style('z-index', '10');
+
+    // Update tooltip
+    vis.tooltip.select('circle')
+        .attr('transform', `translate(${vis.xScale(d.key)},${vis.yScale(d.count)})`)
+        .style('z-index', '10');
+
+    vis.tooltip.select('text')
+        .attr('transform', `translate(${vis.xScale(d.key) + 5},${vis.yScale(d.count) - 50})`)
+        .text(Math.round(d.count) + " Exoplanets")
+        .style('display', 'block')
+        .style('z-index', '10');
+    })
+    .on('click', function(event){
+        vis.tooltip.style('display', 'none');
+        trackingArea.on('mousemove', null);
+        // Get date that corresponds to current mouse x-coordinate
+        const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
+        const key = vis.xScale.invert(xPos);
+
+        // Find nearest data point
+        const index = vis.bisectYear(vis.data, key, 1);
+        const a = vis.data[index - 1];
+        const b = vis.data[index];
+        const d = b && (key - a.key > b.key - key) ? b : a; 
+        console.log(d.key);
+        vis.callback(d.key);
+        
+        
+    });
  }
 
 
