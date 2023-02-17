@@ -40,6 +40,19 @@ class Scatterplot {
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
 
+
+    vis.updateVis();
+  }
+
+  /**
+   * This function contains all the code to prepare the data before we render it.
+   * In some cases, you may not need this function but when you create more complex visualizations
+   * you will probably want to organize your code in multiple functions.
+   */
+  updateVis() {
+    let vis = this;
+    
+
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
 
@@ -58,10 +71,15 @@ class Scatterplot {
         .tickSize(-vis.width - 10)
         .tickPadding(10);
 
+
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)
         .attr('width', vis.config.containerWidth)
         .attr('height', vis.config.containerHeight);
+      
+    
+        vis.svg.selectAll('.axis').remove();
+ 
 
     // Append group element that will contain our actual chart 
     // and position it according to the given margin config
@@ -143,17 +161,6 @@ const trackingArea = vis.chart.append('rect')
               .style('z-index', '10');
     })
 
-    vis.updateVis();
-  }
-
-  /**
-   * This function contains all the code to prepare the data before we render it.
-   * In some cases, you may not need this function but when you create more complex visualizations
-   * you will probably want to organize your code in multiple functions.
-   */
-  updateVis() {
-    let vis = this;
-    
     // Specificy accessor functions
     vis.xValue = d => d.pl_rade;
     vis.yValue = d => d.pl_bmasse;
@@ -172,6 +179,7 @@ const trackingArea = vis.chart.append('rect')
   renderVis() {
     let vis = this;
     vis.svg.selectAll('.point').remove();
+
     // Add circles
     vis.chart.selectAll('.point')
         .data(vis.data)
