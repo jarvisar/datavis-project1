@@ -132,6 +132,16 @@ d3.csv('data/exoplanets-1.csv')
 	}, '#a1e9f7');
 
 
+	// Star Type Bar Chart
+	let distanceHisto = new Histogram({
+		'parentElement': '#distancehisto',
+		'containerHeight': 400,
+		'containerWidth': 300
+	}, getTypeCount(data), "Exoplanet Distance", (filterData) => {
+		let selectedFilter = [filterData];
+	}, '#1a0f35');
+
+
 	// Year Line Chart
 	let yearLine = new Line({
 		'parentElement': '#yearline',
