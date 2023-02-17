@@ -78,6 +78,7 @@ class BarChart {
 	const margin = 40;
 
 	vis.svg.selectAll('.y-axis').remove();
+	vis.svg.selectAll('.chart-title').remove();
 	
 
 	vis.yScale = d3.scaleLinear()
@@ -91,7 +92,7 @@ class BarChart {
 	.style("font-family", "Roboto")
 	.style("font-size", "14px")
 	.text(vis.title)
-	.attr('class', '.chart-title');
+	.attr('class', 'chart-title');
 
 	// Add the y axis
 	vis.svg.append('g')

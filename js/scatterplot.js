@@ -52,7 +52,7 @@ class Scatterplot {
   updateVis() {
     let vis = this;
     
-
+    
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
 
@@ -78,7 +78,7 @@ class Scatterplot {
         .attr('height', vis.config.containerHeight);
         vis.svg.selectAll('.axis').remove();
  
-
+    vis.svg.selectAll('.axis-title').remove();
     // Append group element that will contain our actual chart 
     // and position it according to the given margin config
     vis.chart = vis.svg.append('g')
@@ -96,7 +96,7 @@ class Scatterplot {
     // Append both axis titles
     vis.chart.append('text')
         .attr('class', 'axis-title')
-        .attr('y', vis.height - 15)
+        .attr('y', vis.height + 5)
         .attr('x', vis.width + 10)
         .attr('dy', '.71em')
         .style('text-anchor', 'end')
