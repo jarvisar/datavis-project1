@@ -152,7 +152,7 @@ class BarChart {
 		vis.callback(d.key);
         vis.rects.style('filter', 'brightness(100%)');
 		d3.select("." + "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase())
-		.style('filter', 'brightness(80%)');
+		;
     });
 
   }
