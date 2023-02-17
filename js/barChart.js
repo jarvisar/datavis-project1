@@ -41,6 +41,27 @@ class BarChart {
 	const width = vis.config.containerWidth;
 	const height = vis.config.containerHeight;
 	const margin = 40;
+	// Add the x axis
+
+	// Set the scales
+	vis.xScale = d3.scaleBand()
+		.domain(dataArray.map(d => d.key))
+		.range([margin, width - margin])
+		.padding(0.1);
+	
+	if(vis.title != "Exoplanets by Discovery Method"){
+		vis.svg.append('g')
+		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
+		.call(d3.axisBottom(vis.xScale))
+		.selectAll("text")
+		.style("text-anchor", "middle")
+		.style("word-wrap", "break-word")
+		.style("font-family", "Roboto")
+		.style("color", "black")
+		.style("font-size", "9px")
+		.style("pointer-events", "none")
+		.attr('class', 'x-axis');
+	}
 
 	
 	vis.updateVis();
@@ -57,13 +78,7 @@ class BarChart {
 	const margin = 40;
 
 	vis.svg.selectAll('.y-axis').remove();
-	vis.svg.selectAll('.x-axis').remove();
-
-	// Set the scales
-	vis.xScale = d3.scaleBand()
-	.domain(dataArray.map(d => d.key))
-	.range([margin, width - margin])
-	.padding(0.1);
+	
 
 	vis.yScale = d3.scaleLinear()
 	.domain([0, d3.max(dataArray, d => d.count)])
@@ -84,21 +99,6 @@ class BarChart {
 		.call(d3.axisLeft(vis.yScale))
 		.attr('class', 'y-axis');
 
-	// Add the x axis
-	
-	if(vis.title != "Exoplanets by Discovery Method"){
-		vis.svg.append('g')
-		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
-		.call(d3.axisBottom(vis.xScale))
-		.selectAll("text")
-		.style("text-anchor", "middle")
-		.style("word-wrap", "break-word")
-		.style("font-family", "Roboto")
-		.style("color", "black")
-		.style("font-size", "9px")
-		.style("pointer-events", "none")
-		.attr('class', 'x-axis');
-	}
 
     vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
