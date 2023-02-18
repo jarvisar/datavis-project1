@@ -137,7 +137,7 @@ d3.csv('data/exoplanets-1.csv')
 		'parentElement': '#distancehisto',
 		'containerHeight': 400,
 		'containerWidth': 300
-	}, getHistoData(data), "Exoplanet Distance", (filterData) => {
+	}, getHistoData(data), "Exoplanets by Distance (parsecs)", (filterData) => {
 		let selectedFilter = [filterData]; // Get an array of selected bin ranges
 		let filteredData = data.filter(d => {
 			let dist = d.sy_dist;
