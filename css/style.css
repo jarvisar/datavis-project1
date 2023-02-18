@@ -82,7 +82,13 @@ h4{
 	color: #333;
   }
 
+.table-container{
+	display: flex;
+	justify-content: center;
+}
+
 .styled-table {
+	
     width: 98%;
     border-collapse: collapse;
     margin: 25px 0;
