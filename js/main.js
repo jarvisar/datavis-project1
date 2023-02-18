@@ -237,57 +237,102 @@ d3.csv('data/exoplanets-1.csv')
 });
 
 function drawTable(data) {
-	//console.log("drawing Table")
-	let tableid = "#dataTable"
-	let tableWidth = dataTable.offsetWidth;
-	let tableHeight = dataTable.offsetHeight;
-	let nameFunc = function(data) { return data.pl_name; }
-	let sysNameFunc = function(data) { return data.sys_name; }
-	let discYearFunc = function(data) { return data.disc_year; }
-	let starFunc = function(data) { return data.st_spectype; }
-	let distFunc = function(data) { return data.sy_dist; }
-	let columns = ["Planet Name", "System Name", "Discovery Year", "Star Type", "Distance From Earth (parsecs)"];
-	var sortNameDescending = function (a, b) { return nameFunc(b) - nameFunc(a) }
-	var width = tableWidth + "px";
-	var height = tableHeight - 60 + "px";
-	var twidth = (tableWidth - 25) + "px";
-	var divHeight = (tableHeight - 60) + "px";
+	// Remove any existing tables
 	d3.selectAll("table").remove();
-	var outerTable = d3.select(tableid).append("table").attr("width", width);
-	outerTable.append("tr")
+  
+	// Define table properties
+	const tableid = "#dataTable";
+	const columns = ["Planet Name", "System Name", "Discovery Year", "Star Type", "Distance From Earth (parsecs)"];
+	const tableWidth = dataTable.offsetWidth;
+	const tableHeight = dataTable.offsetHeight;
+	const twidth = (tableWidth - 25) + "px";
+	const divHeight = (tableHeight - 60) + "px";
+  
+	// Define functions for extracting data from each row
+	const nameFunc = (data) => data.pl_name;
+	const sysNameFunc = (data) => data.sys_name;
+	const discYearFunc = (data) => data.disc_year;
+	const starFunc = (data) => data.st_spectype;
+	const distFunc = (data) => data.sy_dist;
+  
+	// Define a descending sort function based on planet name
+	const sortNameDescending = (a, b) => nameFunc(b) - nameFunc(a);
+  
+	// Create the outer table
+	const outerTable = d3.select(tableid).append("table")
+						.attr("width", tableWidth + "px");
+  
+	// Create the header row
+	const headerRow = outerTable
+		.append("tr");
+
+	const headerTable = headerRow
 		.append("td")
-		.append("table").attr("class", "headerTable").attr("width", width)
-		.append("tr").selectAll("th").data(columns).enter()
-		.append("th").attr("width", twidth).style("font-family", "system-ui").text(function (column) { return column; })
-		var inner = outerTable.append("tr").append("td")
-		.append("div").attr("class", "scroll").attr("width", width).attr("style", "height:" + divHeight + ";")
-		.append("table").attr("class", "bodyTable").attr("border", 1).attr("width", twidth).attr("height", height).attr("style", "table-layout:fixed");
+		.append("table")
+		.attr("class", "headerTable")
+		.attr("width", tableWidth + "px");
 
-	var tbody = inner.append("tbody");
-	// Create a row for each object in the data and perform an intial sort.
-	var rows = tbody.selectAll("tr").data(data).enter().append("tr").sort(sortNameDescending).style("text-align","center");
-
-	// Create a cell in each row for each column
-	var cells = rows.selectAll("td")
-	.data(function (d) {
-		return columns.map(function (column) {
-		return { column: column, name: nameFunc(d), sysName: sysNameFunc(d), discYear:discYearFunc(d), starType: starFunc(d), dist:distFunc(d)};
+	headerTable.append("tr")
+		.selectAll("th")
+		.data(columns)
+		.enter()
+		.append("th")
+		.attr("width", twidth)
+		.style("font-family", "system-ui")
+		.text(column => column);
+  
+	// Create the body of the table with scrollable div
+	const bodyDiv = outerTable
+		.append("tr")
+		.append("td")
+		.append("div")
+		.attr("class", "scroll")
+		.attr("style", `height: ${divHeight};`)
+		.append("table")
+		.attr("class", "bodyTable")
+		.attr("border", 1)
+		.attr("width", twidth)
+		.attr("height", tableHeight - 60)
+		.attr("style", "table-layout: fixed");
+  
+	// Add rows to table
+	const rows = bodyDiv.append("tbody")
+		.selectAll("tr")
+		.data(data)
+		.enter()
+		.append("tr")
+		.sort(sortNameDescending)
+		.style("text-align", "center");
+  
+	// Add cells to each row
+	const cells = rows.selectAll("td")
+		.data(d => columns.map(column => ({
+			column,
+			name: nameFunc(d),
+			sysName: sysNameFunc(d),
+			discYear: discYearFunc(d),
+			starType: starFunc(d),
+			dist: distFunc(d)
+		})))
+		.enter()
+		.append("td")
+		.text(d => {
+			switch (d.column) {
+				case columns[0]: return d.name;
+				case columns[1]: return d.sysName;
+				case columns[2]: return d.discYear;
+				case columns[3]: return d.starType;
+				case columns[4]: return d.dist;
+				default: return "";
+			}
 		});
-	})
-	.enter()
-	.append("td")
-	.text(function (d) {
-		if (d.column === columns[0]) return d.name;
-		else if (d.column === columns[1]) return d.sysName;
-		else if (d.column === columns[2]) return d.discYear;
-		else if (d.column === columns[3]) return d.starType;
-		else if (d.column === columns[4]) return d.dist;
+  
+	// Click event
+	cells.on("click", (event, d) => {
+	  // open system simulator
 	});
-
-	cells.on("click", function(event, d) {
-		// open system simulator
-	});
-}
+  }
+  
 
 function getMethodCount(datar){
 	const counts = {};
