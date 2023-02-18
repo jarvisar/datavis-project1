@@ -127,7 +127,7 @@ class Histogram {
     });
 
 	function formatString(input, d){
-		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/>/g, "").toLowerCase();
+		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/>/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase();
 	}
 
 	if(vis.title == "Exoplanets by Discovery Method"){
