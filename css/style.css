@@ -139,7 +139,8 @@ h4{
 .styled-table tbody {
     display: block;
     max-height: 500px;
-    overflow: auto;
+    overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .styled-table thead th:hover{
