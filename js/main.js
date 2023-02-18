@@ -193,6 +193,7 @@ d3.csv('data/exoplanets-1.csv')
 		distanceHisto.data = getHistoData(filteredData);
 		yearLine.data = getYearCount(filteredData);
 		scatterplot.data = getScatterData(filteredData);
+		buildTable(filteredData);
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
@@ -218,6 +219,7 @@ d3.csv('data/exoplanets-1.csv')
 		distanceHisto.data = getHistoData(data);
 		yearLine.data = getYearCount(data);
 		scatterplot.data = getScatterData(data);
+		buildTable(data);
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
@@ -229,14 +231,14 @@ d3.csv('data/exoplanets-1.csv')
 		document.getElementById("reset-button").disabled = true;
 	}
 
-	drawTable(data);
+	buildTable(data);
 })
 .catch(error => {
     console.error('Error loading the data');
 	console.error(error);
 });
 
-function drawTable(data) {
+function buildTable(data) {
 	// Remove any existing tables
 	d3.selectAll("table").remove();
   
