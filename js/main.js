@@ -227,7 +227,7 @@ d3.csv('data/exoplanets-1.csv')
 		habitabilityBar.updateVis();
 		distanceHisto.updateVis();
 		yearLine.updateVis();
-		scatterplot.updateVis();
+		scatterplot.updateVis(true);
 		document.getElementById("reset-button").disabled = true;
 	}
 
