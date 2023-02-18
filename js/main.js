@@ -179,8 +179,10 @@ d3.csv('data/exoplanets-1.csv')
 		'containerWidth': 700
 	}, getScatterData(data), (filterData) => {
 		let selectedFilter = [filterData];
-		let filteredData = data.filter(d => selectedFilter.includes(d.pl_name))
-		updateData(filteredData);
+		// Get specific exoplanet
+		let selectedPlanet = data.filter(d => selectedFilter.includes(d.pl_name));
+		setExoplanet(selectedPlanet);
+		console.log(selectedPlanet);
 	})	
 
 	
@@ -238,6 +240,11 @@ d3.csv('data/exoplanets-1.csv')
 	console.error(error);
 });
 
+function setExoplanet(exoplanetData){
+	buildTable(exoplanetData);
+	document.getElementById("reset-button").disabled = false;
+}
+
 function buildTable(data) {
 	// Remove any existing tables
 	d3.selectAll("table").remove();
@@ -262,7 +269,7 @@ function buildTable(data) {
   
 	// Create the outer table
 	const outerTable = d3.select(tableid).append("table")
-						.attr("width", tableWidth + "px");
+		.attr("width", tableWidth + "px");
   
 	// Create the header row
 	const headerRow = outerTable
@@ -329,9 +336,11 @@ function buildTable(data) {
 			}
 		});
   
-	// Click event
+	// Click event (get specific exoplanet)
 	cells.on("click", (event, d) => {
-	  // open system simulator
+		let selectedPlanet = data.filter(da => da.pl_name == d.name);
+		setExoplanet(selectedPlanet);
+		console.log(selectedPlanet);
 	});
   }
   
