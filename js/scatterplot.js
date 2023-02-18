@@ -114,20 +114,19 @@ class Scatterplot {
    * In some cases, you may not need this function but when you create more complex visualizations
    * you will probably want to organize your code in multiple functions.
    */
-  updateVis() {
+  updateVis(removeBrush = false) {
     let vis = this;
-    
-   
-    
-    vis.renderVis();
+
+    vis.renderVis(removeBrush)
   }
 
   /**
    * This function contains the D3 code for binding data to visual elements.
    * We call this function every time the data or configurations change.
    */
-  renderVis() {
+  renderVis(removeBrush = false) {
     let vis = this;
+
     vis.svg.selectAll('.point').remove();
     
     // Add circles
@@ -199,7 +198,10 @@ class Scatterplot {
           circles.style("stroke", "transparent");
           vis.selectedValues = vis.data;
       }
-      //vis.callback(value);
+    }
+
+    if (removeBrush == true) {
+      this.svg.call(brush.clear());
     }
 
     circles
@@ -246,9 +248,11 @@ class Scatterplot {
         .style('left', '10px')
         .on('click', function() {
             // Callback function to execute when the button is clicked
-            svg.call(brush);
+            vis.svg.call(brush);
             // Call the callback function passed to the constructor
         });
+
+      vis.svg.call(brush);
   }
   
 
