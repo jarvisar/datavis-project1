@@ -40,20 +40,7 @@ class Scatterplot {
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
-
-
-    vis.updateVis();
-  }
-
-  /**
-   * This function contains all the code to prepare the data before we render it.
-   * In some cases, you may not need this function but when you create more complex visualizations
-   * you will probably want to organize your code in multiple functions.
-   */
-  updateVis() {
-    let vis = this;
-    
-    
+ 
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
 
@@ -118,6 +105,19 @@ class Scatterplot {
     vis.xScale.domain([0, d3.max(vis.data, vis.xValue)]);
     vis.yScale.domain([0, d3.max(vis.data, vis.yValue)]);
 
+    vis.updateVis();
+  }
+
+  /**
+   * This function contains all the code to prepare the data before we render it.
+   * In some cases, you may not need this function but when you create more complex visualizations
+   * you will probably want to organize your code in multiple functions.
+   */
+  updateVis() {
+    let vis = this;
+    
+   
+    
     vis.renderVis();
   }
 
@@ -128,6 +128,8 @@ class Scatterplot {
   renderVis() {
     let vis = this;
     vis.svg.selectAll('.point').remove();
+
+    
 
     // Add circles
     const circles = vis.chart.selectAll('.point')
@@ -158,10 +160,6 @@ class Scatterplot {
         .on('mouseleave', () => {
           d3.select('#scatterplot-tooltip').style('display', 'none');
         })
-        .on('click', (event, d) => {
-          vis.callback(d.pl_name);
-          d3.select('#scatterplot-tooltip').style('display', 'none');
-        });
     
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
@@ -172,6 +170,60 @@ class Scatterplot {
     vis.yAxisG
         .call(vis.yAxis)
         .call(g => g.select('.domain').remove())
+
+    // Define scales
+    const xScale = d3.scaleLinear()
+    .domain(d3.extent(vis.data, d => d.pl_rade)).nice()
+    .range([vis.config.margin.left, vis.width - vis.config.margin.right + 50]);
+
+    const yScale = d3.scaleLinear()
+    .domain(d3.extent(vis.data, d => d.pl_bmasse)).nice()
+    .range([vis.height + vis.config.margin.top, 20]);
+
+    // Define brush
+    const brush = d3.brush()
+    .extent([[vis.config.margin.left, vis.config.margin.top], [vis.width + vis.config.margin.right + vis.config.margin.left, vis.height + vis.config.margin.top]])
+    .on("start brush", brushed)
+    .on("end", applyFilter);
+    
+
+    vis.svg.call(brush);
+
+    var values = [];
+
+    function brushed({selection}) {
+      values = [];
+      if (selection) {
+          const [[x0, y0], [x1, y1]] = selection;
+          values = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
+          console.log(values);
+          circles
+              .style("stroke", "transparent")
+              .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
+              .style("stroke", "steelblue");
+      } else {
+          circles.style("stroke", "transparent");
+          values = vis.data;
+      }
+      //vis.callback(value);
+    }
+
+    function applyFilter({selection}) {
+      values = [];
+      if (selection) {
+          const [[x0, y0], [x1, y1]] = selection;
+          values = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
+          vis.callback(values);
+          circles
+              .style("stroke", "transparent")
+              .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
+              .style("stroke", "steelblue");
+      } else {
+          circles.style("stroke", "transparent");
+          values = vis.data;
+      }
+      //vis.callback(value);
+    }
   }
 
   /**

@@ -178,11 +178,9 @@ d3.csv('data/exoplanets-1.csv')
 		'containerHeight': 400,
 		'containerWidth': 700
 	}, getScatterData(data), (filterData) => {
-		let selectedFilter = [filterData];
-		// Get specific exoplanet
-		let selectedPlanet = data.filter(d => selectedFilter.includes(d.pl_name));
-		setExoplanet(selectedPlanet);
-		console.log(selectedPlanet);
+		updateData(filterData);
+		scatterplot.data = getScatterData(data);
+		scatterplot.updateVis();
 	})	
 
 	
