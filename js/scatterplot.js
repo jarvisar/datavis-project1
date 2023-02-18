@@ -200,6 +200,7 @@ class Scatterplot {
       }
     }
 
+    // Clear brush if resetting filter
     if (removeBrush == true) {
       this.svg.call(brush.clear());
     }
