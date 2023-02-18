@@ -114,17 +114,17 @@ class Scatterplot {
    * In some cases, you may not need this function but when you create more complex visualizations
    * you will probably want to organize your code in multiple functions.
    */
-  updateVis(removeBrush = false) {
+  updateVis(removeBrush = false, selectedPlanet = []) {
     let vis = this;
 
-    vis.renderVis(removeBrush)
+    vis.renderVis(removeBrush, selectedPlanet)
   }
 
   /**
    * This function contains the D3 code for binding data to visual elements.
    * We call this function every time the data or configurations change.
    */
-  renderVis(removeBrush = false) {
+  renderVis(removeBrush = false, selectedPlanet = []) {
     let vis = this;
 
     vis.svg.selectAll('.point').remove();
@@ -168,7 +168,7 @@ class Scatterplot {
     
 
     function brushed({selection}) {
-      vis.selectedValues = [];
+      vis.selectedValues = selectedPlanet;
       if (selection) {
           const [[x0, y0], [x1, y1]] = selection;
           vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
