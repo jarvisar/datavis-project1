@@ -1,10 +1,10 @@
 # Project 1: Out of this World
 
-This project involved creating responsive and dynamic data visualizations using exoplanet data from the exoplanet archive and D3.js.
+This project aims to develop interactive and dynamic data visualizations using exoplanet data from the NASA Exoplanet Archive and D3.js, a widely-used JavaScript library for data visualization.
 
 ## Data
 
-The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/). The data includes information about the planetary systems such as the star name, the number of planets in the system, the planet mass, radius, period, etc.
+The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/). The data covers essential planetary details such as host star names, number of planets/stars in each system, planet mass, radius, orbital period, and more.
 
 ## Tools
 
