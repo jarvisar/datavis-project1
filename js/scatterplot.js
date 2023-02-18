@@ -17,6 +17,7 @@ class Scatterplot {
     }
     this.data = _data;
     this.callback = _callback;
+    this.selectedValues = [];
     this.initVis();
   }
   
@@ -129,8 +130,6 @@ class Scatterplot {
     let vis = this;
     vis.svg.selectAll('.point').remove();
 
-    
-
     // Add circles
     const circles = vis.chart.selectAll('.point')
         .data(vis.data)
@@ -142,25 +141,6 @@ class Scatterplot {
         .attr('cx', d => vis.xScale(vis.xValue(d)))
         .attr('fill', "#69b3a2")
 
-    // Tooltip event listeners
-    circles
-        .on('mouseover', (event,d) => {
-          d3.select('#scatterplot-tooltip')
-            .style('display', 'block')
-            .style('left', (event.pageX + 15) + 'px')   
-            .style('top', (event.pageY + 15) + 'px')
-            .html(`
-              <div class="tooltip-title">${d.pl_name}</div>
-              <ul>
-                <li>${d.pl_rade} Re</li>
-                <li>${d.pl_bmasse} Me</li>
-              </ul>
-            `);
-        })
-        .on('mouseleave', () => {
-          d3.select('#scatterplot-tooltip').style('display', 'none');
-        })
-    
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
     vis.xAxisG
@@ -186,44 +166,77 @@ class Scatterplot {
     .on("start brush", brushed)
     .on("end", applyFilter);
     
-
     vis.svg.call(brush);
 
-    var values = [];
-
     function brushed({selection}) {
-      values = [];
+      vis.selectedValues = [];
       if (selection) {
           const [[x0, y0], [x1, y1]] = selection;
-          values = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
-          console.log(values);
+          vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
+          console.log(vis.selectedValues);
           circles
               .style("stroke", "transparent")
               .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
               .style("stroke", "steelblue");
       } else {
           circles.style("stroke", "transparent");
-          values = vis.data;
+          vis.selectedValues = vis.data;
       }
-      //vis.callback(value);
+      
     }
 
     function applyFilter({selection}) {
-      values = [];
+      vis.selectedValues = [];
       if (selection) {
           const [[x0, y0], [x1, y1]] = selection;
-          values = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
-          vis.callback(values);
+          vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
+          vis.callback(vis.selectedValues);
           circles
               .style("stroke", "transparent")
               .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
               .style("stroke", "steelblue");
       } else {
           circles.style("stroke", "transparent");
-          values = vis.data;
+          vis.selectedValues = vis.data;
       }
       //vis.callback(value);
     }
+
+    circles
+    .style("stroke", "transparent")
+    .filter(d => vis.selectedValues.includes(d))
+    .style("stroke", "steelblue");
+
+    // Add a div for the tooltip
+    d3.select("body")
+    .append("div")
+    .attr("id", "scatterplot-tooltip")
+    .style("display", "none")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("background-color", "white")
+    .style("padding", "10px")
+    .style("border", "1px solid #ddd");
+
+    // Tooltip event listeners
+    circles
+      .on('mouseover', (event,d) => {
+        d3.select('#scatterplot-tooltip')
+          .style('display', 'block')
+          .style('left', (event.pageX + 15) + 'px')   
+          .style('top', (event.pageY + 15) + 'px')
+          .html(`
+            <div class="tooltip-title">${d.pl_name}</div>
+            <ul>
+              <li>${d.pl_rade} Re</li>
+              <li>${d.pl_bmasse} Me</li>
+            </ul>
+          `);
+      })
+      .on('mouseleave', () => {
+        d3.select('#scatterplot-tooltip').style('display', 'none');
+      });
+    
   }
 
   /**
