@@ -1,10 +1,10 @@
 # Project 1: Out of this World
 
-This is a simple data visualization webpage that utilizes exoplanet data from the exoplanet archive and D3.js to create dynamic barcharts, line chart, scatterplot, histogram, data table, and star system simulation.
+This project aims to develop interactive and dynamic data visualizations using exoplanet data from the NASA Exoplanet Archive and D3.js, a widely-used JavaScript library for data visualization.
 
 ## Data
 
-The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/). The data includes information about the planetary systems such as the star name, the number of planets in the system, the planet mass, radius, period, etc.
+The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/). The data covers essential planetary details such as host star names, number of planets/stars in each system, planet mass, radius, orbital period, and more.
 
 ## Tools
 
@@ -18,15 +18,15 @@ This visualization project includes the following features:
 
 - Barcharts: There are five dynamic barcharts that users can interact with.
 
-- Line chart: Users can view a timeline of exoplanet discoveries by year.
+- Line chart: Users can view and interact with a timeline of exoplanet discoveries by year.
 
-- Scatterplot: Users can view a visualization of the relationship between exoplanet mass and radius.
+- Scatterplot: Users can view and interact with a visualization of the relationship between exoplanet mass and radius.
 
-- Histogram: Users can view a categorization of exoplanets by their distance from us.
+- Histogram: Users can view a categorization of exoplanets by their distance in parsecs.
 
-- Data table: Users can view the data for each planetary system in a table format.
+- Data Table: Users can view and interact with the exoplanet data in a table format.
 
-- Star system simulation: Users can view a simulation of a star system.
+- Host System Simulation: Users can view a simulation of a host star system.
 
 ## Usage
 
@@ -36,4 +36,4 @@ This project is also accessible through [GitHub Pages](http://jarvisar.github.io
 
 ## Credits
 
-This project was created by Adam Jarvis for  course. The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/). The visualization was created using [D3.js](https://d3js.org/).
+This project was created by Adam Jarvis for  course. The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and the visualizations were created using [D3.js](https://d3js.org/).
