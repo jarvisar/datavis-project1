@@ -16,7 +16,7 @@ This project was developed using primarily JavaScript, HTML, and CSS.
 
 This visualization project includes the following features:
 
-- Barcharts: There are five dynamic barcharts that users can interact with.
+- Barcharts: Users can view and interact with five dynamic barcharts.
 
 - Line chart: Users can view and interact with a timeline of exoplanet discoveries by year.
 
