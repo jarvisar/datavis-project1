@@ -34,13 +34,12 @@ class Scatterplot {
     // undesirable side-effects. Instead, we recommend creating another variable at
     // the start of each function to store the this-accessor
     let vis = this;
-
+    
     // Calculate inner chart size. Margin specifies the space around the actual chart.
     // You need to adjust the margin config depending on the types of axis tick labels
     // and the position of axis titles (margin convetion: https://bl.ocks.org/mbostock/3019563)
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
-
  
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
@@ -50,16 +49,17 @@ class Scatterplot {
 
     // Initialize axes
     vis.xAxis = d3.axisBottom(vis.xScale)
-        .ticks(6)
+        .ticks(8)
         .tickSize(-vis.height - 10)
         .tickPadding(10)
         .tickFormat(d => d + ' km');
 
     vis.yAxis = d3.axisLeft(vis.yScale)
-        .ticks(6)
+        .ticks(8)
         .tickSize(-vis.width - 10)
         .tickPadding(10);
 
+        
 
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)
@@ -67,7 +67,7 @@ class Scatterplot {
         .attr('height', vis.config.containerHeight);
         vis.svg.selectAll('.axis').remove();
  
-    vis.svg.selectAll('.axis-title').remove();
+    
     // Append group element that will contain our actual chart 
     // and position it according to the given margin config
     vis.chart = vis.svg.append('g')
@@ -166,8 +166,6 @@ class Scatterplot {
     .on("start brush", brushed)
     .on("end", applyFilter);
     
-    vis.svg.call(brush);
-
     
 
     function brushed({selection}) {
@@ -220,6 +218,8 @@ class Scatterplot {
     .style("padding", "10px")
     .style("border", "1px solid #ddd");
 
+
+
     // Tooltip event listeners
     circles
       .on('mouseover', (event,d) => {
@@ -238,8 +238,19 @@ class Scatterplot {
       .on('mouseleave', () => {
         d3.select('#scatterplot-tooltip').style('display', 'none');
       });
-    
+
+      vis.svg.append('button')
+        .text('Click me!')
+        .style('position', 'absolute')
+        .style('bottom', '10px')
+        .style('left', '10px')
+        .on('click', function() {
+            // Callback function to execute when the button is clicked
+            svg.call(brush);
+            // Call the callback function passed to the constructor
+        });
   }
+  
 
   /**
    * Change the position slightly to better see if multiple symbols share the same coordinates (test) 

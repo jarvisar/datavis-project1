@@ -176,7 +176,7 @@ d3.csv('data/exoplanets-1.csv')
 	let scatterplot = new Scatterplot({
 		'parentElement': '#scatterplot',
 		'containerHeight': 400,
-		'containerWidth': 700
+		'containerWidth': 800
 	}, getScatterData(data), (filterData) => {
 		updateData(filterData);
 		scatterplot.data = getScatterData(data);
