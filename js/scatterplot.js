@@ -129,7 +129,7 @@ class Scatterplot {
   renderVis() {
     let vis = this;
     vis.svg.selectAll('.point').remove();
-
+    
     // Add circles
     const circles = vis.chart.selectAll('.point')
         .data(vis.data)
@@ -156,7 +156,7 @@ class Scatterplot {
     .domain(d3.extent(vis.data, d => d.pl_rade)).nice()
     .range([vis.config.margin.left, vis.width - vis.config.margin.right + 50]);
 
-    const yScale = d3.scaleLinear()
+    const yScale = d3.scaleLog()
     .domain(d3.extent(vis.data, d => d.pl_bmasse)).nice()
     .range([vis.height + vis.config.margin.top, 20]);
 
@@ -167,6 +167,8 @@ class Scatterplot {
     .on("end", applyFilter);
     
     vis.svg.call(brush);
+
+    
 
     function brushed({selection}) {
       vis.selectedValues = [];
