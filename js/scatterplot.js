@@ -109,61 +109,6 @@ class Scatterplot {
         .attr('dy', '.71em')
         .text('Mass');
 
-          // Empty tooltip group (hidden by default)
-    vis.tooltip = vis.chart.append('g')
-      .attr('class', 'tooltip')
-      .style('display', 'none');
-
-    vis.tooltip.append('circle')
-        .attr('r', 4);
-
-    vis.tooltip.append('text');
-
-    const trackingArea = vis.chart.append('rect')
-        .attr('width', vis.width)
-        .attr('height', vis.height)
-        .attr('fill', 'none')
-        .attr('pointer-events', 'all')
-        .on('mouseenter', function(event) {
-          const [xPos, yPos] = d3.pointer(event, this);
-          const isInside = trackingArea.node().contains(event.target) && xPos >= 0 && xPos <= vis.width && yPos >= 0 && yPos <= vis.height;
-          if (isInside) {
-              vis.tooltip.style('display', 'block');
-          }
-      })
-      .on('mouseleave', function(event) {
-          vis.tooltip.style('display', 'none');
-      })
-      
-        .on('mousemove', function(event) {
-          // Get mouse position relative to tracking area
-          const [xPos, yPos] = d3.pointer(event, this);
-
-          const isInside = trackingArea.node().contains(event.target) && xPos >= 0 && xPos <= vis.width && yPos >= 0 && yPos <= vis.height;
-          if (!isInside) {
-              vis.tooltip.style('display', 'none');
-          }
-        
-          // Get actual data values corresponding to mouse position
-          const xValue = vis.xScale.invert(xPos);
-          const yValue = vis.yScale.invert(yPos);
-        
-          // Find nearest data point
-          const bisect = d3.bisector(d => d.pl_rade).left;
-          const index = bisect(vis.data, xValue);
-          const d0 = vis.data[index - 1];
-          const d1 = vis.data[index];
-          const d = xValue - d0.pl_rade > d1.pl_rade - xValue ? d1 : d0;
-        
-          // Position tooltip over data point
-          vis.tooltip.style('display', 'block')
-          .attr('transform', `translate(${vis.xScale(d.pl_rade)}, ${vis.yScale(d.pl_bmasse)})`);
-
-        
-          // Update tooltip text
-          
-        })
-
     // Specificy accessor functions
     vis.xValue = d => d.pl_rade;
     vis.yValue = d => d.pl_bmasse;
@@ -183,36 +128,8 @@ class Scatterplot {
     let vis = this;
     vis.svg.selectAll('.point').remove();
 
-    var tooltip = d3.select("#scatterplot")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "1px")
-    .style("border-radius", "5px")
-    .style("padding", "10px")
-
-    var mouseleave = function(d) {
-      tooltip
-        .transition()
-        .duration(200)
-        .style("opacity", 0)
-    }
-
-    var mouseover = function(d) {
-      tooltip
-        .style("opacity", 1)
-    }
-  
-    var mousemove = function(d) {
-      tooltip
-      .html(d.pl_name)
-      .attr('transform', `translate(${d3.pointer(this)[0]}, ${d3.pointer(this)[1]})`);
-    }
-
     // Add circles
-    vis.chart.selectAll('.point')
+    const circles = vis.chart.selectAll('.point')
         .data(vis.data)
         .enter()
       .append('circle')
@@ -221,9 +138,25 @@ class Scatterplot {
         .attr('cy', d => vis.yScale(vis.yValue(d)))
         .attr('cx', d => vis.xScale(vis.xValue(d)))
         .attr('fill', "#69b3a2")
-        .on("mouseover", mouseover )
-        .on("mousemove", mousemove )
-        .on("mouseleave", mouseleave );
+
+    // Tooltip event listeners
+    circles
+        .on('mouseover', (event,d) => {
+          d3.select('#scatterplot-tooltip')
+            .style('display', 'block')
+            .style('left', (event.pageX + 15) + 'px')   
+            .style('top', (event.pageY + 15) + 'px')
+            .html(`
+              <div class="tooltip-title">${d.pl_name}</div>
+              <ul>
+                <li>${d.pl_rade} Re</li>
+                <li>${d.pl_bmasse} Me</li>
+              </ul>
+            `);
+        })
+        .on('mouseleave', () => {
+          d3.select('#scatterplot-tooltip').style('display', 'none');
+        });
     
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
