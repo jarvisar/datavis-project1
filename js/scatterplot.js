@@ -240,7 +240,7 @@ class Scatterplot {
   }
 
   /**
-   * Change the position slightly to better see if multiple symbols share the same coordinates (test)
+   * Change the position slightly to better see if multiple symbols share the same coordinates (test) 
    */
   jitter(value) {
     var num = Math.floor(Math.random()*5) + 1; // this will get a number between 1 and 5;
