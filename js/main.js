@@ -159,7 +159,6 @@ d3.csv('data/exoplanets-1.csv')
 	}, '#1a0f35');
 
 
-
 	// Year Line Chart
 	let yearLine = new Line({
 		'parentElement': '#yearline',
@@ -171,12 +170,17 @@ d3.csv('data/exoplanets-1.csv')
 		updateData(filteredData);
 	})
 
+
 	// Scatterplot
 	let scatterplot = new Scatterplot({
 		'parentElement': '#scatterplot',
 		'containerHeight': 400,
 		'containerWidth': 700
-	}, data)
+	}, data, (filterData) => {
+		let selectedFilter = [filterData];
+		let filteredData = data.filter(d => selectedFilter.includes(d.pl_name))
+		updateData(filteredData);
+	})	
 
 	
 	function updateData(filteredData){
