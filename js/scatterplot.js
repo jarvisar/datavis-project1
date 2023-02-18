@@ -156,7 +156,7 @@ class Scatterplot {
     .domain(d3.extent(vis.data, d => d.pl_rade)).nice()
     .range([vis.config.margin.left, vis.width - vis.config.margin.right + 50]);
 
-    const yScale = d3.scaleLog()
+    const yScale = d3.scaleLinear()
     .domain(d3.extent(vis.data, d => d.pl_bmasse)).nice()
     .range([vis.height + vis.config.margin.top, 20]);
 
