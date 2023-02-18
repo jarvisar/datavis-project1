@@ -185,7 +185,6 @@ class Line {
         console.log(d.key);
         vis.callback(d.key);
         
-        
     });
  }
 

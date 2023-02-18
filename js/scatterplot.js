@@ -160,6 +160,7 @@ class Scatterplot {
         })
         .on('click', (event, d) => {
           vis.callback(d.pl_name);
+          d3.select('#scatterplot-tooltip').style('display', 'none');
         });
     
     // Update the axes/gridlines
