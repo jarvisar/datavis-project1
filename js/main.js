@@ -176,7 +176,7 @@ d3.csv('data/exoplanets-1.csv')
 		'parentElement': '#scatterplot',
 		'containerHeight': 400,
 		'containerWidth': 700
-	}, data, (filterData) => {
+	}, getScatterData(data), (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.pl_name))
 		updateData(filteredData);
@@ -191,7 +191,7 @@ d3.csv('data/exoplanets-1.csv')
 		habitabilityBar.data = getHabitabilityCount(filteredData);
 		distanceHisto.data = getHistoData(filteredData);
 		yearLine.data = getYearCount(filteredData);
-		scatterplot.data = filteredData;
+		scatterplot.data = getScatterData(filteredData);
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
@@ -216,7 +216,7 @@ d3.csv('data/exoplanets-1.csv')
 		habitabilityBar.data = getHabitabilityCount(data);
 		distanceHisto.data = getHistoData(data);
 		yearLine.data = getYearCount(data);
-		scatterplot.data = data;
+		scatterplot.data = getScatterData(data);
 		methodBar.updateVis();
 		typeBar.updateVis();
 		systemStarBar.updateVis();
@@ -325,12 +325,8 @@ function getYearCount(datar){
 
 function getScatterData(datar){
 	// Convert the counts object to an array of objects
-	const dataArray = [];
-	datar.forEach(d => {
-		dataArray.push({pl_name: d.pl_name, radius: d.pl_rade, mass: d.pl_bmasse});
-	});
-	console.log(dataArray) ;
-	return dataArray;
+	let filteredData = datar.filter(d => d.pl_rade != "" && d.pl_bmasse != "");
+	return filteredData;
 }
 
 function getHabitabilityCount(datar){
