@@ -18,15 +18,15 @@ This visualization project includes the following features:
 
 - Barcharts: There are five dynamic barcharts that users can interact with.
 
-- Line chart: Users can view a timeline of exoplanet discoveries by year.
+- Line chart: Users can view and interact with a timeline of exoplanet discoveries by year.
 
-- Scatterplot: Users can view a visualization of the relationship between exoplanet mass and radius.
+- Scatterplot: Users can view and interact with a visualization of the relationship between exoplanet mass and radius.
 
 - Histogram: Users can view a categorization of exoplanets by their distance in parsecs.
 
-- Data table: Users can view the data for each planetary system in a table format.
+- Data Table: Users can view and interact with the exoplanet data in a table format.
 
-- Star system simulation: Users can view a simulation of a star system.
+- Host System Simulation: Users can view a simulation of a host star system.
 
 ## Usage
 
@@ -36,4 +36,4 @@ This project is also accessible through [GitHub Pages](http://jarvisar.github.io
 
 ## Credits
 
-This project was created by Adam Jarvis for  course. The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/). The visualization was created using [D3.js](https://d3js.org/).
+This project was created by Adam Jarvis for  course. The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and the visualizations were created using [D3.js](https://d3js.org/).
