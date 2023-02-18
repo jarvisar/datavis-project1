@@ -1,6 +1,6 @@
 # Project 1: Out of this World
 
-This is a simple data visualization webpage that utilizes exoplanet data from the exoplanet archive and D3.js to create dynamic barcharts, line chart, scatterplot, histogram, data table, and star system simulation.
+This project involved creating responsive and dynamic data visualizations using exoplanet data from the exoplanet archive and D3.js.
 
 ## Data
 
