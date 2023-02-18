@@ -132,14 +132,32 @@ d3.csv('data/exoplanets-1.csv')
 	}, '#a1e9f7');
 
 
-	// Star Type Bar Chart
+	// Exoplanet Distance Histogram
 	let distanceHisto = new Histogram({
 		'parentElement': '#distancehisto',
 		'containerHeight': 400,
 		'containerWidth': 300
-	}, getTypeCount(data), "Exoplanet Distance", (filterData) => {
-		let selectedFilter = [filterData];
+	}, getHistoData(data), "Exoplanet Distance", (filterData) => {
+		let selectedFilter = [filterData]; // Get an array of selected bin ranges
+		let filteredData = data.filter(d => {
+			let dist = d.sy_dist;
+			if (dist >= 0 && dist < 50 && selectedFilter.includes('0-50')) {
+				return true;
+			} else if (dist >= 50 && dist < 100 && selectedFilter.includes('50-100')) {
+				return true;
+			} else if (dist >= 100 && dist < 250 && selectedFilter.includes('100-250')) {
+				return true;
+			} else if (dist >= 250 && dist < 500 && selectedFilter.includes('250-500')) {
+				return true;
+			} else if (dist >= 500 && selectedFilter.includes('>500')) {
+				return true;
+			} else {
+				return false;
+			}
+		});
+		updateData(filteredData);
 	}, '#1a0f35');
+
 
 
 	// Year Line Chart
@@ -167,6 +185,7 @@ d3.csv('data/exoplanets-1.csv')
 		systemPlanetBar.data = getPlanetCount(filteredData);
 		typeBar.data = getTypeCount(filteredData);
 		habitabilityBar.data = getHabitabilityCount(filteredData);
+		distanceHisto.data = getHistoData(filteredData);
 		yearLine.data = getYearCount(filteredData);
 		scatterplot.data = filteredData;
 		methodBar.updateVis();
@@ -174,6 +193,7 @@ d3.csv('data/exoplanets-1.csv')
 		systemStarBar.updateVis();
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
+		distanceHisto.updateVis();
 		yearLine.updateVis();
 		scatterplot.updateVis();
 		document.getElementById("reset-button").disabled = false;
@@ -190,6 +210,7 @@ d3.csv('data/exoplanets-1.csv')
 		systemPlanetBar.data = getPlanetCount(data);
 		typeBar.data = getTypeCount(data);
 		habitabilityBar.data = getHabitabilityCount(data);
+		distanceHisto.data = getHistoData(data);
 		yearLine.data = getYearCount(data);
 		scatterplot.data = data;
 		methodBar.updateVis();
@@ -197,6 +218,7 @@ d3.csv('data/exoplanets-1.csv')
 		systemStarBar.updateVis();
 		systemPlanetBar.updateVis();
 		habitabilityBar.updateVis();
+		distanceHisto.updateVis();
 		yearLine.updateVis();
 		scatterplot.updateVis();
 		document.getElementById("reset-button").disabled = true;
@@ -367,3 +389,36 @@ function getHabitabilityCount(datar){
 	}
 	return dataArray;
 }
+
+function getHistoData(datar){
+	const counts = {
+		'0-50': 0, 
+		'50-100': 0, 
+		'100-250': 0, 
+		'250-500': 0, 
+		'>500': 0
+	};
+	
+	datar.forEach(d => {
+		if (d.sy_dist >= 0 && d.sy_dist < 50) {
+			counts['0-50']++;
+		} else if (d.sy_dist >= 50 && d.sy_dist < 100) {
+			counts['50-100']++;
+		} else if (d.sy_dist >= 100 && d.sy_dist < 250) {
+			counts['100-250']++;
+		} else if (d.sy_dist >= 250 && d.sy_dist < 500) {
+			counts['250-500']++;
+		} else if (d.sy_dist >= 500) {
+			counts['>500']++;
+		}
+	});
+
+	// Convert the counts object to an array of objects
+	const dataArray = [];
+	for (let key in counts) {
+		dataArray.push({key: key, count: counts[key]});
+	}
+	return dataArray;
+}
+
+

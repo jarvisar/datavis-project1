@@ -110,21 +110,25 @@ class Histogram {
         .attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
         .style('fill', vis.color)
 		.style('transition', 'all 0.5 ease')
-        .attr('class', (d) => "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase())
+        .attr('class', (d) => "bar-" + formatString(vis.title, d))
 
     vis.rects.on('mouseover', (event, d) => {
-        let barClass = "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase();
+        let barClass = "bar-" + formatString(vis.title, d);
         let brightness = vis.clicked[barClass] ? '80%' : '90%';
         d3.select("." + barClass)
             .style('filter', `brightness(${brightness})`);
     })
 
     vis.rects.on('mouseleave', (event, d) => {
-        let barClass = "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase();
+        let barClass = "bar-" + formatString(vis.title, d);
         let brightness = vis.clicked[barClass] ? '80%' : '100%';
         d3.select("." + barClass)
             .style('filter', `brightness(${brightness})`);
     });
+
+	function formatString(input, d){
+		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/>/g, "").toLowerCase();
+	}
 
 	if(vis.title == "Exoplanets by Discovery Method"){
 		vis.svg.selectAll('.x-axis').remove();
@@ -146,13 +150,13 @@ class Histogram {
 	} 
 
     vis.rects.on('click', (event, d) => {
-        let barClass = "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase();
+        let barClass = "bar-" + formatString(vis.title, d);
 		vis.clicked = {};
         vis.clicked[barClass] = true;
 		console.log(d.key);
 		vis.callback(d.key);
         vis.rects.style('filter', 'brightness(100%)');
-		d3.select("." + "bar-" + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase())
+		d3.select("." + "bar-" + formatString(vis.title, d))
 		;
     });
 
