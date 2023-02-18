@@ -22,7 +22,7 @@ This visualization project includes the following features:
 
 - Scatterplot: Users can view a visualization of the relationship between exoplanet mass and radius.
 
-- Histogram: Users can view a categorization of exoplanets by their distance from us.
+- Histogram: Users can view a categorization of exoplanets by their distance in parsecs.
 
 - Data table: Users can view the data for each planetary system in a table format.
 
