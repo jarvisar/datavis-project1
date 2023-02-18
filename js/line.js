@@ -143,6 +143,7 @@ class Line {
     })
     .on('mousemove', function(event) {
         
+        
     // Get date that corresponds to current mouse x-coordinate
     const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
     const key = vis.xScale.invert(xPos);
