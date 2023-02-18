@@ -135,6 +135,9 @@ class BarChart {
 		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
 		.call(d3.axisBottom(vis.xScale))
 		.selectAll("text")
+		.on("click", (event, d) => {
+			vis.callback(d);
+		})
 		.style("text-anchor", "start")
 		.style("word-wrap", "break-word")
 		.style("font-family", "Roboto")
@@ -143,9 +146,10 @@ class BarChart {
 		.attr("dx", "0.5em")
 		.attr("dy", "-0.5em")
 		.attr("transform", "rotate(-90)")
-		.style("pointer-events", "none")
+		
 		.attr('class', 'x-axis')
 		.style('z-index', '10');
+		
 	} 
 
     vis.rects.on('click', (event, d) => {
