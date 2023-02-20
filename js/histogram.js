@@ -64,23 +64,6 @@ class Histogram {
 	}
 
 	
-	vis.updateVis();
-	
-  }
-
-  updateVis(){
-	let vis = this;
-	let dataArray = vis.data;
-    vis.clicked = {};
-
-	const width = vis.config.containerWidth;
-	const height = vis.config.containerHeight;
-	const margin = 40;
-
-	vis.svg.selectAll('.y-axis').remove();
-	vis.svg.selectAll('.chart-title').remove();
-	
-
 	vis.yScale = d3.scaleLinear()
 	.domain([0, d3.max(dataArray, d => d.count)])
 	.range([height - margin, margin]);
@@ -125,6 +108,106 @@ class Histogram {
         d3.select("." + barClass)
             .style('filter', `brightness(${brightness})`);
     });
+
+	function formatString(input, d){
+		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/>/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase();
+	}
+
+	if(vis.title == "Exoplanets by Discovery Method"){
+		vis.svg.selectAll('.x-axis').remove();
+		vis.svg.append('g')
+		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
+		.call(d3.axisBottom(vis.xScale))
+		.selectAll("text")
+		.style("text-anchor", "start")
+		.style("word-wrap", "break-word")
+		.style("font-family", "Roboto")
+		.style("color", "black")
+		.style("font-size", "9px")
+		.attr("dx", "0.5em")
+		.attr("dy", "-0.5em")
+		.attr("transform", "rotate(-90)")
+		.style("pointer-events", "none")
+		.attr('class', 'x-axis')
+		.style('z-index', '10');
+	} 
+
+    vis.rects.on('click', (event, d) => {
+        let barClass = "bar-" + formatString(vis.title, d);
+		vis.clicked = {};
+        vis.clicked[barClass] = true;
+		console.log(d.key);
+		vis.callback(d.key);
+        vis.rects.style('filter', 'brightness(100%)');
+		d3.select("." + "bar-" + formatString(vis.title, d))
+		;
+    });
+
+	
+  }
+
+  updateVis(){
+	let vis = this;
+	let dataArray = vis.data;
+    vis.clicked = {};
+
+	const width = vis.config.containerWidth;
+	const height = vis.config.containerHeight;
+	const margin = 40;
+
+	vis.svg.selectAll('.y-axis').remove();
+	vis.svg.selectAll('.chart-title').remove();
+	
+
+	vis.yScale = d3.scaleLinear()
+	.domain([0, d3.max(dataArray, d => d.count)])
+	.range([height - margin, margin]);
+
+	vis.svg.append("text")
+	.attr("x", width/2)
+	.attr("y", 20)
+	.attr("text-anchor", "middle")
+	.style("font-family", "Roboto")
+	.style("font-size", "14px")
+	.text(vis.title)
+	.attr('class', 'chart-title');
+
+	// Add the y axis
+	vis.svg.append('g')
+		.attr('transform', `translate(${margin}, 0)`)
+		.call(d3.axisLeft(vis.yScale))
+		.attr('class', 'y-axis');
+
+
+	vis.rects = vis.svg.selectAll('rect')
+        .data(dataArray)
+        .join('rect')
+		.attr('class', 'bar-rect-' + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase())
+
+	vis.rects.transition()
+		.duration(1000)
+		.attr('x', d => vis.xScale(d.key))
+		.attr('y', d => vis.yScale(d.count))
+		.attr('width', vis.xScale.bandwidth())
+		.attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
+		.style('fill', vis.color)
+		.attr('class', (d) => "bar-" + formatString(vis.title, d))
+		.on('end', () => {
+			vis.rects.on('mouseover', (event, d) => {
+			let barClass = "bar-" + formatString(vis.title, d);
+			let brightness = vis.clicked[barClass] ? '80%' : '90%';
+			d3.select("." + barClass)
+				.style('filter', `brightness(${brightness})`)
+				.style("cursor", "pointer");
+			})
+
+			vis.rects.on('mouseleave', (event, d) => {
+				let barClass = "bar-" + formatString(vis.title, d);
+				let brightness = vis.clicked[barClass] ? '80%' : '100%';
+				d3.select("." + barClass)
+					.style('filter', `brightness(${brightness})`);
+			});
+	});
 
 	function formatString(input, d){
 		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/>/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase();
