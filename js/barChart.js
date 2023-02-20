@@ -119,7 +119,8 @@ class BarChart {
         let barClass = "bar-" + formatString(vis.title, d);
         let brightness = vis.clicked[barClass] ? '80%' : '90%';
         d3.select("." + barClass)
-            .style('filter', `brightness(${brightness})`);
+            .style('filter', `brightness(${brightness})`)
+			.style("cursor", "pointer");
     })
 
     vis.rects.on('mouseleave', (event, d) => {
@@ -146,7 +147,7 @@ class BarChart {
 		.attr("dx", "0.5em")
 		.attr("dy", "-0.5em")
 		.attr("transform", "rotate(-90)")
-		
+		.style("cursor", "pointer")
 		.attr('class', 'x-axis')
 		.style('z-index', '10');
 		

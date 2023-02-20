@@ -143,9 +143,10 @@ button:disabled{
 	right: 15px;
 }
 
-.table-container{
+.table-container, .table-container:hover{
 	display: flex;
 	justify-content: center;
+	padding-bottom: 100px;
 }
 
 .styled-table {
@@ -172,10 +173,14 @@ button:disabled{
     background-color: #f3f3f3;
 }
 
-.styled-table th,
 .styled-table td {
     padding: 12px 15px;
     width: 20%;
+}
+
+.styled-table th{
+	font-size: 16pt;
+	text-align: center;
 }
 
 .styled-table tr {
