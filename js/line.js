@@ -190,31 +190,30 @@ class Line {
         .y0(vis.height);
 
     // Add area path
-    vis.path = vis.chart.append('path')
+    vis.chart.append('path')
         .data([vis.data]) 
         .attr('fill', '#e9eff5')
         .attr('class', 'path')
-        .attr('d', vis.area);
-
+        .attr('d', vis.area)
+        .transition()
+        .duration(1000);
 
     //Initialize line generator helper function
     vis.line = d3.line()
         .x(d => vis.xScale(vis.xValue(d)))
         .y(d => vis.yScale(vis.yValue(d)));
 
-
     // Add line path 
-    vis.path = vis.chart.append('path')
+    vis.chart.append('path')
         .data([vis.data])
         .attr('stroke',  '#8693a0')
         .attr('stroke-width', 2)
         .attr('fill', 'none')
         .attr('class', 'path')
         .attr('d', vis.line)
-        .style('z-index', '5');
-
-    vis.path.transition()
-    .duration(1000)
+        .style('z-index', '5')
+        .transition()
+        .duration(1000);;
 
     // Empty tooltip group (hidden by default)
     vis.tooltip = vis.chart.append('g')
