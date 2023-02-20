@@ -2,6 +2,7 @@ body{
 	font-family: Roboto;
 	height: 100%;
 	width: 100%;
+	background-color: #eaeaea;
 }
 
 h1, h5 {
@@ -53,16 +54,43 @@ button:disabled{
 	flex-wrap: wrap;
 }
 
+.svg-barchart-container{
+	background-color: #ffffff;
+	border-radius: 10px;
+	padding: 5px;
+	margin: 15px;
+	margin: 15px;
+	box-shadow: 1px 1px 3px #aaaaaa;
+}
+
+.table-container{
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 1px 1px 3px #aaaaaa;
+}
+
 .large-chart-container {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
 }
 
-.dataTable-container {
-	max-height: 500px;
-	overflow-y: auto;
-	overflow-x: hidden;
+.yearline-container{
+	position: relative;
+	background-color: #ffffff;
+	border-radius: 10px;
+	padding: 15px;
+	margin: 15px;
+	box-shadow: 1px 1px 3px #aaaaaa;
+}
+
+.scatterplot-container{
+	position: relative;
+	background-color: #ffffff;
+	border-radius: 10px;
+	padding: 15px;
+	margin: 15px;
+	box-shadow: 1px 1px 3px #aaaaaa;
 }
 
 .chart-title{
@@ -115,6 +143,12 @@ button:disabled{
 	padding: 8px;
 	min-width: 160px;
 	color: #333;
+}
+
+.toggle-brush-button{
+	position: absolute;
+	top: 20px;
+	right: 15px;
 }
 
 .table-container{

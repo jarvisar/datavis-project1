@@ -163,12 +163,11 @@ class Scatterplot {
       .append("div")
       .attr("id", "scatterplot-tooltip")
       .style("display", "none")
-      .style("position", "absolute")
+      .style("position", "fixed")
       .style("z-index", "10")
       .style("background-color", "white")
       .style("padding", "10px")
       .style("border", "1px solid #ddd");
-
 
     // Define scales
     const xScale = d3.scaleLinear()
