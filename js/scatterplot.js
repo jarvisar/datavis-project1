@@ -18,6 +18,7 @@ class Scatterplot {
     this.data = _data;
     this.callback = _callback;
     this.selectedValues = [];
+    this.brushEnabled = false;
     this.initVis();
   }
   
@@ -114,17 +115,17 @@ class Scatterplot {
    * In some cases, you may not need this function but when you create more complex visualizations
    * you will probably want to organize your code in multiple functions.
    */
-  updateVis(removeBrush = false, selectedPlanet = []) {
+  updateVis(brushEnabled) {
     let vis = this;
 
-    vis.renderVis(removeBrush, selectedPlanet)
+    vis.renderVis(brushEnabled)
   }
 
   /**
    * This function contains the D3 code for binding data to visual elements.
    * We call this function every time the data or configurations change.
    */
-  renderVis(removeBrush = false, selectedPlanet = []) {
+  renderVis(brushEnabled) {
     let vis = this;
 
     vis.svg.selectAll('.point').remove();
@@ -150,6 +151,24 @@ class Scatterplot {
         .call(vis.yAxis)
         .call(g => g.select('.domain').remove())
 
+    
+    circles
+    .style("stroke", "transparent")
+    .filter(d => vis.selectedValues.includes(d))
+    .style("stroke", "steelblue");
+
+    // Add a div for the tooltip
+    d3.select("body")
+    .append("div")
+    .attr("id", "scatterplot-tooltip")
+    .style("display", "none")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("background-color", "white")
+    .style("padding", "10px")
+    .style("border", "1px solid #ddd");
+
+
     // Define scales
     const xScale = d3.scaleLinear()
     .domain(d3.extent(vis.data, d => d.pl_rade)).nice()
@@ -160,15 +179,13 @@ class Scatterplot {
     .range([vis.height + vis.config.margin.top, 20]);
 
     // Define brush
-    const brush = d3.brush()
+    var brush = d3.brush()
     .extent([[vis.config.margin.left, vis.config.margin.top], [vis.width + vis.config.margin.right + vis.config.margin.left, vis.height + vis.config.margin.top]])
     .on("start brush", brushed)
     .on("end", applyFilter);
     
-    
-
     function brushed({selection}) {
-      vis.selectedValues = selectedPlanet;
+      vis.selectedValues = [];
       if (selection) {
           const [[x0, y0], [x1, y1]] = selection;
           vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
@@ -200,28 +217,20 @@ class Scatterplot {
       }
     }
 
-    // Clear brush if resetting filter
-    if (removeBrush == true) {
-      this.svg.call(brush.clear());
+    if (brushEnabled == true) {
+      // enable the brush
+      brush = vis.svg.append("g")
+        .attr("class", "brush")
+        .call(brush);
+      vis.brushEnabled = true;
+    } else if (brushEnabled == false){
+      // disable the brush
+      console.log(brush)
+      d3.selectAll(".brush").remove();
+      vis.selectedValues = [];
+      vis.brushEnabled = false;
+      vis.callback(vis.data);
     }
-
-    circles
-    .style("stroke", "transparent")
-    .filter(d => vis.selectedValues.includes(d))
-    .style("stroke", "steelblue");
-
-    // Add a div for the tooltip
-    d3.select("body")
-    .append("div")
-    .attr("id", "scatterplot-tooltip")
-    .style("display", "none")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("background-color", "white")
-    .style("padding", "10px")
-    .style("border", "1px solid #ddd");
-
-
 
     // Tooltip event listeners
     circles
@@ -242,20 +251,13 @@ class Scatterplot {
         d3.select('#scatterplot-tooltip').style('display', 'none');
       });
 
-      vis.svg.append('button')
-        .text('Click me!')
-        .style('position', 'absolute')
-        .style('bottom', '10px')
-        .style('left', '10px')
-        .on('click', function() {
-            // Callback function to execute when the button is clicked
-            vis.svg.call(brush);
-            // Call the callback function passed to the constructor
-        });
-
-      vis.svg.call(brush);
+      
   }
-  
+
+  toggleBrush(){
+    let vis = this;
+
+  }
 
   /**
    * Change the position slightly to better see if multiple symbols share the same coordinates (test) 

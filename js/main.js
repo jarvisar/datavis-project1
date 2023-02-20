@@ -172,7 +172,7 @@ d3.csv('data/exoplanets-1.csv')
 	})
 
 
-	// Scatterplot
+	// Scatterplot & Brush
 	let scatterplot = new Scatterplot({
 		'parentElement': '#scatterplot',
 		'containerHeight': 400,
@@ -186,9 +186,21 @@ d3.csv('data/exoplanets-1.csv')
 			scatterplot.updateVis();
 		}
 	})	
+	var toggle = false;
+	d3.selectAll('.toggle-brush-button').on('click', function() {
+
+		if (toggle == false){
+			scatterplot.updateVis(true);
+			toggle = true
+		} else if (toggle == true) {
+			scatterplot.updateVis(false);
+			toggle = false
+		}
+	});
 
 	
 	function updateData(filteredData){
+		console.log("loading...");
 		document.getElementById("reset-button").disabled = false;
 		methodBar.data = getMethodCount(filteredData);
 		systemStarBar.data = getStarCount(filteredData);
@@ -207,14 +219,16 @@ d3.csv('data/exoplanets-1.csv')
 		distanceHisto.updateVis();
 		yearLine.updateVis();
 		scatterplot.updateVis();
-		
+		console.log("done");
 	}
 
+	// Reset data
 	d3.selectAll('.reset-button').on('click', function() {
 		resetData();
 	});
 
 	function resetData(){
+		console.log("loading...");
 		document.getElementById("reset-button").disabled = true;
 		methodBar.data = getMethodCount(data);
 		console.log(methodBar.data);
@@ -234,7 +248,7 @@ d3.csv('data/exoplanets-1.csv')
 		distanceHisto.updateVis();
 		yearLine.updateVis();
 		scatterplot.updateVis(true);
-		
+		console.log("done");
 	}
 
 	buildTable(data);
@@ -247,7 +261,6 @@ d3.csv('data/exoplanets-1.csv')
 function setExoplanet(exoplanetData){
 	document.getElementById("reset-button").disabled = false;
 	buildTable(exoplanetData);
-	scatterplot.updateVis(false, exoplanetData);
 	
 }
 
