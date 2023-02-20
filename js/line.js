@@ -68,19 +68,7 @@ class Line {
 
 
             
-    vis.updateVis();
-
-
-  }
-
-
-  //leave this empty for now
- updateVis() { 
-    let vis = this;
-
-    vis.svg.selectAll('.path').remove();
-
-   // Initialize area generator- helper function 
+    // Initialize area generator- helper function 
     vis.area = d3.area()
         .x(d => vis.xScale(vis.xValue(d)))
         .y1(d => vis.yScale(vis.yValue(d)))
@@ -184,14 +172,124 @@ class Line {
             console.log(d.key);
             vis.callback(d.key);
         });
- }
 
 
- //leave this empty for now...
- renderVis() { 
-    
   }
 
 
+  //leave this empty for now
+ updateVis() { 
+    let vis = this;
+
+    vis.svg.selectAll('.path').remove();
+
+   // Initialize area generator- helper function 
+    vis.area = d3.area()
+        .x(d => vis.xScale(vis.xValue(d)))
+        .y1(d => vis.yScale(vis.yValue(d)))
+        .y0(vis.height);
+
+    // Add area path
+    vis.path = vis.chart.append('path')
+        .data([vis.data]) 
+        .attr('fill', '#e9eff5')
+        .attr('class', 'path')
+        .attr('d', vis.area);
+
+
+    //Initialize line generator helper function
+    vis.line = d3.line()
+        .x(d => vis.xScale(vis.xValue(d)))
+        .y(d => vis.yScale(vis.yValue(d)));
+
+
+    // Add line path 
+    vis.path = vis.chart.append('path')
+        .data([vis.data])
+        .attr('stroke',  '#8693a0')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none')
+        .attr('class', 'path')
+        .attr('d', vis.line)
+        .style('z-index', '5');
+
+    vis.path.transition()
+    .duration(1000)
+
+    // Empty tooltip group (hidden by default)
+    vis.tooltip = vis.chart.append('g')
+        .attr('class', 'tooltip')
+        .style('display', 'none');
+
+    vis.tooltip.append('rect')
+        .attr('width', 130)
+        .attr('height', 40)
+        .attr('fill', 'white')
+        .style('stroke', 'black')
+        .style('stroke-width', 2);
+
+    vis.tooltip.append('text')
+        .attr('x', 10)
+        .attr('y', 25);
+
+    vis.tooltip.append('circle')
+        .attr('r', 4);
+
+    vis.bisectYear = d3.bisector(d => d.key).left;
+    const trackingArea = vis.chart.append('rect')
+        .attr('width', vis.width)
+        .attr('height', vis.height)
+        .attr('fill', 'none')
+        .attr('pointer-events', 'all')
+        .on('mouseenter', () => {
+            vis.tooltip.style('display', 'block');
+        })
+        .on('mouseleave', () => {
+        vis.tooltip.style('display', 'none');
+        })
+        .on('mousemove', function(event) {
+            // Get date that corresponds to current mouse x-coordinate
+            const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
+            const key = vis.xScale.invert(xPos);
+            
+            // Find nearest data point
+            const index = vis.bisectYear(vis.data, key, 1);
+            const a = vis.data[index - 1];
+            const b = vis.data[index];
+            const d = b && (key - a.key > b.key - key) ? b : a; 
+
+            // Update tooltip
+            vis.tooltip.select('rect')
+                .attr('transform', `translate(${vis.xScale(d.key) + 5},${vis.yScale(d.count) - 50})`)
+                .style('display', 'block')
+                .style('z-index', '10');
+
+            // Update tooltip
+            vis.tooltip.select('circle')
+                .attr('transform', `translate(${vis.xScale(d.key)},${vis.yScale(d.count)})`)
+                .style('z-index', '10');
+
+            vis.tooltip.select('text')
+                .attr('transform', `translate(${vis.xScale(d.key) + 5},${vis.yScale(d.count) - 50})`)
+                .text(Math.round(d.count) + " Exoplanets")
+                .style('display', 'block')
+                .style('z-index', '10');
+        })
+        .on('click', function(event){
+            vis.tooltip.style('display', 'none');
+            trackingArea.on('mousemove', null);
+            // Get date that corresponds to current mouse x-coordinate
+            const xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
+            const key = vis.xScale.invert(xPos);
+
+            // Find nearest data point
+            const index = vis.bisectYear(vis.data, key, 1);
+            const a = vis.data[index - 1];
+            const b = vis.data[index];
+            const d = b && (key - a.key > b.key - key) ? b : a; 
+            console.log(d.key);
+            vis.callback(d.key);
+        });
+ }
 
 }
