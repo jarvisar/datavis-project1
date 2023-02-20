@@ -54,21 +54,6 @@ button:disabled{
 	flex-wrap: wrap;
 }
 
-.svg-barchart-container{
-	background-color: #ffffff;
-	border-radius: 10px;
-	padding: 5px;
-	margin: 15px;
-	margin: 15px;
-	box-shadow: 1px 1px 3px #aaaaaa;
-}
-
-.table-container{
-	background-color: #ffffff;
-	border-radius: 10px;
-	box-shadow: 1px 1px 3px #aaaaaa;
-}
-
 .large-chart-container {
 	display: flex;
 	justify-content: center;
@@ -77,15 +62,22 @@ button:disabled{
 
 .yearline-container{
 	position: relative;
-	background-color: #ffffff;
-	border-radius: 10px;
-	padding: 15px;
-	margin: 15px;
-	box-shadow: 1px 1px 3px #aaaaaa;
 }
 
 .scatterplot-container{
 	position: relative;
+}
+
+.card{
+	background-color: #ffffff;
+	border-radius: 10px;
+	padding: 15px;
+	margin: 15px;
+	box-shadow: 1px 1px 3px #aaaaaa, 2px 2px 3px #aaaaaa;
+	transition: 0.5s box-shadow;
+}
+
+.card:hover{
 	background-color: #ffffff;
 	border-radius: 10px;
 	padding: 15px;
