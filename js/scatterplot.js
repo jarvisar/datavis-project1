@@ -34,13 +34,12 @@ class Scatterplot {
     // undesirable side-effects. Instead, we recommend creating another variable at
     // the start of each function to store the this-accessor
     let vis = this;
-
+    
     // Calculate inner chart size. Margin specifies the space around the actual chart.
     // You need to adjust the margin config depending on the types of axis tick labels
     // and the position of axis titles (margin convetion: https://bl.ocks.org/mbostock/3019563)
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
-
  
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
@@ -50,16 +49,17 @@ class Scatterplot {
 
     // Initialize axes
     vis.xAxis = d3.axisBottom(vis.xScale)
-        .ticks(6)
+        .ticks(8)
         .tickSize(-vis.height - 10)
         .tickPadding(10)
         .tickFormat(d => d + ' km');
 
     vis.yAxis = d3.axisLeft(vis.yScale)
-        .ticks(6)
+        .ticks(8)
         .tickSize(-vis.width - 10)
         .tickPadding(10);
 
+        
 
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)
@@ -67,7 +67,7 @@ class Scatterplot {
         .attr('height', vis.config.containerHeight);
         vis.svg.selectAll('.axis').remove();
  
-    vis.svg.selectAll('.axis-title').remove();
+    
     // Append group element that will contain our actual chart 
     // and position it according to the given margin config
     vis.chart = vis.svg.append('g')
@@ -114,22 +114,21 @@ class Scatterplot {
    * In some cases, you may not need this function but when you create more complex visualizations
    * you will probably want to organize your code in multiple functions.
    */
-  updateVis() {
+  updateVis(removeBrush = false, selectedPlanet = []) {
     let vis = this;
-    
-   
-    
-    vis.renderVis();
+
+    vis.renderVis(removeBrush, selectedPlanet)
   }
 
   /**
    * This function contains the D3 code for binding data to visual elements.
    * We call this function every time the data or configurations change.
    */
-  renderVis() {
+  renderVis(removeBrush = false, selectedPlanet = []) {
     let vis = this;
-    vis.svg.selectAll('.point').remove();
 
+    vis.svg.selectAll('.point').remove();
+    
     // Add circles
     const circles = vis.chart.selectAll('.point')
         .data(vis.data)
@@ -166,10 +165,10 @@ class Scatterplot {
     .on("start brush", brushed)
     .on("end", applyFilter);
     
-    vis.svg.call(brush);
+    
 
     function brushed({selection}) {
-      vis.selectedValues = [];
+      vis.selectedValues = selectedPlanet;
       if (selection) {
           const [[x0, y0], [x1, y1]] = selection;
           vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
@@ -199,7 +198,11 @@ class Scatterplot {
           circles.style("stroke", "transparent");
           vis.selectedValues = vis.data;
       }
-      //vis.callback(value);
+    }
+
+    // Clear brush if resetting filter
+    if (removeBrush == true) {
+      this.svg.call(brush.clear());
     }
 
     circles
@@ -217,6 +220,8 @@ class Scatterplot {
     .style("background-color", "white")
     .style("padding", "10px")
     .style("border", "1px solid #ddd");
+
+
 
     // Tooltip event listeners
     circles
@@ -236,8 +241,21 @@ class Scatterplot {
       .on('mouseleave', () => {
         d3.select('#scatterplot-tooltip').style('display', 'none');
       });
-    
+
+      vis.svg.append('button')
+        .text('Click me!')
+        .style('position', 'absolute')
+        .style('bottom', '10px')
+        .style('left', '10px')
+        .on('click', function() {
+            // Callback function to execute when the button is clicked
+            vis.svg.call(brush);
+            // Call the callback function passed to the constructor
+        });
+
+      vis.svg.call(brush);
   }
+  
 
   /**
    * Change the position slightly to better see if multiple symbols share the same coordinates (test) 

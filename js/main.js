@@ -176,15 +176,20 @@ d3.csv('data/exoplanets-1.csv')
 	let scatterplot = new Scatterplot({
 		'parentElement': '#scatterplot',
 		'containerHeight': 400,
-		'containerWidth': 700
+		'containerWidth': 800
 	}, getScatterData(data), (filterData) => {
-		updateData(filterData);
-		scatterplot.data = getScatterData(data);
-		scatterplot.updateVis();
+		if (filterData.length == 1){
+			setExoplanet(filterData);
+		} else {
+			updateData(filterData);
+			scatterplot.data = getScatterData(data);
+			scatterplot.updateVis();
+		}
 	})	
 
 	
 	function updateData(filteredData){
+		document.getElementById("reset-button").disabled = false;
 		methodBar.data = getMethodCount(filteredData);
 		systemStarBar.data = getStarCount(filteredData);
 		systemPlanetBar.data = getPlanetCount(filteredData);
@@ -202,7 +207,7 @@ d3.csv('data/exoplanets-1.csv')
 		distanceHisto.updateVis();
 		yearLine.updateVis();
 		scatterplot.updateVis();
-		document.getElementById("reset-button").disabled = false;
+		
 	}
 
 	d3.selectAll('.reset-button').on('click', function() {
@@ -210,6 +215,7 @@ d3.csv('data/exoplanets-1.csv')
 	});
 
 	function resetData(){
+		document.getElementById("reset-button").disabled = true;
 		methodBar.data = getMethodCount(data);
 		console.log(methodBar.data);
 		systemStarBar.data = getStarCount(data);
@@ -227,8 +233,8 @@ d3.csv('data/exoplanets-1.csv')
 		habitabilityBar.updateVis();
 		distanceHisto.updateVis();
 		yearLine.updateVis();
-		scatterplot.updateVis();
-		document.getElementById("reset-button").disabled = true;
+		scatterplot.updateVis(true);
+		
 	}
 
 	buildTable(data);
@@ -239,109 +245,11 @@ d3.csv('data/exoplanets-1.csv')
 });
 
 function setExoplanet(exoplanetData){
-	buildTable(exoplanetData);
 	document.getElementById("reset-button").disabled = false;
+	buildTable(exoplanetData);
+	scatterplot.updateVis(false, exoplanetData);
+	
 }
-
-function buildTable(data) {
-	// Remove any existing tables
-	d3.selectAll("table").remove();
-  
-	// Define table properties
-	const tableid = "#dataTable";
-	const columns = ["Planet Name", "System Name", "Discovery Year", "Star Type", "Distance From Earth (parsecs)"];
-	const tableWidth = dataTable.offsetWidth;
-	const tableHeight = dataTable.offsetHeight;
-	const twidth = (tableWidth - 25) + "px";
-	const divHeight = (tableHeight - 60) + "px";
-  
-	// Define functions for extracting data from each row
-	const nameFunc = (data) => data.pl_name;
-	const sysNameFunc = (data) => data.sys_name;
-	const discYearFunc = (data) => data.disc_year;
-	const starFunc = (data) => data.st_spectype;
-	const distFunc = (data) => data.sy_dist;
-  
-	// Define a descending sort function based on planet name
-	const sortNameDescending = (a, b) => nameFunc(b) - nameFunc(a);
-  
-	// Create the outer table
-	const outerTable = d3.select(tableid).append("table")
-		.attr("width", tableWidth + "px");
-  
-	// Create the header row
-	const headerRow = outerTable
-		.append("tr");
-
-	const headerTable = headerRow
-		.append("td")
-		.append("table")
-		.attr("class", "headerTable")
-		.attr("width", tableWidth + "px");
-
-	headerTable.append("tr")
-		.selectAll("th")
-		.data(columns)
-		.enter()
-		.append("th")
-		.attr("width", twidth)
-		.style("font-family", "system-ui")
-		.text(column => column);
-  
-	// Create the body of the table with scrollable div
-	const bodyDiv = outerTable
-		.append("tr")
-		.append("td")
-		.append("div")
-		.attr("class", "scroll")
-		.attr("style", `height: ${divHeight};`)
-		.append("table")
-		.attr("class", "bodyTable")
-		.attr("border", 1)
-		.attr("width", twidth)
-		.attr("height", tableHeight - 60)
-		.attr("style", "table-layout: fixed");
-  
-	// Add rows to table
-	const rows = bodyDiv.append("tbody")
-		.selectAll("tr")
-		.data(data)
-		.enter()
-		.append("tr")
-		.sort(sortNameDescending)
-		.style("text-align", "center");
-  
-	// Add cells to each row
-	const cells = rows.selectAll("td")
-		.data(d => columns.map(column => ({
-			column,
-			name: nameFunc(d),
-			sysName: sysNameFunc(d),
-			discYear: discYearFunc(d),
-			starType: starFunc(d),
-			dist: distFunc(d)
-		})))
-		.enter()
-		.append("td")
-		.text(d => {
-			switch (d.column) {
-				case columns[0]: return d.name;
-				case columns[1]: return d.sysName;
-				case columns[2]: return d.discYear;
-				case columns[3]: return d.starType;
-				case columns[4]: return d.dist;
-				default: return "";
-			}
-		});
-  
-	// Click event (get specific exoplanet)
-	cells.on("click", (event, d) => {
-		let selectedPlanet = data.filter(da => da.pl_name == d.name);
-		setExoplanet(selectedPlanet);
-		console.log(selectedPlanet);
-	});
-  }
-  
 
 function getMethodCount(datar){
 	const counts = {};
@@ -531,4 +439,102 @@ function getHistoData(datar){
 	return dataArray;
 }
 
+function buildTable(data) {
+	// Remove any existing tables
+	d3.selectAll("table").remove();
+  
+	// Define table properties
+	const tableid = "#dataTable";
+	const columns = ["Planet Name", "System Name", "Discover Facility", "Planet Radius", "Planet Mass"];
+	const tableWidth = dataTable.offsetWidth;
+	const tableHeight = dataTable.offsetHeight;
+	const twidth = (tableWidth - 25) + "px";
+	const divHeight = (tableHeight - 60) + "px";
+  
+	// Define functions for extracting data from each row
+	const nameFunc = (data) => data.pl_name;
+	const sysNameFunc = (data) => data.sys_name;
+	const discFacilityFunc = (data) => data.disc_facility;
+	const planetRadiusFunc = (data) => data.pl_rade;
+	const planetMassFunc = (data) => data.pl_bmasse;
+  
+	// Define a descending sort function based on planet name
+	const sortNameDescending = (a, b) => nameFunc(b) - nameFunc(a);
+  
+	// Create the outer table
+	const outerTable = d3.select(tableid).append("table")
+		.attr("width", tableWidth + "px");
+  
+	// Create the header row
+	const headerRow = outerTable
+		.append("tr");
 
+	const headerTable = headerRow
+		.append("td")
+		.append("table")
+		.attr("class", "headerTable")
+		.attr("width", tableWidth + "px");
+
+	headerTable.append("tr")
+		.selectAll("th")
+		.data(columns)
+		.enter()
+		.append("th")
+		.attr("width", twidth)
+		.style("font-family", "system-ui")
+		.text(column => column);
+  
+	// Create the body of the table with scrollable div
+	const bodyDiv = outerTable
+		.append("tr")
+		.append("td")
+		.append("div")
+		.attr("class", "scroll")
+		.attr("style", `height: ${divHeight};`)
+		.append("table")
+		.attr("class", "bodyTable")
+		.attr("border", 1)
+		.attr("width", twidth)
+		.attr("height", tableHeight - 60)
+		.attr("style", "table-layout: fixed");
+  
+	// Add rows to table
+	const rows = bodyDiv.append("tbody")
+		.selectAll("tr")
+		.data(data)
+		.enter()
+		.append("tr")
+		.sort(sortNameDescending)
+		.style("text-align", "center");
+  
+	// Add cells to each row
+	const cells = rows.selectAll("td")
+		.data(d => columns.map(column => ({
+			column,
+			name: nameFunc(d),
+			sysName: sysNameFunc(d),
+			discFacility: discFacilityFunc(d),
+			planetRadius: planetRadiusFunc(d),
+			planetMass: planetMassFunc(d)
+		})))
+		.enter()
+		.append("td")
+		.text(d => {
+			switch (d.column) {
+				case columns[0]: return d.name;
+				case columns[1]: return d.sysName;
+				case columns[2]: return d.discFacility;
+				case columns[3]: return d.planetRadius;
+				case columns[4]: return d.planetMass;
+				default: return "";
+			}
+		});
+  
+	// Click event (get specific exoplanet)
+	cells.on("click", (event, d) => {
+		let selectedPlanet = data.filter(da => da.pl_name == d.name);
+		setExoplanet(selectedPlanet);
+		console.log(selectedPlanet);
+	});
+}
+  
