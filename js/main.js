@@ -157,7 +157,7 @@ d3.csv('data/exoplanets-1.csv')
 			}
 		});
 		updateData(filteredData);
-	}, '#1a0f35');
+	}, '#648198');
 
 
 	// Year Line Chart
@@ -247,7 +247,13 @@ d3.csv('data/exoplanets-1.csv')
 		habitabilityBar.updateVis();
 		distanceHisto.updateVis();
 		yearLine.updateVis();
-		scatterplot.updateVis(true);
+		if (toggle == false){
+			scatterplot.updateVis(true);
+			toggle = true
+		} else if (toggle == true) {
+			scatterplot.updateVis(false);
+			toggle = false
+		}
 		console.log("done");
 	}
 

@@ -132,14 +132,15 @@ class Scatterplot {
     
     // Add circles
     const circles = vis.chart.selectAll('.point')
-        .data(vis.data)
-        .enter()
+      .data(vis.data)
+      .enter()
       .append('circle')
-        .attr('class', 'point')
-        .attr('r', 4)
-        .attr('cy', d => vis.yScale(vis.yValue(d)))
-        .attr('cx', d => vis.xScale(vis.xValue(d)))
-        .attr('fill', "#69b3a2")
+      .attr('class', 'point')
+      .attr('r', 4)
+      .attr('cy', d => vis.yScale(vis.yValue(d)))
+      .attr('cx', d => vis.xScale(vis.xValue(d)))
+      .attr('fill', "#69b3a2")
+      .attr('stroke', '#eaeaea')
 
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
@@ -153,20 +154,20 @@ class Scatterplot {
 
     
     circles
-    .style("stroke", "transparent")
-    .filter(d => vis.selectedValues.includes(d))
-    .style("stroke", "steelblue");
+      .style("stroke", "#eaeaea")
+      .filter(d => vis.selectedValues.includes(d))
+      .style("stroke", "steelblue");
 
     // Add a div for the tooltip
     d3.select("body")
-    .append("div")
-    .attr("id", "scatterplot-tooltip")
-    .style("display", "none")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("background-color", "white")
-    .style("padding", "10px")
-    .style("border", "1px solid #ddd");
+      .append("div")
+      .attr("id", "scatterplot-tooltip")
+      .style("display", "none")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("background-color", "white")
+      .style("padding", "10px")
+      .style("border", "1px solid #ddd");
 
 
     // Define scales
@@ -191,11 +192,11 @@ class Scatterplot {
           vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
           console.log(vis.selectedValues);
           circles
-              .style("stroke", "transparent")
+              .style("stroke", "#eaeaea")
               .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
               .style("stroke", "steelblue");
       } else {
-          circles.style("stroke", "transparent");
+          circles.style("stroke", "#eaeaea");
           vis.selectedValues = vis.data;
       }
       
@@ -208,11 +209,11 @@ class Scatterplot {
           vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
           vis.callback(vis.selectedValues);
           circles
-              .style("stroke", "transparent")
+              .style("stroke", "#eaeaea")
               .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
               .style("stroke", "steelblue");
       } else {
-          circles.style("stroke", "transparent");
+          circles.style("stroke", "#eaeaea");
           vis.selectedValues = vis.data;
       }
     }
