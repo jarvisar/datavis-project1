@@ -65,24 +65,23 @@ class Histogram {
 
 	
 	vis.yScale = d3.scaleLinear()
-	.domain([0, d3.max(dataArray, d => d.count)])
-	.range([height - margin, margin]);
+		.domain([0, d3.max(dataArray, d => d.count)])
+		.range([height - margin, margin]);
 
 	vis.svg.append("text")
-	.attr("x", width/2)
-	.attr("y", 20)
-	.attr("text-anchor", "middle")
-	.style("font-family", "Roboto")
-	.style("font-size", "14px")
-	.text(vis.title)
-	.attr('class', 'chart-title');
+		.attr("x", width/2)
+		.attr("y", 20)
+		.attr("text-anchor", "middle")
+		.style("font-family", "Roboto")
+		.style("font-size", "14px")
+		.text(vis.title)
+		.attr('class', 'chart-title');
 
 	// Add the y axis
 	vis.svg.append('g')
 		.attr('transform', `translate(${margin}, 0)`)
 		.call(d3.axisLeft(vis.yScale))
 		.attr('class', 'y-axis');
-
 
     vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
@@ -97,16 +96,14 @@ class Histogram {
 
     vis.rects.on('mouseover', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
-        let brightness = vis.clicked[barClass] ? '80%' : '90%';
         d3.select("." + barClass)
-            .style('filter', `brightness(${brightness})`);
+            .style('filter', `brightness(80%)`);
     })
 
     vis.rects.on('mouseleave', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
-        let brightness = vis.clicked[barClass] ? '80%' : '100%';
         d3.select("." + barClass)
-            .style('filter', `brightness(${brightness})`);
+            .style('filter', `brightness(100%)`);
     });
 
 	function formatString(input, d){
@@ -160,24 +157,17 @@ class Histogram {
 	
 
 	vis.yScale = d3.scaleLinear()
-	.domain([0, d3.max(dataArray, d => d.count)])
-	.range([height - margin, margin]);
+		.domain([0, d3.max(dataArray, d => d.count)])
+		.range([height - margin, margin]);
 
 	vis.svg.append("text")
-	.attr("x", width/2)
-	.attr("y", 20)
-	.attr("text-anchor", "middle")
-	.style("font-family", "Roboto")
-	.style("font-size", "14px")
-	.text(vis.title)
-	.attr('class', 'chart-title');
-
-	// Add the y axis
-	vis.svg.append('g')
-		.attr('transform', `translate(${margin}, 0)`)
-		.call(d3.axisLeft(vis.yScale))
-		.attr('class', 'y-axis');
-
+		.attr("x", width/2)
+		.attr("y", 20)
+		.attr("text-anchor", "middle")
+		.style("font-family", "Roboto")
+		.style("font-size", "14px")
+		.text(vis.title)
+		.attr('class', 'chart-title');
 
 	vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
@@ -195,17 +185,15 @@ class Histogram {
 		.on('end', () => {
 			vis.rects.on('mouseover', (event, d) => {
 			let barClass = "bar-" + formatString(vis.title, d);
-			let brightness = vis.clicked[barClass] ? '80%' : '90%';
 			d3.select("." + barClass)
-				.style('filter', `brightness(${brightness})`)
+				.style('filter', `brightness(80%)`)
 				.style("cursor", "pointer");
 			})
 
 			vis.rects.on('mouseleave', (event, d) => {
 				let barClass = "bar-" + formatString(vis.title, d);
-				let brightness = vis.clicked[barClass] ? '80%' : '100%';
 				d3.select("." + barClass)
-					.style('filter', `brightness(${brightness})`);
+					.style('filter', `brightness(100%)`);
 			});
 	});
 
