@@ -6,6 +6,9 @@ let globalData;
 d3.csv('data/exoplanets-1.csv')
   .then(data => {
   	console.log('Data loading complete. Work with dataset.');
+	var loading = document.getElementById("loading");
+	loading.classList.add("loading");
+	setTimeout(function() {
 	globalData = data;
 
 		// Reset data
@@ -278,6 +281,8 @@ d3.csv('data/exoplanets-1.csv')
 	}
 
 	buildTable(data);
+	loading.classList.remove("loading");
+	}, 100);
 })
 .catch(error => {
     console.error('Error loading the data');
