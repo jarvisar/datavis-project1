@@ -83,7 +83,7 @@ class BarChart {
 		.domain([0, d3.max(dataArray, d => d.count)])
 		.range([height - margin, margin]);
 
-	vis.svg.append("text")
+	vis.charttitle = vis.svg.append("text")
 		.attr("x", width/2)
 		.attr("y", 20)
 		.attr("text-anchor", "middle")
@@ -91,7 +91,7 @@ class BarChart {
 		.style("font-size", "14px")
 		.text(vis.title)
 		.attr('class', 'chart-title');
-
+	
 	// Add the y axis
 	vis.svg.append('g')
 		.attr('transform', `translate(${margin}, 0)`)
@@ -184,14 +184,14 @@ class BarChart {
 	.domain([0, d3.max(dataArray, d => d.count)])
 	.range([height - margin, margin]);
 
-	vis.svg.append("text")
-	.attr("x", width/2)
-	.attr("y", 20)
-	.attr("text-anchor", "middle")
-	.style("font-family", "Roboto")
-	.style("font-size", "14px")
-	.text(vis.title)
-	.attr('class', 'chart-title');
+	vis.charttitle = vis.svg.append("text")
+		.attr("x", width/2)
+		.attr("y", 20)
+		.attr("text-anchor", "middle")
+		.style("font-family", "Roboto")
+		.style("font-size", "14px")
+		.text(vis.title)
+		.attr('class', 'chart-title');
 
 	// Add the y axis
 	vis.svg.append('g')

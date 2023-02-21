@@ -8,6 +8,11 @@ d3.csv('data/exoplanets-1.csv')
   	console.log('Data loading complete. Work with dataset.');
 	globalData = data;
 
+		// Reset data
+		d3.selectAll('.help-button').on('click', function() {
+			window.open('https://exoplanets.nasa.gov/alien-worlds/ways-to-find-a-planet/');
+		});
+
 	// Discovery Method Bar Chart
 	let methodBar = new BarChart({
 		'parentElement': '#methodbar',

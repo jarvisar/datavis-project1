@@ -39,7 +39,7 @@ h4{
 	box-shadow: 0px 1px 3px #aaaaaa, 0px 2px 3px #aaaaaa;
 }
 
-button{
+.cool-button{
 	height: 30px;
 	width: 90px;
 	background-color: #0b3d91;
@@ -51,26 +51,26 @@ button{
 	transition: 0.1s transform, 0.1s box-shadow;
 }
 
-button:hover{
+.cool-button:hover{
 	box-shadow: 0px 1px 0.5px #aaaaaa, 0px 2px 0.5px #aaaaaa;
 	transform: translateY(-1px);
 	cursor: pointer;
 }
 
-button:active{
+.cool-button:active{
 	box-shadow: 0px 1px 0.5px #999999;
 	transform: translateY(0px);
 	color: #dadada;
 	cursor: pointer;
 }
 
-button:disabled{
+.cool-button:disabled{
 	filter: brightness(70%);
 	box-shadow: 0px 2px 0.5px #999999, 0px 1px 0.5px #999999;
 	transform: translateY(-1px);
 }
 
-button:disabled{
+.cool-button:disabled{
 	cursor: default;
 }
 	
@@ -133,6 +133,33 @@ button:disabled{
 
 .chart-title:hover:after {
 	right: 0; left: 0;
+}
+
+.help-button {
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+	display: inline-block;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 24px;
+	padding: 0;
+	color: #888;
+}
+  
+.help-button:hover {
+
+	color: #999;
+}
+
+.help-button:active {
+
+	color: #aaa;
+}
+
+.methodbar-container{
+	position: relative;
 }
 
 #scatterplot-tooltip {

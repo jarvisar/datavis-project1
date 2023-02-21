@@ -11,6 +11,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href=public/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<!-- Link manifest --> 
 	<link rel="manifest" href="public/site.webmanifest">
 </head>
@@ -24,11 +25,12 @@
 	<h5 >by Adam Jarvis</h5>
 	<hr class="solid">
 	<!-- General Data --> 
-	<span style="display: flex;"><button class="reset-button" id="reset-button">Reset Filter</button><h4 class="chart-title">General Exoplanet Data</h4></span>
+	<span style="display: flex;"><button class="reset-button cool-button" id="reset-button">Reset Filter</button><h4 class="chart-title">General Exoplanet Data</h4></span>
 	<br>
 	<!-- Bar Charts, Line Chart, Scatterplot, & Histogram --> 
 	<span class="barchart-container">
-		<div class="card">
+		<div class="card methodbar-container">
+			<button class="help-button" title="Learn more about exoplanet discovery methods"><i class="material-icons">help</i></button>
 			<svg id="methodbar"></svg>
 		</div>
 		<div class="card">
@@ -54,7 +56,7 @@
 		</div>
 		<div class="scatterplot-container card">
 			<svg id="scatterplot"></svg>
-			<button class="toggle-brush-button" >Toggle Brush</button>
+			<button class="toggle-brush-button cool-button" >Toggle Brush</button>
 		</div> <div id="scatterplot-tooltip"></div>
 	</span>
 
