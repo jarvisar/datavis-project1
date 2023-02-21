@@ -227,9 +227,12 @@ class Scatterplot {
       // disable the brush
       console.log(brush)
       d3.selectAll(".brush").remove();
-      vis.selectedValues = [];
+      console.log(vis.selectedValues);
       vis.brushEnabled = false;
-      vis.callback(vis.data);
+      if (vis.selectedValues.length != 0){
+        vis.callback(vis.data, true);
+      }
+      vis.selectedValues = [];
     }
 
     // Tooltip event listeners

@@ -185,11 +185,14 @@ d3.csv('data/exoplanets-1.csv')
 		'parentElement': '#scatterplot',
 		'containerHeight': 400,
 		'containerWidth': 800
-	}, getScatterData(data), (filterData) => {
+	}, getScatterData(data), (filterData, shouldReset = false) => {
 		if (filterData.length == 1){
 			setExoplanet(filterData);
 		} else {
 			updateData(filterData);
+			if (shouldReset){
+				document.getElementById("reset-button").disabled = true;
+			}
 			scatterplot.data = getScatterData(data);
 			scatterplot.updateVis();
 		}
@@ -222,7 +225,6 @@ d3.csv('data/exoplanets-1.csv')
 			habitabilityBar.data = getHabitabilityCount(filteredData);
 			distanceHisto.data = getHistoData(filteredData);
 			yearLine.data = getYearCount(filteredData);
-			scatterplot.data = getScatterData(filteredData);
 			buildTable(filteredData);
 			methodBar.updateVis();
 			typeBar.updateVis();
@@ -230,9 +232,7 @@ d3.csv('data/exoplanets-1.csv')
 			systemPlanetBar.updateVis();
 			habitabilityBar.updateVis();
 			distanceHisto.updateVis();
-			yearLine.updateVis();
-			scatterplot.updateVis();
-			
+			yearLine.updateVis();	
 			// Hide the loading message
 			loading.classList.remove("loading");
 		}, 100);
@@ -269,13 +269,7 @@ d3.csv('data/exoplanets-1.csv')
 			habitabilityBar.updateVis();
 			distanceHisto.updateVis();
 			yearLine.updateVis();
-			if (toggle == false){
-				scatterplot.updateVis(true);
-				toggle = true
-			} else if (toggle == true) {
-				scatterplot.updateVis(false);
-				toggle = false
-			}
+			scatterplot.updateVis();
 			loading.classList.remove("loading");
 		}, 100);
 	}
