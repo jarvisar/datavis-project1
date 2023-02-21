@@ -97,7 +97,8 @@ class Histogram {
     vis.rects.on('mouseover', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
         d3.select("." + barClass)
-            .style('filter', `brightness(80%)`);
+            .style('filter', `brightness(80%)`)
+			.style('cursor', 'pointer');
     })
 
     vis.rects.on('mouseleave', (event, d) => {
