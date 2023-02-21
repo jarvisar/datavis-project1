@@ -250,7 +250,10 @@ class Line {
         .attr('color', '#333');
 
     vis.tooltip.append('circle')
-        .attr('r', 4);
+        .attr('r', 4)
+        .style('stroke', '#104494')
+        .style('stroke-width', 1.5)
+        .attr('fill', 'transparent');
 
     vis.bisectYear = d3.bisector(d => d.key).left;
     const trackingArea = vis.chart.append('rect')
