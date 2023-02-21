@@ -205,27 +205,36 @@ d3.csv('data/exoplanets-1.csv')
 
 	
 	function updateData(filteredData){
-		console.log("loading...");
+		// Show the loading message
+		var loading = document.getElementById("loading");
+		loading.classList.add("loading");
 		document.getElementById("reset-button").disabled = false;
-		methodBar.data = getMethodCount(filteredData);
-		systemStarBar.data = getStarCount(filteredData);
-		systemPlanetBar.data = getPlanetCount(filteredData);
-		typeBar.data = getTypeCount(filteredData);
-		habitabilityBar.data = getHabitabilityCount(filteredData);
-		distanceHisto.data = getHistoData(filteredData);
-		yearLine.data = getYearCount(filteredData);
-		scatterplot.data = getScatterData(filteredData);
-		buildTable(filteredData);
-		methodBar.updateVis();
-		typeBar.updateVis();
-		systemStarBar.updateVis();
-		systemPlanetBar.updateVis();
-		habitabilityBar.updateVis();
-		distanceHisto.updateVis();
-		yearLine.updateVis();
-		scatterplot.updateVis();
-		console.log("done");
-	}
+		
+		// Wait for 500 milliseconds before updating the visualizations
+		setTimeout(function() {
+			methodBar.data = getMethodCount(filteredData);
+			systemStarBar.data = getStarCount(filteredData);
+			systemPlanetBar.data = getPlanetCount(filteredData);
+			typeBar.data = getTypeCount(filteredData);
+			habitabilityBar.data = getHabitabilityCount(filteredData);
+			distanceHisto.data = getHistoData(filteredData);
+			yearLine.data = getYearCount(filteredData);
+			scatterplot.data = getScatterData(filteredData);
+			buildTable(filteredData);
+			methodBar.updateVis();
+			typeBar.updateVis();
+			systemStarBar.updateVis();
+			systemPlanetBar.updateVis();
+			habitabilityBar.updateVis();
+			distanceHisto.updateVis();
+			yearLine.updateVis();
+			scatterplot.updateVis();
+			
+			// Hide the loading message
+			loading.classList.remove("loading");
+		}, 100);
+	  }
+	  
 
 	// Reset data
 	d3.selectAll('.reset-button').on('click', function() {
@@ -233,33 +242,39 @@ d3.csv('data/exoplanets-1.csv')
 	});
 
 	function resetData(){
-		console.log("loading...");
+		// Show the loading message
+		var loading = document.getElementById("loading");
+		loading.classList.add("loading");
 		document.getElementById("reset-button").disabled = true;
-		methodBar.data = getMethodCount(data);
-		console.log(methodBar.data);
-		systemStarBar.data = getStarCount(data);
-		systemPlanetBar.data = getPlanetCount(data);
-		typeBar.data = getTypeCount(data);
-		habitabilityBar.data = getHabitabilityCount(data);
-		distanceHisto.data = getHistoData(data);
-		yearLine.data = getYearCount(data);
-		scatterplot.data = getScatterData(data);
-		buildTable(data);
-		methodBar.updateVis();
-		typeBar.updateVis();
-		systemStarBar.updateVis();
-		systemPlanetBar.updateVis();
-		habitabilityBar.updateVis();
-		distanceHisto.updateVis();
-		yearLine.updateVis();
-		if (toggle == false){
-			scatterplot.updateVis(true);
-			toggle = true
-		} else if (toggle == true) {
-			scatterplot.updateVis(false);
-			toggle = false
-		}
-		console.log("done");
+
+		setTimeout(function() {
+			document.getElementById("reset-button").disabled = true;
+			methodBar.data = getMethodCount(data);
+			console.log(methodBar.data);
+			systemStarBar.data = getStarCount(data);
+			systemPlanetBar.data = getPlanetCount(data);
+			typeBar.data = getTypeCount(data);
+			habitabilityBar.data = getHabitabilityCount(data);
+			distanceHisto.data = getHistoData(data);
+			yearLine.data = getYearCount(data);
+			scatterplot.data = getScatterData(data);
+			buildTable(data);
+			methodBar.updateVis();
+			typeBar.updateVis();
+			systemStarBar.updateVis();
+			systemPlanetBar.updateVis();
+			habitabilityBar.updateVis();
+			distanceHisto.updateVis();
+			yearLine.updateVis();
+			if (toggle == false){
+				scatterplot.updateVis(true);
+				toggle = true
+			} else if (toggle == true) {
+				scatterplot.updateVis(false);
+				toggle = false
+			}
+			loading.classList.remove("loading");
+		}, 100);
 	}
 
 	buildTable(data);
