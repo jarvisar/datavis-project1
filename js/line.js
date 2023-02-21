@@ -75,6 +75,15 @@ class Line {
         .style('text-decoration', 'underline')
 		.text("Exoplanets by Discovery Year")
 		.attr('class', 'chart-title');
+
+    vis.charttitle = vis.svg.append("text")
+        .attr("x", vis.width)
+        .attr("y", vis.height + 40)
+        .attr("text-anchor", "left")
+        .style("font-family", "Roboto")
+        .style("font-size", "12px")
+        .text("Year Discovered")
+        .attr('class', 'axis-title');
             
     // Initialize area generator- helper function 
     vis.area = d3.area()

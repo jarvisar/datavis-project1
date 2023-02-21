@@ -270,7 +270,7 @@ class BarChart {
 
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 75)
-			.attr("y", vis.height + 40)
+			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
 			.style("font-size", "12px")
@@ -281,7 +281,7 @@ class BarChart {
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
-			.attr("y", vis.height + 40)
+			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
 			.style("font-size", "12px")
@@ -292,7 +292,7 @@ class BarChart {
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
-			.attr("y", vis.height + 40)
+			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
 			.style("font-size", "12px")
@@ -303,7 +303,7 @@ class BarChart {
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
-			.attr("y", vis.height + 40)
+			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
 			.style("font-size", "12px")

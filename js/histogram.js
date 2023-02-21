@@ -49,8 +49,7 @@ class Histogram {
 		.range([margin, width - margin])
 		.padding(0.1);
 	
-	if(vis.title != "Exoplanets by Discovery Method"){
-		vis.svg.append('g')
+	vis.svg.append('g')
 		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
 		.call(d3.axisBottom(vis.xScale))
 		.selectAll("text")
@@ -61,7 +60,6 @@ class Histogram {
 		.style("font-size", "9px")
 		.style("pointer-events", "none")
 		.attr('class', 'x-axis');
-	}
 
 	
 	vis.yScale = d3.scaleLinear()
@@ -76,6 +74,16 @@ class Histogram {
 		.style("font-size", "14px")
 		.text(vis.title)
 		.attr('class', 'chart-title');
+
+	vis.svg.selectAll('.axis-title').remove();
+	vis.charttitle = vis.svg.append("text")
+		.attr("x", vis.width/2 - 25)
+		.attr("y", vis.height + 45)
+		.attr("text-anchor", "right")
+		.style("font-family", "Roboto")
+		.style("font-size", "12px")
+		.text("Distance from Earth (parsecs)")
+		.attr('class', 'axis-title');
 
 	// Add the y axis
 	vis.svg.append('g')
@@ -110,25 +118,6 @@ class Histogram {
 	function formatString(input, d){
 		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/>/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase();
 	}
-
-	if(vis.title == "Exoplanets by Discovery Method"){
-		vis.svg.selectAll('.x-axis').remove();
-		vis.svg.append('g')
-		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
-		.call(d3.axisBottom(vis.xScale))
-		.selectAll("text")
-		.style("text-anchor", "start")
-		.style("word-wrap", "break-word")
-		.style("font-family", "Roboto")
-		.style("color", "black")
-		.style("font-size", "9px")
-		.attr("dx", "0.5em")
-		.attr("dy", "-0.5em")
-		.attr("transform", "rotate(-90)")
-		.style("pointer-events", "none")
-		.attr('class', 'x-axis')
-		.style('z-index', '10');
-	} 
 
     vis.rects.on('click', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
@@ -202,24 +191,15 @@ class Histogram {
 		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/>/g, "").replace(/\(/g, "").replace(/\)/g, "").toLowerCase();
 	}
 
-	if(vis.title == "Exoplanets by Discovery Method"){
-		vis.svg.selectAll('.x-axis').remove();
-		vis.svg.append('g')
-		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
-		.call(d3.axisBottom(vis.xScale))
-		.selectAll("text")
-		.style("text-anchor", "start")
-		.style("word-wrap", "break-word")
+	vis.svg.selectAll('.axis-title').remove();
+	vis.charttitle = vis.svg.append("text")
+		.attr("x", vis.width/2 - 25)
+		.attr("y", vis.height + 45)
+		.attr("text-anchor", "right")
 		.style("font-family", "Roboto")
-		.style("color", "black")
-		.style("font-size", "9px")
-		.attr("dx", "0.5em")
-		.attr("dy", "-0.5em")
-		.attr("transform", "rotate(-90)")
-		.style("pointer-events", "none")
-		.attr('class', 'x-axis')
-		.style('z-index', '10');
-	} 
+		.style("font-size", "12px")
+		.text("Distance from Earth (parsecs)")
+		.attr('class', 'axis-title');
 
     vis.rects.on('click', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
