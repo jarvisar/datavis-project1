@@ -255,3 +255,13 @@ h4{
     background-color: #eaeaea;
     cursor: pointer;
 }
+
+#loading {
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out;
+}
+  
+#loading.loading {
+	display: block;
+	opacity: 1;
+}
