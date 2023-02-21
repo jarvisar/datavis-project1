@@ -149,13 +149,11 @@ h4{
 }
   
 .help-button:hover {
-
 	color: #999;
 }
 
 .help-button:active {
-
-	color: #aaa;
+	color: #777;
 }
 
 .methodbar-container{
