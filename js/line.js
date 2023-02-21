@@ -104,15 +104,17 @@ class Line {
         .style('display', 'none');
 
     vis.tooltip.append('rect')
-        .attr('width', 130)
+        .attr('width', 120)
         .attr('height', 40)
         .attr('fill', 'white')
-        .style('stroke', 'black')
-        .style('stroke-width', 2);
+        .style('stroke', '#eaeaea')
+        .style('stroke-width', 1)
+        .attr('filter', 'drop-shadow(3px 3px 3px rgba(92, 92, 92, 0.5))');
 
     vis.tooltip.append('text')
         .attr('x', 10)
-        .attr('y', 25);
+        .attr('y', 25)
+        .attr('font-size', 14);
 
     vis.tooltip.append('circle')
         .attr('r', 4);
@@ -172,8 +174,6 @@ class Line {
             console.log(d.key);
             vis.callback(d.key);
         });
-
-
   }
 
 
@@ -225,15 +225,18 @@ class Line {
         .style('display', 'none');
 
     vis.tooltip.append('rect')
-        .attr('width', 130)
+        .attr('min-width', 130)
         .attr('height', 40)
-        .attr('fill', 'white')
-        .style('stroke', 'black')
-        .style('stroke-width', 2);
+        .style('background', '#fff')
+        .style('box-shadow', '3px 3px 3px 0px rgb(92 92 92 / 0.5);')
+        .style('color', '#333')
+        .style('padding', 8);
 
     vis.tooltip.append('text')
         .attr('x', 10)
-        .attr('y', 25);
+        .attr('y', 25)
+        .attr('size', 14)
+        .attr('color', '#333');
 
     vis.tooltip.append('circle')
         .attr('r', 4);

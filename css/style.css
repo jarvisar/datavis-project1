@@ -13,6 +13,32 @@ h4{
 	left: -38px;
 }
 
+.header-container{
+	display: flex;
+	justify-content: center;
+}
+
+.header-card{
+	background-color: #ffffff;
+	border-radius: 15px;
+	padding: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin: 15px;
+	box-shadow: 0px 1px 3px #aaaaaa, 0px 2px 3px #aaaaaa, 0px 3px 3px #aaaaaa;
+	transition: 0.5s box-shadow;
+}
+
+.header-card:hover{
+	background-color: #ffffff;
+	border-radius: 15px;
+	padding: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin: 15px;
+	box-shadow: 0px 1px 3px #aaaaaa, 0px 2px 3px #aaaaaa;
+}
+
 button{
 	height: 30px;
 	width: 90px;
@@ -70,7 +96,7 @@ button:disabled{
 
 .card{
 	background-color: #ffffff;
-	border-radius: 10px;
+	border-radius: 15px;
 	padding: 15px;
 	margin: 15px;
 	box-shadow: 1px 1px 3px #aaaaaa, 2px 2px 3px #aaaaaa;
@@ -79,7 +105,7 @@ button:disabled{
 
 .card:hover{
 	background-color: #ffffff;
-	border-radius: 10px;
+	border-radius: 15px;
 	padding: 15px;
 	margin: 15px;
 	box-shadow: 1px 1px 3px #aaaaaa;
@@ -120,20 +146,6 @@ button:disabled{
 	font-weight: 500;
 	padding: 8px;
 	min-width: 110px;
-	color: #333;
-}
-
-#year-tooltip {
-	font-family: Roboto;
-	position: absolute;
-	display: none;
-	background: #fff;
-	box-shadow: 3px 3px 3px 0px rgb(92 92 92 / 0.5);
-	border: 1px solid #ddd;
-	font-size: 12px;
-	font-weight: 500;
-	padding: 8px;
-	min-width: 160px;
 	color: #333;
 }
 
