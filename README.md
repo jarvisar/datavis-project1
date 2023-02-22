@@ -1,9 +1,11 @@
 <br>
 <p align="center">
-  <img height=300 src="https://github.com/jarvisar/datavis-project1/blob/main/public/project-card-copy.png"/>
-</p>
+<img height=300 src="https://github.com/jarvisar/datavis-project1/blob/main/public/project-card-copy.png"/>
+</p> 
 
-This project aims to develop interactive and dynamic data visualizations using exoplanet data from the NASA Exoplanet Archive and D3.js.
+# About
+
+This project aims to develop interactive and dynamic data visualizations using exoplanet data from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and [D3.js](https://d3js.org/).
 
 Check out the [documentation](https://sites.google.com/view/adam-jarvis/out-of-this-world) on the project site to learn more about the design and development process.
 
@@ -33,12 +35,12 @@ This project includes the following visualizations:
 
 - Host System Simulation: Users can view a simulation of a host star system.
 
-## Usage
+# Usage
 
 To run this project locally, clone the `main` branch of this repository and open the `index.html` file in a web browser. The data will be loaded automatically and the visualizations will be displayed on the screen.
 
 This project is also accessible through the [project site](https://sites.google.com/view/adam-jarvis/out-of-this-world/project-1-deployment?authuser=0).
 
-## Credits
+# Credits
 
 This project was created by Adam Jarvis for CS 5124. The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and the visualizations were created using [D3.js](https://d3js.org/).
