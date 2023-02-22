@@ -3,7 +3,7 @@
 <img height=300 src="https://github.com/jarvisar/datavis-project1/blob/main/public/project-card-copy.png"/>
 </p> 
 
-#
+# Description
 
 This project aims to develop interactive and dynamic data visualizations using exoplanet data from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and (D3.js)[https://d3js.org/].
 
