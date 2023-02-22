@@ -34,7 +34,7 @@ This project includes the following visualizations:
 
 To run this project locally, clone the `main` branch of this repository and open the `index.html` file in a web browser. The data will be loaded automatically and the visualizations will be displayed on the screen.
 
-This project is also accessible through the [project site](https://sites.google.com/view/adam-jarvis/out-of-this-world/project-1-deployment?authuser=0)
+This project is also accessible through the [project site](https://sites.google.com/view/adam-jarvis/out-of-this-world/project-1-deployment?authuser=0).
 
 ## Credits
 
