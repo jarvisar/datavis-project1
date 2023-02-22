@@ -1,4 +1,8 @@
-# Project 1: Out of this World
+<br>
+<p align="center">
+  <img src="https://github.com/jarvisar/datavis-project1/blob/main/public/project-card.png"/>
+</p>
+
 
 This project aims to develop interactive and dynamic data visualizations using exoplanet data from the NASA Exoplanet Archive and D3.js.
 
