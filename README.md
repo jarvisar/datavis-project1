@@ -10,7 +10,7 @@ The exoplanet data used in this project was obtained from the [NASA Exoplanet Ar
 
 ## Tools
 
-The visualization project was created using [D3.js](https://d3js.org/), a popular JavaScript library for data visualization. D3.js provides a set of tools for creating interactive and dynamic data visualizations.
+Project 1 was created using [D3.js](https://d3js.org/), a popular JavaScript library for data visualization. D3.js provides a set of tools for creating interactive and dynamic data visualizations.
 
 This project was developed using primarily JavaScript, HTML, and CSS.
 
