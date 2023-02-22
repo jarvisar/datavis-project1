@@ -14,7 +14,7 @@ This project was developed using primarily JavaScript, HTML, and CSS.
 
 ## Features
 
-This visualization project includes the following features:
+This project includes the following visualizations:
 
 - Barcharts: Users can view and interact with five dynamic barcharts.
 
