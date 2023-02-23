@@ -249,7 +249,7 @@ d3.csv('data/exoplanets-1.csv')
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
 		document.getElementById("reset-button").disabled = true;
-
+		document.getElementById("system").style.display = "none";
 		setTimeout(function() {
 			document.getElementById("reset-button").disabled = true;
 			methodBar.data = getMethodCount(data);
@@ -277,6 +277,17 @@ d3.csv('data/exoplanets-1.csv')
 	buildTable(data);
 	loading.classList.remove("loading");
 	}, 100);
+
+	// # of Planets in System Bar Chart
+	let system = new System({
+		'parentElement': '#system',
+		'containerHeight': 400,
+		'containerWidth': 400
+	}, data, (filterData) => {
+		let selectedFilter = [filterData];
+		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
+		updateData(filteredData);
+	});
 })
 .catch(error => {
     console.error('Error loading the data');
@@ -286,7 +297,7 @@ d3.csv('data/exoplanets-1.csv')
 function setExoplanet(exoplanetData){
 	document.getElementById("reset-button").disabled = false;
 	buildTable(exoplanetData);
-	
+	document.getElementById("system").style.display = "block";
 }
 
 function getMethodCount(datar){
