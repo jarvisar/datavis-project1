@@ -281,13 +281,9 @@ d3.csv('data/exoplanets-1.csv')
 	// # of Planets in System Bar Chart
 	system = new System({
 		'parentElement': '#system',
-		'containerHeight': 900,
+		'containerHeight': 450,
 		'containerWidth': 900
-	}, data, (filterData) => {
-		let selectedFilter = [filterData];
-		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
-		updateData(filteredData);
-	});
+	}, data, data);
 })
 .catch(error => {
     console.error('Error loading the data');
@@ -295,7 +291,7 @@ d3.csv('data/exoplanets-1.csv')
 });
 
 function setExoplanet(exoplanetData){
-	document.getElementById("system-container").style.display = "block";
+	document.getElementById("system-container").style.display = "flex";
 	document.getElementById("reset-button").disabled = false;
 	buildTable(exoplanetData);
 	system.data = exoplanetData;

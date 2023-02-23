@@ -5,7 +5,7 @@ class System {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data, _callback) {
+  constructor(_config, _data, _globalData) {
     // Configuration object with defaults
     // Important: depending on your vis and the type of interactivity you need
     // you might want to use getter and setter methods for individual attributes
@@ -16,7 +16,7 @@ class System {
       margin: _config.margin || {top: 25, right: 20, bottom: 20, left: 35}
     }
     this.data = _data;
-    this.callback = _callback;
+    this.globalData = _globalData;
     this.selectedValues = [];
     this.brushEnabled = false;
     this.initVis();
@@ -31,7 +31,7 @@ class System {
     vis.svg = d3.select(vis.config.parentElement)
       .join('svg')
       .attr('width', vis.width)
-      .attr('height', vis.width)
+      .attr('height', vis.height)
       .attr('x', 0)
       .attr('y', 0);
 
@@ -48,14 +48,14 @@ class System {
 
   updateVis() {
     let vis = this;
-
-    let minOrbsmax = d3.min(vis.data, d => d.pl_orbsmax);
-    let maxOrbsmax = d3.max(vis.data, d => d.pl_orbsmax);
+    console.log(vis.globalData);
+    let minOrbsmax = d3.min(vis.globalData, d => d.pl_orbsmax);
+    let maxOrbsmax = 1000;
 
     // Create an xScale
     let xScale = d3.scaleLinear()
       .domain([minOrbsmax, maxOrbsmax])
-      .range([vis.width/2 + 100, vis.width/2 + 400]);
+      .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 7)), vis.width - (vis.data[0].pl_rade * 7) - 20]);
 
     let data = vis.data;
     console.log(vis.width)
@@ -106,7 +106,7 @@ class System {
       })
       .attr('stroke', 'url(#star-gradient)')
       .attr('stroke-width', 2)
-      .attr('cx',10)
+      .attr('cx', d => (d.st_rad * 50) + 20)
       .attr('cy', vis.height/2)
       .on('mouseover', (event, d) => {
         d3.select('#system-tooltip')
