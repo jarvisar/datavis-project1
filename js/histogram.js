@@ -129,8 +129,6 @@ class Histogram {
 		d3.select("." + "bar-" + formatString(vis.title, d))
 		;
     });
-
-	
   }
 
   updateVis(){
@@ -142,10 +140,8 @@ class Histogram {
 	const height = vis.config.containerHeight;
 	const margin = 40;
 
-	vis.svg.selectAll('.y-axis').remove();
 	vis.svg.selectAll('.chart-title').remove();
 	
-
 	vis.yScale = d3.scaleLinear()
 		.domain([0, d3.max(dataArray, d => d.count)])
 		.range([height - margin, margin]);
