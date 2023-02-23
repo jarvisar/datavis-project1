@@ -29,10 +29,11 @@ class System {
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
     vis.svg = d3.select(vis.config.parentElement)
-      .append('svg')
-      .attr('viewBox', `0 0 ${vis.width} ${vis.height}`)
-      .attr('width', '100%')
-      .attr('height', '100%');
+      .join('svg')
+      .attr('width', vis.width)
+      .attr('height', vis.width)
+      .attr('x', 0)
+      .attr('y', 0);
 
     vis.svg.append("text")
       .attr("x", vis.width/2)
@@ -68,7 +69,27 @@ class System {
     vis.svg.selectAll('.star').remove();
     vis.svg.selectAll('.planet').remove();
 
-    // Append a circle for each data point
+    // Create a linear gradient for the star stroke
+    const starGradient = vis.svg.append("defs")
+      .append("linearGradient")
+      .attr("id", "star-gradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "100%");
+
+    // Add color stops to the gradient
+    starGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#ffffff")
+      .attr("stop-opacity", 0.8);
+
+    starGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#808080")
+      .attr("stop-opacity", 0.8);
+
+    // Append a star circle for each data point
     vis.svg.selectAll('.star')
       .data(vis.data)
       .enter()
@@ -83,7 +104,9 @@ class System {
           return '#808080'; // Default color if st_spectype is undefined or null
         }
       })
-      .attr('cx', vis.width/2)
+      .attr('stroke', 'url(#star-gradient)')
+      .attr('stroke-width', 2)
+      .attr('cx',10)
       .attr('cy', vis.height/2)
       .on('mouseover', (event, d) => {
         d3.select('#system-tooltip')
@@ -103,51 +126,61 @@ class System {
         d3.select('#system-tooltip').style('display', 'none');
       });
 
+      const planetColorScale = d3.scaleOrdinal()
+        .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian'])
+        .range(['#555555', 'grey', 'yellow', 'green', 'brown', 'blue', 'orange']);
+
+      const planetGradient = vis.svg.append("defs")
+        .append("radialGradient")
+        .attr("id", "planet-shadow")
+        .attr("cx", "50%")
+        .attr("cy", "50%")
+        .attr("r", "50%")
+        .attr("fx", "80%")
+        .attr("fy", "50%");
+      
+      planetGradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#000000")
+        .attr("stop-opacity", 0.8);
+      
+      planetGradient.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#ffffff")
+        .attr("stop-opacity", 0.0);
+
+      const planetLinearGradient = vis.svg.append("defs")
+        .append("linearGradient")
+        .attr("id", "planet-gradient")
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "100%")
+        .attr("y2", "100%");
+        
+      planetLinearGradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#ffffff")
+        .attr("stop-opacity", 0.8);
+        
+      planetLinearGradient.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#000000")
+        .attr("stop-opacity", 0.8);
+
       vis.svg.selectAll('.planet')
         .data(vis.data)
         .enter()
         .append('circle')
         .attr('class', 'planet')
         .attr('r', d => (d.pl_rade * 7))
-        .attr('fill', d => {
-          const mass = d.pl_bmasse;
-          if (mass < 0.00001) {
-            return '#555555'; // asteroidan
-          } else if (mass >= 0.00001 && mass < 0.1) {
-            return 'grey'; // mercurian
-          } else if (mass >= 0.1 && mass < 0.5) {
-            return 'yellow'; // subterran
-          } else if (mass >= 0.5 && mass < 2) {
-            return 'green'; // terran
-          } else if (mass >= 2 && mass < 10) {
-            return 'brown'; // superterran
-          } else if (mass >= 10 && mass < 50) {
-            return 'blue'; // Neptunian
-          } else if (mass >= 50 && mass <= 5000) {
-            return 'orange'; // Jovian
-          } else {
-            return 'black'; // default color
-          }
-        })
+        .attr('fill', d => planetColorScale(getPlanetType(d.pl_bmasse)))
         .attr('cx', d => xScale(d.pl_orbsmax))
+        .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
+        .style('filter', 'url(#planet-shadow)') // Add the radial shadow as a filter to the circle
+        .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)') // Add the radial shadow as a CSS box-shadow property to the circle
         .attr('cy', vis.height/2)
         .on('mouseover', (event, d) => {
-          let planetType = "";
-          if (d.pl_bmasse < 0.00001) {
-            planetType = "Asteroidan";
-          } else if (d.pl_bmasse >= 0.00001 && d.pl_bmasse < 0.1) {
-            planetType = "Mercurian";
-          } else if (d.pl_bmasse >= 0.1 && d.pl_bmasse < 0.5) {
-            planetType = "Subterran";
-          } else if (d.pl_bmasse >= 0.5 && d.pl_bmasse < 2) {
-            planetType = "Terran";
-          } else if (d.pl_bmasse >= 2 && d.pl_bmasse < 10) {
-            planetType = "Superterran";
-          } else if (d.pl_bmasse >= 10 && d.pl_bmasse < 50) {
-            planetType = "Neptunian";
-          } else if (d.pl_bmasse >= 50 && d.pl_bmasse <= 5000) {
-            planetType = "Jovian";
-          }
+          const planetType = getPlanetType(d.pl_bmasse);
           d3.select('#system-tooltip')
             .style('display', 'block')
             .style('left', (event.pageX + 15) + 'px')   
@@ -164,7 +197,30 @@ class System {
         .on('mouseleave', () => {
           d3.select('#system-tooltip').style('display', 'none');
         });
+
+        function getPlanetType(mass) {
+          if (mass < 0.00001) {
+            return 'Asteroidan';
+          } else if (mass >= 0.00001 && mass < 0.1) {
+            return 'Mercurian';
+          } else if (mass >= 0.1 && mass < 0.5) {
+            return 'Subterran';
+          } else if (mass >= 0.5 && mass < 2) {
+            return 'Terran';
+          } else if (mass >= 2 && mass < 10) {
+            return 'Superterran';
+          } else if (mass >= 10 && mass < 50) {
+            return 'Neptunian';
+          } else if (mass >= 50 && mass <= 5000) {
+            return 'Jovian';
+          } else {
+            return 'Unknown';
+          }
+        }
+        
   }
+
+  
 
   renderVis(brushEnabled) {
     let vis = this;

@@ -281,8 +281,8 @@ d3.csv('data/exoplanets-1.csv')
 	// # of Planets in System Bar Chart
 	system = new System({
 		'parentElement': '#system',
-		'containerHeight': 600,
-		'containerWidth': 400
+		'containerHeight': 900,
+		'containerWidth': 900
 	}, data, (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
