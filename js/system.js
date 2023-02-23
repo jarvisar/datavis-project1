@@ -49,8 +49,8 @@ class System {
   updateVis() {
     let vis = this;
     console.log(vis.globalData);
-    let minOrbsmax = d3.min(vis.globalData, d => d.pl_orbsmax);
-    let maxOrbsmax = 1000;
+    let minOrbsmax = d3.min(vis.data, d => d.pl_orbsmax);
+    let maxOrbsmax = d3.max(vis.data, d => d.pl_orbsmax);
 
     // Create an xScale
     let xScale = d3.scaleLinear()
