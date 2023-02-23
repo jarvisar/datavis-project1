@@ -34,6 +34,15 @@ class System {
       .attr('width', '100%')
       .attr('height', '100%');
 
+    vis.svg.append("text")
+      .attr("x", vis.width/2)
+      .attr("y", 20)
+      .attr("text-anchor", "middle")
+      .style("font-family", "Roboto")
+      .style("font-size", "24px")
+      .text("Host System Viewer")
+      .attr('class', 'chart-title');
+
   }
 
   updateVis() {
@@ -52,6 +61,10 @@ class System {
     console.log(vis.height)
     // Remove any existing circles
 
+    let starColorScale = d3.scaleOrdinal()
+      .domain(['A', 'F', 'G', 'K', 'M'])
+      .range(['#ffffff', '#fff5ee', '#ffff00', '#ffa500', '#ff0000']);
+
     vis.svg.selectAll('.star').remove();
     vis.svg.selectAll('.planet').remove();
 
@@ -62,7 +75,14 @@ class System {
       .append('circle')
       .attr('class', 'star')
       .attr('r', d => (d.st_rad * 50))
-      .attr('fill', 'orange')
+      .attr('fill', d => {
+        if (d.st_spectype) {
+          let letter = d.st_spectype[0];
+          return starColorScale(letter);
+        } else {
+          return '#808080'; // Default color if st_spectype is undefined or null
+        }
+      })
       .attr('cx', vis.width/2)
       .attr('cy', vis.height/2)
       .on('mouseover', (event, d) => {
@@ -71,10 +91,11 @@ class System {
           .style('left', (event.pageX + 15) + 'px')   
           .style('top', (event.pageY + 15) + 'px')
           .html(`
-            <div class="tooltip-title">${d.hostname}</div>
+            <div class="tooltip-title">Star Name: ${d.hostname}</div>
             <ul>
-              <li>${d.st_rad} Re</li>
-              <li>${d.st_mass} Me</li>
+              <li>Radius: ${d.st_rad} Re</li>
+              <li>Mass: ${d.st_mass} Me</li>
+              <li>Type: ${d.st_spectype} Me</li>
             </ul>
           `);
       })
@@ -82,31 +103,67 @@ class System {
         d3.select('#system-tooltip').style('display', 'none');
       });
 
-    vis.svg.selectAll('.planet')
-      .data(vis.data)
-      .enter()
-      .append('circle')
-      .attr('class', 'planet')
-      .attr('r', d => (d.pl_rade * 5))
-      .attr('fill', 'blue')
-      .attr('cx', d => xScale(d.pl_orbsmax))
-      .attr('cy', vis.height/2)
-      .on('mouseover', (event, d) => {
-        d3.select('#system-tooltip')
-          .style('display', 'block')
-          .style('left', (event.pageX + 15) + 'px')   
-          .style('top', (event.pageY + 15) + 'px')
-          .html(`
-            <div class="tooltip-title">${d.pl_name}</div>
-            <ul>
-              <li>${d.pl_rade} Re</li>
-              <li>${d.pl_bmasse} Me</li>
-            </ul>
-          `);
-      })
-      .on('mouseleave', () => {
-        d3.select('#system-tooltip').style('display', 'none');
-      });
+      vis.svg.selectAll('.planet')
+        .data(vis.data)
+        .enter()
+        .append('circle')
+        .attr('class', 'planet')
+        .attr('r', d => (d.pl_rade * 7))
+        .attr('fill', d => {
+          const mass = d.pl_bmasse;
+          if (mass < 0.00001) {
+            return '#555555'; // asteroidan
+          } else if (mass >= 0.00001 && mass < 0.1) {
+            return 'grey'; // mercurian
+          } else if (mass >= 0.1 && mass < 0.5) {
+            return 'yellow'; // subterran
+          } else if (mass >= 0.5 && mass < 2) {
+            return 'green'; // terran
+          } else if (mass >= 2 && mass < 10) {
+            return 'brown'; // superterran
+          } else if (mass >= 10 && mass < 50) {
+            return 'blue'; // Neptunian
+          } else if (mass >= 50 && mass <= 5000) {
+            return 'orange'; // Jovian
+          } else {
+            return 'black'; // default color
+          }
+        })
+        .attr('cx', d => xScale(d.pl_orbsmax))
+        .attr('cy', vis.height/2)
+        .on('mouseover', (event, d) => {
+          let planetType = "";
+          if (d.pl_bmasse < 0.00001) {
+            planetType = "Asteroidan";
+          } else if (d.pl_bmasse >= 0.00001 && d.pl_bmasse < 0.1) {
+            planetType = "Mercurian";
+          } else if (d.pl_bmasse >= 0.1 && d.pl_bmasse < 0.5) {
+            planetType = "Subterran";
+          } else if (d.pl_bmasse >= 0.5 && d.pl_bmasse < 2) {
+            planetType = "Terran";
+          } else if (d.pl_bmasse >= 2 && d.pl_bmasse < 10) {
+            planetType = "Superterran";
+          } else if (d.pl_bmasse >= 10 && d.pl_bmasse < 50) {
+            planetType = "Neptunian";
+          } else if (d.pl_bmasse >= 50 && d.pl_bmasse <= 5000) {
+            planetType = "Jovian";
+          }
+          d3.select('#system-tooltip')
+            .style('display', 'block')
+            .style('left', (event.pageX + 15) + 'px')   
+            .style('top', (event.pageY + 15) + 'px')
+            .html(`
+              <div class="tooltip-title">${d.pl_name}</div>
+              <ul>
+                <li>Radius: ${d.pl_rade} Re</li>
+                <li>Mass: ${d.pl_bmasse} Me</li>
+                <li>Type: ${planetType}</li>
+              </ul>
+            `);
+        })
+        .on('mouseleave', () => {
+          d3.select('#system-tooltip').style('display', 'none');
+        });
   }
 
   renderVis(brushEnabled) {
