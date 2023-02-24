@@ -1,6 +1,6 @@
  
 
-# About
+# Project 1: Out of this World
 
 This project aims to develop interactive and dynamic data visualizations using exoplanet data from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and [D3.js](https://d3js.org/).
 
