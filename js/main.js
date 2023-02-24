@@ -51,33 +51,10 @@ d3.csv('data/exoplanets-1.csv')
 		planet.planetType = planetType;
 	});
 
-	scatterplot = new Scatterplot({
-		'parentElement': '#scatterplot',
-		'containerHeight': 500,
-		'containerWidth': 900
-	},  getScatterData(data.concat(solarSystemData)), (m1,m2,r1,r2) => {
-		scatData = data;
-		let minM = parseFloat(m1)
-		let maxM = parseFloat(m2)
-		let minR = parseFloat(r1)
-		let maxR = parseFloat(r2)
-		scatData = scatData.filter(d => parseFloat(d.pl_bmasse) >= minM)
-		scatData = scatData.filter(d => parseFloat(d.pl_bmasse) <= maxM)
-		scatData = scatData.filter(d => parseFloat(d.pl_rade) >= minR)
-		scatData = scatData.filter(d => parseFloat(d.pl_rade) <= maxR)
-		console.log(scatData)
-		if(scatData.length != 0){
-			updateData(scatData)
-		} else {
-			resetData();
-		}
-
+	// Help button
+	d3.selectAll('.help-button').on('click', function() {
+		window.open('https://exoplanets.nasa.gov/alien-worlds/ways-to-find-a-planet/');
 	});
-
-		// Reset data
-		d3.selectAll('.help-button').on('click', function() {
-			window.open('https://exoplanets.nasa.gov/alien-worlds/ways-to-find-a-planet/');
-		});
 
 	// Discovery Method Bar Chart
 	let methodBar = new BarChart({
@@ -241,6 +218,30 @@ d3.csv('data/exoplanets-1.csv')
 		let filteredData = data.filter(d => selectedFilter.includes(d.disc_year))
 		updateData(filteredData);
 	})
+
+	// Scatterplot
+	scatterplot = new Scatterplot({
+		'parentElement': '#scatterplot',
+		'containerHeight': 500,
+		'containerWidth': 900
+	},  getScatterData(data.concat(solarSystemData)), (m1,m2,r1,r2) => {
+		scatData = data;
+		let minM = parseFloat(m1)
+		let maxM = parseFloat(m2)
+		let minR = parseFloat(r1)
+		let maxR = parseFloat(r2)
+		scatData = scatData.filter(d => parseFloat(d.pl_bmasse) >= minM)
+		scatData = scatData.filter(d => parseFloat(d.pl_bmasse) <= maxM)
+		scatData = scatData.filter(d => parseFloat(d.pl_rade) >= minR)
+		scatData = scatData.filter(d => parseFloat(d.pl_rade) <= maxR)
+		console.log(scatData)
+		if(scatData.length != 0){
+			updateData(scatData)
+		} else {
+			resetData();
+		}
+
+	});
 
 	
 	function updateData(filteredData){
