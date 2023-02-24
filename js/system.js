@@ -43,7 +43,6 @@ class System {
       .style("font-size", "24px")
       .text("Host System Viewer")
       .attr('class', 'chart-title');
-
   }
 
   updateVis() {
@@ -53,9 +52,13 @@ class System {
     let maxOrbsmax = d3.max(vis.data, d => d.pl_orbsmax);
 
     // Create an xScale
-    let xScale = d3.scaleLinear()
+    vis.xScale = d3.scaleLinear()
       .domain([minOrbsmax, maxOrbsmax])
       .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 3)), vis.width - (vis.data[0].pl_rade * 3) - 20]);
+
+    vis.rScale = d3.scaleLog()
+      .domain(d3.extent(vis.data, d => parseFloat(d.pl_bmasse)))
+      .range([5, 15]);
 
     let data = vis.data;
     console.log(vis.width)
@@ -126,108 +129,102 @@ class System {
         d3.select('#system-tooltip').style('display', 'none');
       });
 
-      const planetColorScale = d3.scaleOrdinal()
-        .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian'])
-        .range(['#555555', 'grey', 'yellow', 'green', 'brown', 'blue', 'orange']);
+    vis.planetColorScale = d3.scaleOrdinal()
+      .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian'])
+      .range(['#555555', 'grey', 'yellow', 'green', 'brown', 'blue', 'orange']);
 
-      const planetGradient = vis.svg.append("defs")
-        .append("radialGradient")
-        .attr("id", "planet-shadow")
-        .attr("cx", "50%")
-        .attr("cy", "50%")
-        .attr("r", "50%")
-        .attr("fx", "80%")
-        .attr("fy", "50%");
+    vis.planetGradient = vis.svg.append("defs")
+      .append("radialGradient")
+      .attr("id", "planet-shadow")
+      .attr("cx", "50%")
+      .attr("cy", "50%")
+      .attr("r", "50%")
+      .attr("fx", "80%")
+      .attr("fy", "50%");
+    
+    vis.planetGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#000000")
+      .attr("stop-opacity", 0.8);
+    
+    vis.planetGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#ffffff")
+      .attr("stop-opacity", 0.0);
+
+    vis.planetLinearGradient = vis.svg.append("defs")
+      .append("linearGradient")
+      .attr("id", "planet-gradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "100%");
       
-      planetGradient.append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", "#000000")
-        .attr("stop-opacity", 0.8);
+    vis.planetLinearGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#ffffff")
+      .attr("stop-opacity", 0.8);
       
-      planetGradient.append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", "#ffffff")
-        .attr("stop-opacity", 0.0);
+    vis.planetLinearGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#000000")
+      .attr("stop-opacity", 0.8);
 
-      const planetLinearGradient = vis.svg.append("defs")
-        .append("linearGradient")
-        .attr("id", "planet-gradient")
-        .attr("x1", "0%")
-        .attr("y1", "0%")
-        .attr("x2", "100%")
-        .attr("y2", "100%");
-        
-      planetLinearGradient.append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", "#ffffff")
-        .attr("stop-opacity", 0.8);
-        
-      planetLinearGradient.append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", "#000000")
-        .attr("stop-opacity", 0.8);
+    console.log(vis.data)
+    vis.svg.selectAll('.planet')
+      .data(vis.data)
+      .enter()
+      .append('circle')
+      .attr('class', 'planet')
+      .attr('r', d => vis.rScale(parseFloat(d.pl_bmasse)))
+      .attr('fill', d => vis.planetColorScale(getPlanetType(d.pl_bmasse)))
+      .attr('cx', d => vis.xScale(d.pl_orbsmax))
+      .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
+      .style('filter', 'url(#planet-shadow)') // Add the radial shadow as a filter to the circle
+      .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)') // Add the radial shadow as a CSS box-shadow property to the circle
+      .attr('cy', vis.height/2)
+      .on('mouseover', (event, d) => {
+        const planetType = getPlanetType(d.pl_bmasse);
+        d3.select('#system-tooltip')
+          .style('display', 'block')
+          .style('left', (event.pageX + 15) + 'px')   
+          .style('top', (event.pageY + 15) + 'px')
+          .html(`
+            <div class="tooltip-title">${d.pl_name}</div>
+            <ul>
+              <li>Radius: ${d.pl_rade} Re</li>
+              <li>Mass: ${d.pl_bmasse} Me</li>
+              <li>Type: ${planetType}</li>
+            </ul>
+          `);
+      })
+      .on('mouseleave', () => {
+        d3.select('#system-tooltip').style('display', 'none');
+      });
 
-      console.log(vis.data)
-      vis.svg.selectAll('.planet')
-        .data(vis.data)
-        .enter()
-        .append('circle')
-        .attr('class', 'planet')
-        .attr('r', d => (d.pl_rade * 3))
-        .attr('fill', d => planetColorScale(getPlanetType(d.pl_bmasse)))
-        .attr('cx', d => xScale(d.pl_orbsmax))
-        .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
-        .style('filter', 'url(#planet-shadow)') // Add the radial shadow as a filter to the circle
-        .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)') // Add the radial shadow as a CSS box-shadow property to the circle
-        .attr('cy', vis.height/2)
-        .on('mouseover', (event, d) => {
-          const planetType = getPlanetType(d.pl_bmasse);
-          d3.select('#system-tooltip')
-            .style('display', 'block')
-            .style('left', (event.pageX + 15) + 'px')   
-            .style('top', (event.pageY + 15) + 'px')
-            .html(`
-              <div class="tooltip-title">${d.pl_name}</div>
-              <ul>
-                <li>Radius: ${d.pl_rade} Re</li>
-                <li>Mass: ${d.pl_bmasse} Me</li>
-                <li>Type: ${planetType}</li>
-              </ul>
-            `);
-        })
-        .on('mouseleave', () => {
-          d3.select('#system-tooltip').style('display', 'none');
-        });
-
-        function getPlanetType(mass) {
-          if (mass < 0.00001) {
-            return 'Asteroidan';
-          } else if (mass >= 0.00001 && mass < 0.1) {
-            return 'Mercurian';
-          } else if (mass >= 0.1 && mass < 0.5) {
-            return 'Subterran';
-          } else if (mass >= 0.5 && mass < 2) {
-            return 'Terran';
-          } else if (mass >= 2 && mass < 10) {
-            return 'Superterran';
-          } else if (mass >= 10 && mass < 50) {
-            return 'Neptunian';
-          } else if (mass >= 50 && mass <= 5000) {
-            return 'Jovian';
-          } else {
-            return 'Unknown';
-          }
-        }
-        
+    function getPlanetType(mass) {
+      if (mass < 0.00001) {
+        return 'Asteroidan';
+      } else if (mass >= 0.00001 && mass < 0.1) {
+        return 'Mercurian';
+      } else if (mass >= 0.1 && mass < 0.5) {
+        return 'Subterran';
+      } else if (mass >= 0.5 && mass < 2) {
+        return 'Terran';
+      } else if (mass >= 2 && mass < 10) {
+        return 'Superterran';
+      } else if (mass >= 10 && mass < 50) {
+        return 'Neptunian';
+      } else if (mass >= 50 && mass <= 5000) {
+        return 'Jovian';
+      } else {
+        return 'Unknown';
+      }
+    } 
   }
-
-  
 
   renderVis(brushEnabled) {
     let vis = this;
-
-    
-      
   }
 
 }
