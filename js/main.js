@@ -326,8 +326,10 @@ d3.csv('data/exoplanets-1.csv')
 function setExoplanet(exoplanetData){
 	document.getElementById("system-container").style.display = "flex";
 	document.getElementById("reset-button").disabled = false;
-	buildTable(exoplanetData);
-	system.data = exoplanetData;
+	filteredData = globalData.filter(d => d.sys_name == exoplanetData[0].sys_name)
+	console.log(exoplanetData[0].sys_name);
+	buildTable(filteredData);
+	system.data = filteredData;
 	system.updateVis();
 
 }

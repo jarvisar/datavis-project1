@@ -49,13 +49,13 @@ class System {
   updateVis() {
     let vis = this;
     console.log(vis.globalData);
-    let minOrbsmax = d3.min(vis.globalData, d => d.pl_orbsmax);
-    let maxOrbsmax = d3.max(vis.globalData, d => d.pl_orbsmax);
+    let minOrbsmax = d3.min(vis.data, d => d.pl_orbsmax);
+    let maxOrbsmax = d3.max(vis.data, d => d.pl_orbsmax);
 
     // Create an xScale
     let xScale = d3.scaleLinear()
       .domain([minOrbsmax, maxOrbsmax])
-      .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 7)), vis.width - (vis.data[0].pl_rade * 7) - 20]);
+      .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 3)), vis.width - (vis.data[0].pl_rade * 3) - 20]);
 
     let data = vis.data;
     console.log(vis.width)
@@ -167,12 +167,13 @@ class System {
         .attr("stop-color", "#000000")
         .attr("stop-opacity", 0.8);
 
+      console.log(vis.data)
       vis.svg.selectAll('.planet')
         .data(vis.data)
         .enter()
         .append('circle')
         .attr('class', 'planet')
-        .attr('r', d => (d.pl_rade * 7))
+        .attr('r', d => (d.pl_rade * 3))
         .attr('fill', d => planetColorScale(getPlanetType(d.pl_bmasse)))
         .attr('cx', d => xScale(d.pl_orbsmax))
         .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
