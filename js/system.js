@@ -136,10 +136,11 @@ class System {
       .attr('cx', d => (d.st_rad * 50) + 20)
       .attr('cy', vis.height/2)
       .on('mouseover', (event, d) => {
+        console.log("test")
         d3.select('#system-tooltip')
-          .style('display', 'block')
+          .style('display', 'flex')
           .style('left', (event.pageX + 15) + 'px')   
-          .style('top', (event.pageY + 15) + 'px')
+          .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
           .html(`
             <div class="tooltip-title">Star Name: ${d.hostname}</div>
             <ul>
@@ -212,7 +213,7 @@ class System {
         d3.select('#system-tooltip')
           .style('display', 'block')
           .style('left', (event.pageX + 15) + 'px')   
-          .style('top', (event.pageY + 15) + 'px')
+          .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
           .html(`
             <div class="tooltip-title">${d.pl_name}</div>
             <ul>
