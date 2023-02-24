@@ -172,27 +172,7 @@ class BarChart {
 			.text("Discovery Method")
 			.attr('class', 'axis-title');
 
-	} else if(vis.title == "Exoplanets by # of Stars in their System") {
-		vis.svg.selectAll('.x-axis').remove();
-		vis.svg.selectAll('.axis-title').remove();
-		vis.charttitle = vis.svg.append("text")
-			.attr("x", vis.width/2 + 55)
-			.attr("y", vis.height + 40)
-			.attr("text-anchor", "middle")
-			.style("font-family", "Roboto")
-			.style("font-size", "9px")
-			.text("# of Stars")
-			.attr('class', 'axis-title');
-	}  else if(vis.title == "Exoplanets by # of Planets in their System") {
-		vis.svg.selectAll('.axis-title').remove();
-		vis.charttitle = vis.svg.append("text")
-			.attr("x", vis.width/2 + 55)
-			.attr("y", vis.height + 45)
-			.attr("text-anchor", "middle")
-			.style("font-family", "Roboto")
-			.style("font-size", "9px")
-			.text("# of Planets")
-			.attr('class', 'axis-title');}
+	} 
 
     vis.rects.on('click', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
@@ -342,6 +322,8 @@ class BarChart {
 		vis.clicked = {};
         vis.clicked[barClass] = true;
 		console.log(d.key);
+		d3.select('#barchart-tooltip')
+		.style('display', 'none');
 		vis.callback(d.key);
         vis.rects.style('filter', 'brightness(100%)'); // 2 seconds;
 		d3.select("." + "bar-" + formatString(vis.title, d))
