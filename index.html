@@ -17,58 +17,60 @@
 </head>
 <body style="width: calc(100% - 15px)">  
 	<!-- GitHub Button --> 
-	<a aria-label="Source Code" target="_blank" rel="noopener" href="https://github.com/jarvisar/datavis-project1/" title="Project Source Code" style="position: absolute; top: 10px; right: 10px;">
-		<img style="margin-right: 10px;" width="40" alt="GitHub Logo" src="public/github.png" />
-	</a>
-	<!-- Page Headers --> 
-	<h1 >Project 1: Out of this World</h1>
-	<h5 >by Adam Jarvis</h5>
-	<hr class="solid">
-	<!-- General Data --> 
-	<span style="display: flex;"><button  class="reset-button cool-button" id="reset-button">Reset Filter</button><h4 class="chart-title">General Exoplanet Data</h4></span>
-	<br>
-	<!-- Bar Charts, Line Chart, Scatterplot, & Histogram --> 
-	<span class="barchart-container">
-		<div class="card methodbar-container">
-			<button class="help-button" title="Learn more about exoplanet discovery methods"><i class="material-icons">help</i></button>
-			<svg id="methodbar"></svg>
+	<div id="content">
+		<a aria-label="Source Code" target="_blank" rel="noopener" href="https://github.com/jarvisar/datavis-project1/" title="Project Source Code" style="position: absolute; top: 10px; right: 10px;">
+			<img style="margin-right: 10px;" width="40" alt="GitHub Logo" src="public/github.png" />
+		</a>
+		<!-- Page Headers --> 
+		<h1 >Project 1: Out of this World</h1>
+		<h5 >by Adam Jarvis</h5>
+		<hr class="solid">
+		<!-- General Data --> 
+		<span style="display: flex;"><button  class="reset-button cool-button" id="reset-button">Reset Filter</button><h4 class="chart-title">General Exoplanet Data</h4></span>
+		<br>
+		<!-- Bar Charts, Line Chart, Scatterplot, & Histogram --> 
+		<span class="barchart-container">
+			<div class="card methodbar-container">
+				<button class="help-button" title="Learn more about exoplanet discovery methods"><i class="material-icons">help</i></button>
+				<svg id="methodbar"></svg>
+			</div>
+			<div class="card">
+				<svg id="starbar"></svg>
+			</div>
+			<div class="card">
+				<svg id="planetbar"></svg>
+			</div>
+			<div class="card">
+				<svg id="typebar"></svg>
+			</div>
+			<div class="card">
+				<svg id="habitablebar"></svg>
+			</div>
+			<div class="card">
+				<svg id="distancehisto"></svg>
+			</div><div id="barchart-tooltip"></div>
+			
+		</span>
+		<span class="large-chart-container">
+			<div class="yearline-container card">
+				<svg id="yearline"></svg>
+				<div id="year-tooltip"></div>
+			</div>
+			<div class="scatterplot-container card">
+				<svg id="scatterplot"></svg>
+			</div> <div id="scatterplot-tooltip"></div>
+		</span>
+	
+		<div class="table-container card">
+			<div id="exoplanettable" class="styled-table"></div>
 		</div>
-		<div class="card">
-			<svg id="starbar"></svg>
-		</div>
-		<div class="card">
-			<svg id="planetbar"></svg>
-		</div>
-		<div class="card">
-			<svg id="typebar"></svg>
-		</div>
-		<div class="card">
-			<svg id="habitablebar"></svg>
-		</div>
-		<div class="card">
-			<svg id="distancehisto"></svg>
-		</div><div id="barchart-tooltip"></div>
-		
-	</span>
-	<span class="large-chart-container">
-		<div class="yearline-container card">
-			<svg id="yearline"></svg>
-			<div id="year-tooltip"></div>
-		</div>
-		<div class="scatterplot-container card">
-			<svg id="scatterplot"></svg>
-		</div> <div id="scatterplot-tooltip"></div>
-	</span>
-
-	<div class="table-container card">
-		<div id="exoplanettable" class="styled-table"></div>
 	</div>
+	
 
-	<div class="container-container" style="display: flex; justify-content: center;">
-		<div class="card" id="system-container" style="display: none; justify-content: center;">
-			<svg id="system"></svg>
-			<div id="system-tooltip"></div>
-		</div>
+	<div  id="system-container" style="display: none; justify-content: center; z-index: 25; position: fixed; left: calc(50% - 600px); top: calc(50% - 225px)">
+		<svg class="card" id="system"></svg>
+		<div id="system-tooltip"></div>
+		<button style="position: absolute; top: 25px; left: 25px;" class="cool-button system-close-button" >Close</button>
 	</div>
 
     <!-- D3 bundle -->

@@ -43,6 +43,20 @@ class System {
       .style("font-size", "24px")
       .text("Host System Viewer")
       .attr('class', 'chart-title');
+
+    vis.chart = vis.svg.append('g')
+      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+
+    vis.chart.append('defs')
+      .append('clipPath')
+      .attr('id', 'clipSys')
+      .attr('class', 'clip')
+      .append('rect')
+      .attr('width', vis.width)
+      .attr('height', vis.height);
+
+    vis.chartHolder = vis.chart.append('g') 
+      .attr('clip-path', 'url(#clipSys)');
   }
 
   updateVis() {
@@ -71,6 +85,16 @@ class System {
 
     vis.svg.selectAll('.star').remove();
     vis.svg.selectAll('.planet').remove();
+    vis.svg.selectAll('.system-description').remove();
+    
+    vis.svg.append("text")
+      .attr("x", vis.width/2)
+      .attr("y", vis.height - 10)
+      .attr("text-anchor", "middle")
+      .style("font-family", "Roboto")
+      .style("font-size", "18px")
+      .text( "This system consists of " + vis.data.length + (vis.data.length == 1 ? " planet" : "planets") + (vis.data[0].sy_dist != undefined ? " and is " + vis.data[0].sy_dist + " parsecs away from Earth" : "") + ".")
+      .attr('class', 'system-description');
 
     // Create a linear gradient for the star stroke
     const starGradient = vis.svg.append("defs")
