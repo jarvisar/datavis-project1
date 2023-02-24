@@ -1,7 +1,4 @@
-<br>
-<p align="center">
-<img height=300 src="https://github.com/jarvisar/datavis-project1/blob/main/public/project-card-copy.png"/>
-</p> 
+ 
 
 # About
 
