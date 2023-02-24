@@ -93,7 +93,7 @@ class System {
       .attr("text-anchor", "middle")
       .style("font-family", "Roboto")
       .style("font-size", "18px")
-      .text( "This system consists of " + vis.data.length + (vis.data.length == 1 ? " planet" : "planets") + (vis.data[0].sy_dist != undefined ? " and is " + vis.data[0].sy_dist + " parsecs away from Earth" : "") + ".")
+      .text( "This system consists of " + vis.data.length + (vis.data.length == 1 ? " planet" : " planets") + (vis.data[0].sy_dist != undefined ? " and is " + vis.data[0].sy_dist + " parsecs away from Earth" : "") + ".")
       .attr('class', 'system-description');
 
     // Create a linear gradient for the star stroke

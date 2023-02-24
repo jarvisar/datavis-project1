@@ -146,12 +146,12 @@ class Scatterplot {
 
   // Create grids.
   vis.chart.append('g')
-    .attr('class', 'x axis-grid')
+    .attr('class', 'axis-grid')
     .attr('transform', `translate(0,${vis.height})`)
     .call(vis.xAxisGrid);
 
   vis.chart.append('g')
-    .attr('class', 'y axis-grid')
+    .attr('class', 'axis-grid')
     .call(vis.yAxisGrid);
 
 
@@ -162,7 +162,7 @@ class Scatterplot {
   vis.circles = vis.chart.selectAll('circle')
     .data(vis.data)
     .join('circle')
-    .attr('fill', 'planet')
+    .attr('class', 'planet')
     .attr('fill', d => {
       if(d.hostname == "Sun"){
         return 'gray'
@@ -199,16 +199,6 @@ class Scatterplot {
         console.log(d)
         setExoplanetFromScatterplot(d.pl_name)
       });
-
-    vis.textarea = vis.svg.append('g')
-      .attr('class','planet')
-      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
-    vis.textarea1 = vis.svg.append('g')
-      .attr('class','planet')
-      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
-    vis.textarea2 = vis.svg.append('g')
-      .attr('class','planet')
-      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
 
     vis.brushSvgHolder
       .call( d3.brush()  

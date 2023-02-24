@@ -286,6 +286,23 @@ h4{
     cursor: pointer;
 }
 
+.system-card{
+	background-color: #ffffff;
+	border-radius: 15px;
+	padding: 15px;
+	margin: 15px;
+	box-shadow: 0px 1px 3px #aaaaaa, 0px 2px 3px #aaaaaa, 0px 15px 15px 0px rgba(0,0,0,0.1);
+	transition: 0.5s box-shadow;
+}
+
+.system-card:hover{
+	background-color: #ffffff;
+	border-radius: 15px;
+	padding: 15px;
+	margin: 15px;
+	box-shadow: 0px 1px 3px #aaaaaa, 0px 15px 15px 0px rgba(0,0,0,0.1);
+}
+
 #loading {
 	opacity: 0;
 	font-size: 20pt;
@@ -304,3 +321,4 @@ h4{
 	display: block;
 	opacity: 1;
 }
+
