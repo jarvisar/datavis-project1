@@ -254,7 +254,7 @@ class BarChart {
 			.style('top', (event.pageY) + 'px')
 			.html(`
 				<div class="tooltip-title" style="padding: 5px">${vis.title}</div>
-				<div style="padding: 5px">Value: <i>${d.key}</</div>
+				<div style="padding: 5px">Key: <i>${d.key}</i></div>
 				<div style="padding: 5px">Count: <i>${d.count}</</div>
 		  	`);
     })
