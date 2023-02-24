@@ -526,22 +526,14 @@ function buildTable(data) {
 	d3.selectAll("table").remove();
   
 	// Define table properties
-	const tableid = "#dataTable";
+	const tableid = "#exoplanettable";
 	const columns = ["Planet Name", "System Name", "Discover Facility", "Planet Radius", "Planet Mass"];
-	const tableWidth = dataTable.offsetWidth;
-	const tableHeight = dataTable.offsetHeight;
-	const twidth = (tableWidth - 25) + "px";
-	const divHeight = (tableHeight - 60) + "px";
-  
-	// Define functions for extracting data from each row
-	const nameFunc = (data) => data.pl_name;
-	const sysNameFunc = (data) => data.sys_name;
-	const discFacilityFunc = (data) => data.disc_facility;
-	const planetRadiusFunc = (data) => data.pl_rade;
-	const planetMassFunc = (data) => data.pl_bmasse;
-  
+
+	const tableWidth = exoplanettable.offsetWidth;
+	const tableHeight = exoplanettable.offsetHeight;
+
 	// Define a descending sort function based on planet name
-	const sortNameDescending = (a, b) => nameFunc(b) - nameFunc(a);
+	const sortNameDescending = (a, b) => b.pl_name - a.pl_name;
   
 	// Create the outer table
 	const outerTable = d3.select(tableid).append("table")
@@ -562,7 +554,7 @@ function buildTable(data) {
 		.data(columns)
 		.enter()
 		.append("th")
-		.attr("width", twidth)
+		.attr("width", tableWidth + "px")
 		.style("font-family", "system-ui")
 		.text(column => column);
   
@@ -572,11 +564,11 @@ function buildTable(data) {
 		.append("td")
 		.append("div")
 		.attr("class", "scroll")
-		.attr("style", `height: ${divHeight};`)
+		.attr("style", `height: ${(tableHeight - 60) + "px"};`)
 		.append("table")
 		.attr("class", "bodyTable")
 		.attr("border", 1)
-		.attr("width", twidth)
+		.attr("width", tableWidth + "px")
 		.attr("height", tableHeight - 60)
 		.attr("style", "table-layout: fixed");
   
@@ -593,11 +585,11 @@ function buildTable(data) {
 	const cells = rows.selectAll("td")
 		.data(d => columns.map(column => ({
 			column,
-			name: nameFunc(d),
-			sysName: sysNameFunc(d),
-			discFacility: discFacilityFunc(d),
-			planetRadius: planetRadiusFunc(d),
-			planetMass: planetMassFunc(d)
+			name: d.pl_name,
+			sysName: d.sys_name,
+			discFacility: d.disc_facility,
+			planetRadius: d.pl_rade,
+			planetMass: d.pl_bmasse
 		})))
 		.enter()
 		.append("td")
