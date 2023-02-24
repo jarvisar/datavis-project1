@@ -68,7 +68,7 @@ class System {
     // Create an xScale
     vis.xScale = d3.scaleLinear()
       .domain([minOrbsmax, maxOrbsmax])
-      .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 3)), vis.width - (vis.data[0].pl_rade * 3) - 20]);
+      .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 3)), vis.width - (vis.data[0].pl_rade * 3) - 30]);
 
     vis.rScale = d3.scaleLog()
       .domain(d3.extent(vis.data, d => parseFloat(d.pl_bmasse)))
