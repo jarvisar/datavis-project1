@@ -95,7 +95,7 @@ class BarChart {
 	// Add the y axis
 	vis.svg.append('g')
 		.attr('transform', `translate(${margin}, 0)`)
-		.call(d3.axisLeft(vis.yScale))
+		.call(d3.axisLeft(vis.yScale).ticks(5))
 		.attr('class', 'y-axis');
 
 	function formatString(input, d){
@@ -236,7 +236,7 @@ class BarChart {
 	// Add the y axis
 	vis.svg.append('g')
 		.attr('transform', `translate(${margin}, 0)`)
-		.call(d3.axisLeft(vis.yScale))
+		.call(d3.axisLeft(vis.yScale).ticks(5))
 		.attr('class', 'y-axis');
 
 	function formatString(input, d){
