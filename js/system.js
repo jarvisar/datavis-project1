@@ -37,11 +37,12 @@ class System {
 
     vis.svg.append("text")
       .attr("x", vis.width/2)
-      .attr("y", 20)
+      .attr("y", 30)
       .attr("text-anchor", "middle")
       .style("font-family", "Roboto")
       .style("font-size", "24px")
       .text("Host System Viewer")
+      .style('text-decoration', 'underline')
       .attr('class', 'chart-title');
 
     vis.chart = vis.svg.append('g')
@@ -141,16 +142,15 @@ class System {
       .on('mouseover', (event, d) => {
         console.log("test")
         d3.select('#system-tooltip')
-          .style('display', 'flex')
+          .style('display', 'block')
           .style('left', (event.pageX + 15) + 'px')   
           .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
           .html(`
             <div class="tooltip-title">${d.hostname}</div>
-            <br>
             <ul>
-              <li>Radius: ${d.st_rad} Re</li>
-              <li>Mass: ${d.st_mass} Me</li>
-              <li>Type: ${d.st_spectype} Me</li>
+              <li>Radius: ${d.st_rad} solar units</li>
+              <li>Mass: ${d.st_mass} solar units</li>
+              <li>Type: ${d.st_spectype != "" ? d.st_spectype : " <i>Star Type Not Available</i>"}</li>
             </ul>
           `);
       })
@@ -246,6 +246,7 @@ class System {
               <li>Radius: ${d.pl_rade} Re</li>
               <li>Mass: ${d.pl_bmasse} Me</li>
               <li>Type: ${planetType}</li>
+              <li>Orbital Axis: ${d.pl_orbsmax} au</li>
             </ul>
           `);
       })
