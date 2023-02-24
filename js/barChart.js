@@ -118,17 +118,26 @@ class BarChart {
 		.on('end', () => {
 			vis.rects.on('mouseover', (event, d) => {
 			let barClass = "bar-" + formatString(vis.title, d);
-			let brightness = vis.clicked[barClass] ? '80%' : '90%';
 			d3.select("." + barClass)
-				.style('filter', `brightness(${brightness})`)
+				.style('filter', `brightness(80%)`)
 				.style("cursor", "pointer");
+			d3.select('#barchart-tooltip')
+				.style('display', 'block')
+				.style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
+				.style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
+				.html(`
+					<div class="tooltip-title">${vis.title}</div>
+					<br>
+					<div>${d.key}</div>
+					<div><i>Count: ${d.count}</</div>
+			  	`);
 			})
-
 			vis.rects.on('mouseleave', (event, d) => {
 				let barClass = "bar-" + formatString(vis.title, d);
-				let brightness = vis.clicked[barClass] ? '80%' : '100%';
 				d3.select("." + barClass)
-					.style('filter', `brightness(${brightness})`);
+					.style('filter', `brightness(100%)`);
+				d3.select('#barchart-tooltip')
+					.style('display', 'none');
 			});
 	});
 
@@ -239,12 +248,23 @@ class BarChart {
         d3.select("." + barClass)
             .style('filter', `brightness(80%)`)
 			.style("cursor", "pointer");
+		d3.select('#barchart-tooltip')
+			.style('display', 'block')
+			.style('left', (event.pageX) + 'px')   
+			.style('top', (event.pageY) + 'px')
+			.html(`
+				<div class="tooltip-title" style="padding: 5px">${vis.title}</div>
+				<div style="padding: 5px">Value: <i>${d.key}</</div>
+				<div style="padding: 5px">Count: <i>${d.count}</</div>
+		  	`);
     })
 
     vis.rects.on('mouseleave', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
         d3.select("." + barClass)
             .style('filter', `brightness(100%)`);
+		d3.select('#barchart-tooltip')
+			.style('display', 'none');
     });
 
 	if(vis.title == "Exoplanets by Discovery Method"){

@@ -162,14 +162,21 @@ class Scatterplot {
   vis.circles = vis.chart.selectAll('circle')
     .data(vis.data)
     .join('circle')
-    .attr('class','planet')
-    .attr('fill', d => starColorScale(d.st_spectype[0]))
+    .attr('fill', 'planet')
+    .attr('fill', d => {
+      if(d.hostname == "Sun"){
+        return 'gray'
+      } else {
+        return starColorScale(d.st_spectype[0])
+      }
+    })
     .attr('opacity', .8)
     .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
     .attr('stroke-width', 1)
     .attr('r', (d) => 8) 
     .attr('cy', (d) => vis.height ) 
     .attr('cx',(d) =>  0 );
+
   vis.circles
     .on('mouseover', (event,d) => {
       d3.select('#scatterplot-tooltip')
@@ -193,38 +200,39 @@ class Scatterplot {
         setExoplanetFromScatterplot(d.pl_name)
       });
 
-  vis.textarea = vis.svg.append('g')
-    .attr('class','planet')
-    .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
-  vis.textarea1 = vis.svg.append('g')
-    .attr('class','planet')
-    .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
-  vis.textarea2 = vis.svg.append('g')
-    .attr('class','planet')
-    .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+    vis.textarea = vis.svg.append('g')
+      .attr('class','planet')
+      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+    vis.textarea1 = vis.svg.append('g')
+      .attr('class','planet')
+      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+    vis.textarea2 = vis.svg.append('g')
+      .attr('class','planet')
+      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
 
-  vis.brushSvgHolder
-    .call( d3.brush()  
-      .extent( [ [0,-10], [vis.width + 20,vis.height] ] ) 
-      .on('start brush', function({selection}) {
-        vis.circles.classed("selected", d => {
-          const cx = vis.xScale(d.pl_bmasse);
-          const cy = vis.yScale(d.pl_rade);
-          return selection[0][0] <= cx && cx <= selection[1][0] && selection[0][1] <= cy && cy <= selection[1][1];
-        });
-      })
-      .on('end', function({selection}) {
-        if (selection){
-            vis.callback(vis.xScale.invert(selection[0][0]), vis.xScale.invert(selection[1][0]), vis.yScale.invert(selection[1][1]), vis.yScale.invert(selection[0][1]))
-          }
-      })
-    )
+    vis.brushSvgHolder
+      .call( d3.brush()  
+        .extent( [ [0,-10], [vis.width + 20,vis.height] ] ) 
+        .on('start brush', function({selection}) {
+          vis.circles.classed("selected", d => {
+            const cx = vis.xScale(d.pl_bmasse);
+            const cy = vis.yScale(d.pl_rade);
+            return selection[0][0] <= cx && cx <= selection[1][0] && selection[0][1] <= cy && cy <= selection[1][1];
+          });
+        })
+        .on('end', function({selection}) {
+          if (selection){
+              vis.callback(vis.xScale.invert(selection[0][0]), vis.xScale.invert(selection[1][0]), vis.yScale.invert(selection[1][1]), vis.yScale.invert(selection[0][1]))
+            }
+        })
+      )
     
     vis.circles.transition()
       .duration(1000)
       .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade))) 
       .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)));
   }
+
 
  renderVis() { 
 

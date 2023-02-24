@@ -9,17 +9,19 @@ d3.csv('data/exoplanets-1.csv')
   	console.log('Data loading complete. Work with dataset.');
 	var loading = document.getElementById("loading");
 	loading.classList.add("loading");
+	console.log(data)
 	setTimeout(function() {
-	globalData = data;
 
-	solarSystemData.push({"planetType":"Mercurian","pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.3871",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Terran","pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.7233",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Terran","pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"1",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Subterran","pl_bmasse": .1075, "pl_rade":.5325, "pl_name":"Mars","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"1.5273",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Jovian","pl_bmasse": 317.8, "pl_rade":11.2092, "pl_name":"Jupiter","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"5.2028",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Jovian","pl_bmasse": 95.2, "pl_rade":9.4494, "pl_name":"Saturn","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"9.53881",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Neptunian","pl_bmasse": 14.6, "pl_rade":4.0074, "pl_name":"Uranus","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"19.1914",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Neptunian","pl_bmasse": 17.2, "pl_rade":3.8827, "pl_name":"Neptune","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"30.0611",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Mercurian","pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.3871",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+	solarSystemData.push({"planetType":"Terran","pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.7233",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+	solarSystemData.push({"planetType":"Terran","pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"1",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+	solarSystemData.push({"planetType":"Subterran","pl_bmasse": .1075, "pl_rade":.5325, "pl_name":"Mars","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"1.5273",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+	solarSystemData.push({"planetType":"Jovian","pl_bmasse": 317.8, "pl_rade":11.2092, "pl_name":"Jupiter","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"5.2028",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+	solarSystemData.push({"planetType":"Jovian","pl_bmasse": 95.2, "pl_rade":9.4494, "pl_name":"Saturn","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"9.53881",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+	solarSystemData.push({"planetType":"Neptunian","pl_bmasse": 14.6, "pl_rade":4.0074, "pl_name":"Uranus","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"19.1914",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+	solarSystemData.push({"planetType":"Neptunian","pl_bmasse": 17.2, "pl_rade":3.8827, "pl_name":"Neptune","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"30.0611",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
+
+	globalData = data;
 
 	data.forEach(planet => {
 		const mass = parseFloat(planet.pl_bmasse);
@@ -53,7 +55,7 @@ d3.csv('data/exoplanets-1.csv')
 		'parentElement': '#scatterplot',
 		'containerHeight': 500,
 		'containerWidth': 900
-	},  getScatterData(data,), (m1,m2,r1,r2) => {
+	},  getScatterData(data.concat(solarSystemData)), (m1,m2,r1,r2) => {
 		scatData = data;
 		let minM = parseFloat(m1)
 		let maxM = parseFloat(m2)
@@ -246,8 +248,6 @@ d3.csv('data/exoplanets-1.csv')
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
 		document.getElementById("reset-button").disabled = false;
-		
-		// Wait for 500 milliseconds before updating the visualizations
 		setTimeout(function() {
 			methodBar.data = getMethodCount(filteredData);
 			systemStarBar.data = getStarCount(filteredData);
@@ -293,7 +293,7 @@ d3.csv('data/exoplanets-1.csv')
 			habitabilityBar.data = getHabitabilityCount(data);
 			distanceHisto.data = getHistoData(data);
 			yearLine.data = getYearCount(data);
-			scatterplot.data = getScatterData(data);
+			scatterplot.data = getScatterData(data.concat(solarSystemData));
 			buildTable(data);
 			methodBar.updateVis();
 			typeBar.updateVis();
@@ -367,22 +367,6 @@ function getTypeCount(datar){
 	return dataArray;
 }
 
-function getScatterData(data,string){
-	filteredData = data.filter( d => d.pl_bmasse != "" )
-	filteredData.sort((a, b) => d3.descending(a.pl_name, b.pl_name))
-	filteredData = filteredData.filter( d => d.pl_rade != "" )
-	filteredData.push({"pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","starType":"SUN","starColor":"#89CFF0"});
-	filteredData.push({"pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","starType":"SUN","starColor":"#89CFF0"});
-	filteredData.push({"pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","starType":"SUN","starColor":"#89CFF0"});
-	filteredData.push({"pl_bmasse": .1075, "pl_rade":.5325, "pl_name":"Mars","starType":"SUN","starColor":"#89CFF0"});
-	filteredData.push({"pl_bmasse": 317.8, "pl_rade":11.2092, "pl_name":"Jupiter","starType":"SUN","starColor":"#89CFF0"});
-	filteredData.push({"pl_bmasse": 95.2, "pl_rade":9.4494, "pl_name":"Saturn","starType":"SUN","starColor":"#89CFF0"});
-	filteredData.push({"pl_bmasse": 14.6, "pl_rade":4.0074, "pl_name":"Uranus","starType":"SUN","starColor":"#89CFF0"});
-	filteredData.push({"pl_bmasse": 17.2, "pl_rade":3.8827, "pl_name":"Neptune","starType":"SUN","starColor":"#89CFF0"});
-	return filteredData
-}
-
-
 function getPlanetCount(datar) {
 	const counts = {};
 	datar.forEach(d => {
@@ -438,10 +422,11 @@ function getYearCount(datar){
 	return dataArray;
 }
 
-function getScatterData(datar){
-	// Convert the counts object to an array of objects
-	let filteredData = datar.filter(d => d.pl_rade != "" && d.pl_bmasse != "");
-	return filteredData;
+function getScatterData(data){
+	filteredData = data.filter( d => d.pl_bmasse != "" );
+	filteredData.sort((a, b) => d3.descending(a.pl_name, b.pl_name));
+	filteredData = filteredData.filter( d => d.pl_rade != "" );
+	return filteredData; // Add solar system data to scatterplot
 }
 
 function getHabitabilityCount(datar){
