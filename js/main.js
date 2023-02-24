@@ -59,8 +59,8 @@ d3.csv('data/exoplanets-1.csv')
 	// Discovery Method Bar Chart
 	let methodBar = new BarChart({
 		'parentElement': '#methodbar',
-		'containerHeight': 400,
-		'containerWidth': 500
+		'containerHeight': (window.innerHeight) * 0.324,
+		'containerWidth': (window.innerWidth) / 7
 	}, getMethodCount(data), "Exoplanets by Discovery Method", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.discoverymethod))
@@ -71,8 +71,8 @@ d3.csv('data/exoplanets-1.csv')
   	// # of Stars in System Bar Chart
 	let systemStarBar = new BarChart({
 		'parentElement': '#starbar',
-		'containerHeight': 400,
-		'containerWidth': 300
+		'containerHeight': (window.innerHeight) * 0.324,
+		'containerWidth': (window.innerWidth) / 7
 	}, getStarCount(data), "Exoplanets by # of Stars in their System", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_snum));
@@ -83,8 +83,8 @@ d3.csv('data/exoplanets-1.csv')
 	// # of Planets in System Bar Chart
 	let systemPlanetBar = new BarChart({
 		'parentElement': '#planetbar',
-		'containerHeight': 400,
-		'containerWidth': 400
+		'containerHeight': (window.innerHeight) * 0.324,
+		'containerWidth': (window.innerWidth ) / 7
 	}, getPlanetCount(data), "Exoplanets by # of Planets in their System", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
@@ -95,8 +95,8 @@ d3.csv('data/exoplanets-1.csv')
 	// Star Type Bar Chart
 	let typeBar = new BarChart({
 		'parentElement': '#typebar',
-		'containerHeight': 400,
-		'containerWidth': 400
+		'containerHeight': (window.innerHeight) * 0.324,
+		'containerWidth': (window.innerWidth) / 7
 	}, getTypeCount(data), "Exoplanets by Star Type", (filterData) => {
 		let selectedFilter = [filterData];
 		if (filterData != "reset" && filterData != "N/A"){
@@ -111,8 +111,8 @@ d3.csv('data/exoplanets-1.csv')
 	// Habitability Bar Chart
 	let habitabilityBar = new BarChart({
 		'parentElement': '#habitablebar',
-		'containerHeight': 400,
-		'containerWidth': 200
+		'containerHeight': (window.innerHeight) * 0.324,
+		'containerWidth': (window.innerWidth) / 7
 	}, getHabitabilityCount(data), "Exoplanets by Habitability", (filterData) => { 
 		let selectedFilter = [filterData];
 		if (selectedFilter.includes("Habitable")){
@@ -184,8 +184,8 @@ d3.csv('data/exoplanets-1.csv')
 	// Exoplanet Distance Histogram
 	let distanceHisto = new Histogram({
 		'parentElement': '#distancehisto',
-		'containerHeight': 400,
-		'containerWidth': 300
+		'containerHeight': (window.innerHeight) * 0.324,
+		'containerWidth': (window.innerWidth) / 7
 	}, getHistoData(data), "Exoplanets by Distance", (filterData) => {
 		let selectedFilter = [filterData]; // Get an array of selected bin ranges
 		let filteredData = data.filter(d => {
@@ -211,8 +211,8 @@ d3.csv('data/exoplanets-1.csv')
 	// Year Line Chart
 	let yearLine = new Line({
 		'parentElement': '#yearline',
-		'containerHeight': 500,
-		'containerWidth': 700
+		'containerHeight': (window.innerHeight) * 0.4,
+		'containerWidth': (window.innerWidth - 160) / 2
 	}, getYearCount(data), (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.disc_year))
@@ -222,8 +222,8 @@ d3.csv('data/exoplanets-1.csv')
 	// Scatterplot
 	scatterplot = new Scatterplot({
 		'parentElement': '#scatterplot',
-		'containerHeight': 500,
-		'containerWidth': 900
+		'containerHeight': (window.innerHeight) * 0.4,
+		'containerWidth': (window.innerWidth - 160) / 2
 	},  getScatterData(data.concat(solarSystemData)), (m1,m2,r1,r2) => {
 		scatData = data;
 		let minM = parseFloat(m1)

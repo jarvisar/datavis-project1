@@ -88,7 +88,7 @@ class BarChart {
 		.attr("y", 20)
 		.attr("text-anchor", "middle")
 		.style("font-family", "Roboto")
-		.style("font-size", "14px")
+		.style("font-size", "0.875em")
 		.text(vis.title)
 		.attr('class', 'chart-title');
 	
@@ -155,7 +155,7 @@ class BarChart {
 		.style("word-wrap", "break-word")
 		.style("font-family", "Roboto")
 		.style("color", "black")
-		.style("font-size", "9px")
+		.style("font-size", "0.5625em")
 		.attr("dx", "0.5em")
 		.attr("dy", "-0.5em")
 		.attr("transform", "rotate(-90)")
@@ -168,7 +168,7 @@ class BarChart {
 			.attr("y", vis.height + 40)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "12px")
+			.style("font-size", "0.75em")
 			.text("Discovery Method")
 			.attr('class', 'axis-title');
 
@@ -180,7 +180,7 @@ class BarChart {
 			.attr("y", vis.height + 40)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "12px")
+			.style("font-size", "0.75em")
 			.text("# of Stars")
 			.attr('class', 'axis-title');
 	}
@@ -219,7 +219,7 @@ class BarChart {
 		.attr("y", 20)
 		.attr("text-anchor", "middle")
 		.style("font-family", "Roboto")
-		.style("font-size", "14px")
+		.style("font-size", "0.875em")
 		.text(vis.title)
 		.attr('class', 'chart-title');
 
@@ -280,7 +280,7 @@ class BarChart {
 		.style("word-wrap", "break-word")
 		.style("font-family", "Roboto")
 		.style("color", "black")
-		.style("font-size", "9px")
+		.style("font-size", "0.5625em")
 		.attr("dx", "0.5em")
 		.attr("dy", "-0.5em")
 		.attr("transform", "rotate(-90)")
@@ -293,7 +293,7 @@ class BarChart {
 			.attr("y", vis.height + 40)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "12px")
+			.style("font-size", "0.75em")
 			.text("Discovery Method")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by # of Stars in their System") {
@@ -303,7 +303,7 @@ class BarChart {
 			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "12px")
+			.style("font-size", "0.75em")
 			.text("# of Stars")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by # of Planets in their System") {
@@ -313,7 +313,7 @@ class BarChart {
 			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "12px")
+			.style("font-size", "0.75em")
 			.text("# of Planets")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by Star Type") {
@@ -323,7 +323,7 @@ class BarChart {
 			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "12px")
+			.style("font-size", "0.75em")
 			.text("Star Type")
 			.attr('class', 'axis-title');
 	}
