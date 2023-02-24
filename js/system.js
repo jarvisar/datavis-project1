@@ -88,6 +88,7 @@ class System {
     vis.svg.selectAll('.system-description').remove();
     vis.svg.selectAll('.star-name').remove();
     vis.svg.selectAll('.planet-name').remove();
+    vis.svg.selectAll('.no-data').remove();
     
     vis.svg.append("text")
       .attr("x", vis.width/2)
@@ -158,12 +159,26 @@ class System {
       });
 
     vis.svg.append('text')
-      .attr('x', (vis.data[0].st_rad * 50) + 20)
-      .attr('y', ((vis.height/2) - (vis.data[0].st_rad * 50) - 15))
+      .attr('x', (vis.data[0].st_rad * 50) + 25)
+      .attr('y', ((vis.height/2) - (vis.data[0].st_rad * 50) - 40))
       .attr("text-anchor", "middle")
       .attr('class', "star-name")
       .text(vis.data[0].hostname)
       .style('pointer-events', 'none');
+
+    if (vis.data[0].st_rad == ""){
+      vis.svg.append('text')
+      .attr('x', vis.width/2)
+      .attr("y", vis.height - 50)
+      .attr("text-anchor", "middle")
+      .attr('class', "no-data")
+      .text("Stellar Data Not Available")
+      .style('text-decoration', 'underline');
+
+      vis.svg.select('.star-name')
+      .attr('x', vis.width/2)
+      .attr("y", vis.height - 70)
+    }
 
     vis.planetColorScale = d3.scaleOrdinal()
       .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian'])
