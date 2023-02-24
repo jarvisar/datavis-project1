@@ -86,6 +86,8 @@ class System {
     vis.svg.selectAll('.star').remove();
     vis.svg.selectAll('.planet').remove();
     vis.svg.selectAll('.system-description').remove();
+    vis.svg.selectAll('.star-name').remove();
+    vis.svg.selectAll('.planet-name').remove();
     
     vis.svg.append("text")
       .attr("x", vis.width/2)
@@ -142,7 +144,8 @@ class System {
           .style('left', (event.pageX + 15) + 'px')   
           .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
           .html(`
-            <div class="tooltip-title">Star Name: ${d.hostname}</div>
+            <div class="tooltip-title">${d.hostname}</div>
+            <br>
             <ul>
               <li>Radius: ${d.st_rad} Re</li>
               <li>Mass: ${d.st_mass} Me</li>
@@ -153,6 +156,14 @@ class System {
       .on('mouseleave', () => {
         d3.select('#system-tooltip').style('display', 'none');
       });
+
+    vis.svg.append('text')
+      .attr('x', (vis.data[0].st_rad * 50) + 20)
+      .attr('y', ((vis.height/2) - (vis.data[0].st_rad * 50) - 15))
+      .attr("text-anchor", "middle")
+      .attr('class', "star-name")
+      .text(vis.data[0].hostname)
+      .style('pointer-events', 'none');
 
     vis.planetColorScale = d3.scaleOrdinal()
       .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian'])
@@ -226,6 +237,18 @@ class System {
       .on('mouseleave', () => {
         d3.select('#system-tooltip').style('display', 'none');
       });
+
+    vis.svg.selectAll('.planet-name')
+      .data(vis.data)
+      .enter()
+      .append('text')
+      .attr('x', d => vis.xScale(d.pl_orbsmax))
+      .attr('y', d => ((vis.height/2) - vis.rScale(parseFloat(d.pl_bmasse)) - 10))
+      .attr("text-anchor", "middle")
+      .attr('class', "star-name")
+      .text(d => d.pl_name)
+      .attr("font-size", "12px")
+      .style('pointer-events', 'none');
 
     function getPlanetType(mass) {
       if (mass < 0.00001) {
