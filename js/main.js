@@ -12,45 +12,48 @@ d3.csv('data/exoplanets-1.csv')
 	setTimeout(function() {
 	globalData = data;
 
-	solarSystemData.push({"planetType":"Mercurian","planetColor":"#85c555","pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"0.3871",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Terran","planetColor":"#0185b5","pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"0.7233",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Terran","planetColor":"#0185b5","pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"1",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Subterran","planetColor":"#51b7c5","pl_bmasse": .1075, "pl_rade":.5325, "pl_name":"Mars","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"1.5273",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Jovian","planetColor":"#252e4b","pl_bmasse": 317.8, "pl_rade":11.2092, "pl_name":"Jupiter","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"5.2028",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Jovian","planetColor":"#252e4b","pl_bmasse": 95.2, "pl_rade":9.4494, "pl_name":"Saturn","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"9.53881",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Neptunian","planetColor":"#4d4798","pl_bmasse": 14.6, "pl_rade":4.0074, "pl_name":"Uranus","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"19.1914",  "st_rad":"1",  "st_mass":"1"});
-	solarSystemData.push({"planetType":"Neptunian","planetColor":"#4d4798","pl_bmasse": 17.2, "pl_rade":3.8827, "pl_name":"Neptune","starType":"SUN","starColor":"#89CFF0", "hostname":"Sun", "sys_name":"The Solar System", "pl_orbsmax":"30.0611",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Mercurian","pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.3871",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Terran","pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.7233",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Terran","pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"1",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Subterran","pl_bmasse": .1075, "pl_rade":.5325, "pl_name":"Mars","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"1.5273",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Jovian","pl_bmasse": 317.8, "pl_rade":11.2092, "pl_name":"Jupiter","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"5.2028",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Jovian","pl_bmasse": 95.2, "pl_rade":9.4494, "pl_name":"Saturn","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"9.53881",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Neptunian","pl_bmasse": 14.6, "pl_rade":4.0074, "pl_name":"Uranus","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"19.1914",  "st_rad":"1",  "st_mass":"1"});
+	solarSystemData.push({"planetType":"Neptunian","pl_bmasse": 17.2, "pl_rade":3.8827, "pl_name":"Neptune","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"30.0611",  "st_rad":"1",  "st_mass":"1"});
 
-	data.forEach(d => {
-		let mass = parseFloat(d.pl_bmasse);
-	if(mass < .00001){
-		d.planetType = "Asteroidan"
-	}
-	if(mass >= .00001 && mass < .1){
-		d.planetType = "Mercurian"
-	}
-	if(mass >= .1 && mass < .5){
-		d.planetType = "Subterran"
-	}
-	  if(mass >= .5 && mass < 2){
-		d.planetType = "Terran"
-	}
-	  if(mass >= 2 && mass < 10){
-		d.planetType = "Supperterran"
-	}
-	  if(mass >= 10 && mass < 50){
-		d.planetType = "Neptunian"
-	}
-	  if(mass >= 50){
-		d.planetType = "Jovian"
-	}
-	})
+	data.forEach(planet => {
+		const mass = parseFloat(planet.pl_bmasse);
+		let planetType;
+		switch (true) {
+		  case (mass < 0.00001):
+			planetType = "Asteroidan"; // Mass less than 0.00001 Earth masses
+			break;
+		  case (mass < 0.1):
+			planetType = "Mercurian"; // Mass between 0.00001 and 0.1 Earth masses
+			break;
+		  case (mass < 0.5):
+			planetType = "Subterran"; // Mass between 0.1 and 0.5 Earth masses
+			break;
+		  case (mass < 2):
+			planetType = "Terran"; // Mass between 0.5 and 2 Earth masses
+			break;
+		  case (mass < 10):
+			planetType = "Superterran"; // Mass between 2 and 10 Earth masses
+			break;
+		  case (mass < 50):
+			planetType = "Neptunian"; // Mass between 10 and 50 Earth masses
+			break;
+		  default:
+			planetType = "Jovian"; // Mass greater than or equal to 50 Earth masses
+		}
+		planet.planetType = planetType;
+	});
 
-	timelineCircle = new TimelineCircles({
-		'parentElement': '#timeline',
-		'containerHeight': window.innerHeight/2.35,
-		'containerWidth': window.innerWidth/3.1
-	},  getScatterData(data,"ALL"), (m1,m2,r1,r2) => {
+	scatterplot = new Scatterplot({
+		'parentElement': '#scatterplot',
+		'containerHeight': 500,
+		'containerWidth': 900
+	},  getScatterData(data,), (m1,m2,r1,r2) => {
 		scatData = data;
 		let minM = parseFloat(m1)
 		let maxM = parseFloat(m2)
@@ -61,7 +64,12 @@ d3.csv('data/exoplanets-1.csv')
 		scatData = scatData.filter(d => parseFloat(d.pl_rade) >= minR)
 		scatData = scatData.filter(d => parseFloat(d.pl_rade) <= maxR)
 		console.log(scatData)
-		updateData(scatData)
+		if(scatData.length != 0){
+			updateData(scatData)
+		} else {
+			resetData();
+		}
+
 	});
 
 		// Reset data
@@ -224,44 +232,13 @@ d3.csv('data/exoplanets-1.csv')
 	// Year Line Chart
 	let yearLine = new Line({
 		'parentElement': '#yearline',
-		'containerHeight': 400,
+		'containerHeight': 500,
 		'containerWidth': 700
 	}, getYearCount(data), (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.disc_year))
 		updateData(filteredData);
 	})
-
-
-	// Scatterplot & Brush
-	let scatterplot = new Scatterplot({
-		'parentElement': '#scatterplot',
-		'containerHeight': 400,
-		'containerWidth': 800
-	}, getScatterData(data), (filterData, shouldReset = false) => {
-		if (filterData.length == 1){
-			setExoplanet(filterData);
-		} else {
-			updateData(filterData);
-			if (shouldReset){
-				document.getElementById("reset-button").disabled = true;
-			}
-			scatterplot.data = getScatterData(data);
-			scatterplot.updateVis();
-		}
-	})	
-	var toggle = false;
-	d3.selectAll('.toggle-brush-button').on('click', function() {
-
-		if (toggle == false){
-			scatterplot.updateVis(true);
-			toggle = true
-		} else if (toggle == true) {
-			scatterplot.updateVis(false);
-			toggle = false
-		}
-	});
-
 
 	
 	function updateData(filteredData){
@@ -279,6 +256,7 @@ d3.csv('data/exoplanets-1.csv')
 			habitabilityBar.data = getHabitabilityCount(filteredData);
 			distanceHisto.data = getHistoData(filteredData);
 			yearLine.data = getYearCount(filteredData);
+			scatterplot.data = getScatterData(filteredData);
 			buildTable(filteredData);
 			methodBar.updateVis();
 			typeBar.updateVis();
@@ -287,6 +265,7 @@ d3.csv('data/exoplanets-1.csv')
 			habitabilityBar.updateVis();
 			distanceHisto.updateVis();
 			yearLine.updateVis();	
+			scatterplot.updateVis();
 			// Hide the loading message
 			loading.classList.remove("loading");
 		}, 100);
@@ -389,24 +368,20 @@ function getTypeCount(datar){
 }
 
 function getScatterData(data,string){
-	dataFilter = data.filter( d => d.pl_bmasse != "" )
-	dataFilter.sort((a, b) => d3.descending(a.pl_name, b.pl_name))
-  dataFilter2 = dataFilter.filter( d => d.pl_rade != "" )
-  if(string!="SUN"){
-	  dataFilter2.push({"pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","starType":"SUN","starColor":"#89CFF0"});
-	  dataFilter2.push({"pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","starType":"SUN","starColor":"#89CFF0"});
-	  dataFilter2.push({"pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","starType":"SUN","starColor":"#89CFF0"});
-	  dataFilter2.push({"pl_bmasse": .1075, "pl_rade":.5325, "pl_name":"Mars","starType":"SUN","starColor":"#89CFF0"});
-	  dataFilter2.push({"pl_bmasse": 317.8, "pl_rade":11.2092, "pl_name":"Jupiter","starType":"SUN","starColor":"#89CFF0"});
-	  dataFilter2.push({"pl_bmasse": 95.2, "pl_rade":9.4494, "pl_name":"Saturn","starType":"SUN","starColor":"#89CFF0"});
-	  dataFilter2.push({"pl_bmasse": 14.6, "pl_rade":4.0074, "pl_name":"Uranus","starType":"SUN","starColor":"#89CFF0"});
-	  dataFilter2.push({"pl_bmasse": 17.2, "pl_rade":3.8827, "pl_name":"Neptune","starType":"SUN","starColor":"#89CFF0"});
-	  }
-	return dataFilter2
+	filteredData = data.filter( d => d.pl_bmasse != "" )
+	filteredData.sort((a, b) => d3.descending(a.pl_name, b.pl_name))
+	filteredData = filteredData.filter( d => d.pl_rade != "" )
+	filteredData.push({"pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","starType":"SUN","starColor":"#89CFF0"});
+	filteredData.push({"pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","starType":"SUN","starColor":"#89CFF0"});
+	filteredData.push({"pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","starType":"SUN","starColor":"#89CFF0"});
+	filteredData.push({"pl_bmasse": .1075, "pl_rade":.5325, "pl_name":"Mars","starType":"SUN","starColor":"#89CFF0"});
+	filteredData.push({"pl_bmasse": 317.8, "pl_rade":11.2092, "pl_name":"Jupiter","starType":"SUN","starColor":"#89CFF0"});
+	filteredData.push({"pl_bmasse": 95.2, "pl_rade":9.4494, "pl_name":"Saturn","starType":"SUN","starColor":"#89CFF0"});
+	filteredData.push({"pl_bmasse": 14.6, "pl_rade":4.0074, "pl_name":"Uranus","starType":"SUN","starColor":"#89CFF0"});
+	filteredData.push({"pl_bmasse": 17.2, "pl_rade":3.8827, "pl_name":"Neptune","starType":"SUN","starColor":"#89CFF0"});
+	return filteredData
 }
-function timelineCircleupdateVis(){
-	timelineCircle.updateVis();
-}
+
 
 function getPlanetCount(datar) {
 	const counts = {};
@@ -658,5 +633,11 @@ function buildTable(data) {
 		setExoplanet(selectedPlanet);
 		console.log(selectedPlanet);
 	});
+}
+
+function setExoplanetFromScatterplot(pl_name){
+	let selectedPlanet = globalData.filter(da => da.pl_name == pl_name);
+	setExoplanet(selectedPlanet);
+	console.log(selectedPlanet);
 }
   

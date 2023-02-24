@@ -71,7 +71,7 @@ class Line {
 		.attr("y", 20)
 		.attr("text-anchor", "middle")
 		.style("font-family", "Roboto")
-		.style("font-size", "16px")
+		.style("font-size", "18px")
         .style('text-decoration', 'underline')
 		.text("Exoplanets by Discovery Year")
 		.attr('class', 'chart-title');
@@ -81,7 +81,7 @@ class Line {
         .attr("y", vis.height + 40)
         .attr("text-anchor", "left")
         .style("font-family", "Roboto")
-        .style("font-size", "12px")
+        .style("font-size", "14px")
         .text("Year Discovered")
         .attr('class', 'axis-title');
             
@@ -98,12 +98,10 @@ class Line {
         .attr('class', 'path')
         .attr('d', vis.area);
 
-
     //Initialize line generator helper function
     vis.line = d3.line()
         .x(d => vis.xScale(vis.xValue(d)))
         .y(d => vis.yScale(vis.yValue(d)));
-
 
     // Add line path 
     vis.chart.append('path')

@@ -1,274 +1,232 @@
 class Scatterplot {
 
-  /**
-   * Class constructor with basic chart configuration
-   * @param {Object}
-   * @param {Array}
-   */
   constructor(_config, _data, _callback) {
-    // Configuration object with defaults
-    // Important: depending on your vis and the type of interactivity you need
-    // you might want to use getter and setter methods for individual attributes
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 600,
-      containerHeight: _config.containerHeight || 400,
-      margin: _config.margin || {top: 25, right: 20, bottom: 20, left: 35}
+      containerWidth: _config.containerWidth || 500,
+      containerHeight: _config.containerHeight || 140,
+      margin: { top: 40, bottom: 40, right: 50, left: 60 },
+      tooltipPadding: _config.tooltipPadding || 15
     }
-    this.data = _data;
+
     this.callback = _callback;
-    this.selectedValues = [];
-    this.brushEnabled = false;
+    this.data = _data; 
+
     this.initVis();
   }
-  
-  /**
-   * This function contains all the code that gets excecuted only once at the beginning.
-   * (can be also part of the class constructor)
-   * We initialize scales/axes and append static elements, such as axis titles.
-   * If we want to implement a responsive visualization, we would move the size
-   * specifications to the updateVis() function.
-   */
+
   initVis() {
-    // We recommend avoiding simply using the this keyword within complex class code
-    // involving SVG elements because the scope of this will change and it will cause
-    // undesirable side-effects. Instead, we recommend creating another variable at
-    // the start of each function to store the this-accessor
-    let vis = this;
-    
-    // Calculate inner chart size. Margin specifies the space around the actual chart.
-    // You need to adjust the margin config depending on the types of axis tick labels
-    // and the position of axis titles (margin convetion: https://bl.ocks.org/mbostock/3019563)
+    let vis = this; 
+
+    // Width and height as the inner dimensions of the chart area- as before
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
- 
-    vis.xScale = d3.scaleLinear()
-        .range([0, vis.width]);
 
-    vis.yScale = d3.scaleLinear()
-        .range([vis.height, 0]);
-
-    // Initialize axes
-    vis.xAxis = d3.axisBottom(vis.xScale)
-        .ticks(8)
-        .tickSize(-vis.height - 10)
-        .tickPadding(10)
-        .tickFormat(d => d + ' km');
-
-    vis.yAxis = d3.axisLeft(vis.yScale)
-        .ticks(8)
-        .tickSize(-vis.width - 10)
-        .tickPadding(10);
-
-    // Define size of SVG drawing area
+    // Define 'svg' as a child-element (g) from the drawing area and include spaces
+    // Add <svg> element (drawing space)
     vis.svg = d3.select(vis.config.parentElement)
         .attr('width', vis.config.containerWidth)
-        .attr('height', vis.config.containerHeight);
-        vis.svg.selectAll('.axis').remove();
- 
-    
-    // Append group element that will contain our actual chart 
-    // and position it according to the given margin config
-    vis.chart = vis.svg.append('g')
-        .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+        .attr('height', vis.config.containerHeight)
 
-    // Append empty x-axis group and move it to the bottom of the chart
-    vis.xAxisG = vis.chart.append('g')
-        .attr('class', 'axis x-axis')
-        .attr('transform', `translate(0,${vis.height})`);
-    
-    // Append y-axis group
-    vis.yAxisG = vis.chart.append('g')
-        .attr('class', 'axis y-axis');
-
-    // Append both axis titles
-    vis.chart.append('text')
-        .attr('class', 'axis-title')
-        .attr('y', vis.height + 5)
-        .attr('x', vis.width + 10)
-        .attr('dy', '.71em')
-        .style('text-anchor', 'end')
-        .text('Radius');
-
-    vis.svg.append('text')
-        .attr('class', 'axis-title')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('dy', '.71em')
-        .text('Mass');
-
-    // Specificy accessor functions
-    vis.xValue = d => d.pl_rade;
-    vis.yValue = d => d.pl_bmasse;
-
-    // Set the scale input domains
-    vis.xScale.domain([0, d3.max(vis.data, vis.xValue)]);
-    vis.yScale.domain([0, d3.max(vis.data, vis.yValue)]);
-
-    vis.updateVis();
-  }
-
-  /**
-   * This function contains all the code to prepare the data before we render it.
-   * In some cases, you may not need this function but when you create more complex visualizations
-   * you will probably want to organize your code in multiple functions.
-   */
-  updateVis(brushEnabled) {
-    let vis = this;
-
-    vis.renderVis(brushEnabled)
-  }
-
-  /**
-   * This function contains the D3 code for binding data to visual elements.
-   * We call this function every time the data or configurations change.
-   */
-  renderVis(brushEnabled) {
-    let vis = this;
-
-    vis.svg.selectAll('.point').remove();
-    
-    // Add circles
-    const circles = vis.chart.selectAll('.point')
-      .data(vis.data)
-      .enter()
-      .append('circle')
-      .attr('class', 'point')
-      .attr('r', 4)
-      .attr('cy', d => vis.yScale(vis.yValue(d)))
-      .attr('cx', d => vis.xScale(vis.xValue(d)))
-      .attr('fill', "#69b3a2")
-      .attr('stroke', '#eaeaea')
-
-    // Update the axes/gridlines
-    // We use the second .call() to remove the axis and just show gridlines
-    vis.xAxisG
-        .call(vis.xAxis)
-        .call(g => g.select('.domain').remove());
-
-    vis.yAxisG
-        .call(vis.yAxis)
-        .call(g => g.select('.domain').remove())
-
-    
-    circles
-      .style("stroke", "#eaeaea")
-      .filter(d => vis.selectedValues.includes(d))
-      .style("stroke", "steelblue");
-
-    // Add a div for the tooltip
-    d3.select("body")
-      .append("div")
-      .attr("id", "scatterplot-tooltip")
-      .style("display", "none")
-      .style("position", "fixed")
-      .style("z-index", "10")
-      .style("background-color", "white")
-      .style("padding", "10px")
-      .style("border", "1px solid #ddd");
-
-    // Define scales
-    const xScale = d3.scaleLinear()
-    .domain(d3.extent(vis.data, d => d.pl_rade)).nice()
-    .range([vis.config.margin.left, vis.width - vis.config.margin.right + 50]);
-
-    const yScale = d3.scaleLinear()
-    .domain(d3.extent(vis.data, d => d.pl_bmasse)).nice()
-    .range([vis.height + vis.config.margin.top, 20]);
-
-    // Define brush
-    var brush = d3.brush()
-    .extent([[vis.config.margin.left, vis.config.margin.top], [vis.width + vis.config.margin.right + vis.config.margin.left, vis.height + vis.config.margin.top]])
-    .on("start brush", brushed)
-    .on("end", applyFilter);
-    
-    function brushed({selection}) {
-      vis.selectedValues = [];
-      if (selection) {
-          const [[x0, y0], [x1, y1]] = selection;
-          vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
-          console.log(vis.selectedValues);
-          circles
-              .style("stroke", "#eaeaea")
-              .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
-              .style("stroke", "steelblue");
-      } else {
-          circles.style("stroke", "#eaeaea");
-          vis.selectedValues = vis.data;
-      }
+    vis.planetLinearGradient = vis.svg.append("defs")
+      .append("linearGradient")
+      .attr("id", "planet-gradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "100%");
+        
+    vis.planetLinearGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#ffffff")
+      .attr("stop-opacity", 0.8);
+        
+    vis.planetLinearGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#000000")
+      .attr("stop-opacity", 0.8);
       
-    }
+    //Title
+    vis.svg.append("text")
+      .attr('transform', `translate(${vis.width/2 - 80}, ${vis.config.margin.top -20 })`)
+      .attr("font-size", "18px")
+      .style('text-decoration', 'underline')
+      .text("Exoplanets by Mass & Radius")
+      .style("font-family", "Roboto")
+      .style("color", "black");
 
-    function applyFilter({selection}) {
-      vis.selectedValues = [];
-      if (selection) {
-          const [[x0, y0], [x1, y1]] = selection;
-          vis.selectedValues = vis.data.filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1);
-          vis.callback(vis.selectedValues);
-          circles
-              .style("stroke", "#eaeaea")
-              .filter(d => xScale(d.pl_rade) >= x0 && xScale(d.pl_rade) < x1 && yScale(d.pl_bmasse) >= y0 && yScale(d.pl_bmasse) < y1)
-              .style("stroke", "steelblue");
-      } else {
-          circles.style("stroke", "#eaeaea");
-          vis.selectedValues = vis.data;
-      }
-    }
+    // X axis Label    
+    vis.svg.append("text")
+      .attr("transform", `translate(${vis.width/2 + vis.config.margin.left},${vis.height + vis.config.margin.bottom + 35})`)
+      .style("text-anchor", "middle")
+      .text("Mass (Earth Mass)")
+      .style("font-family", "Roboto")
+      .style("color", "black")
+      .style("font-size", "14px");
 
-    if (brushEnabled == true) {
-      // enable the brush
-      brush = vis.svg.append("g")
-        .attr("class", "brush")
-        .call(brush);
-      vis.brushEnabled = true;
-    } else if (brushEnabled == false){
-      // disable the brush
-      console.log(brush)
-      d3.selectAll(".brush").remove();
-      console.log(vis.selectedValues);
-      vis.brushEnabled = false;
-      if (vis.selectedValues.length != 0){
-        vis.callback(vis.data, true);
-      }
-      vis.selectedValues = [];
-    }
+    vis.svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -(vis.height/2) - vis.config.margin.top)
+      .attr("y", 15)
+      .style("text-anchor", "middle")
+      .text("Radius (Earth Radius)")
+      .style("font-family", "Roboto")
+      .style("color", "black")
+      .style("font-size", "14px");
 
-    // Tooltip event listeners
-    circles
-      .on('mouseover', (event,d) => {
-        d3.select('#scatterplot-tooltip')
-          .style('display', 'block')
-          .style('left', (event.pageX + 15) + 'px')   
-          .style('top', (event.pageY + 15) + 'px')
-          .html(`
-            <div class="tooltip-title">${d.pl_name}</div>
-            <ul>
-              <li>${d.pl_rade} Re</li>
-              <li>${d.pl_bmasse} Me</li>
-            </ul>
-          `);
+    vis.brushSvg = vis.svg.append('g')
+      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+
+    vis.chart = vis.svg.append('g')
+      .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+
+    vis.xAxisLine = vis.chart.append("line")
+      .attr("x1", 0)
+      .attr("y1", vis.height)
+      .attr("x2", vis.width)
+      .attr("y2", vis.height)
+      .attr("stroke", "black")
+      .attr("stroke-width", 1);
+
+    vis.yAxisLine = vis.chart.append("line")
+        .attr("x1", 0)
+        .attr("y1", 0)
+        .attr("x2", 0)
+        .attr("y2", vis.height)
+        .attr("stroke", "black")
+        .attr("stroke-width", 1);
+
+    vis.updateVis(); //call updateVis() at the end - we aren't using this yet. 
+  }
+
+
+ updateVis() {
+  let vis = this;
+
+  vis.svg.selectAll('.y-axis').remove();
+  vis.svg.selectAll('.x-axis').remove();
+  vis.svg.selectAll('.axis-grid').remove();
+  vis.svg.selectAll('.chart').remove();
+  vis.svg.selectAll('.planet').remove();
+  vis.chart.selectAll('text').remove();
+
+  vis.brushSvgHolder = vis.brushSvg.append('g')
+    .attr("class","planet")
+
+  vis.xScale = d3.scaleLog()
+    .domain([d3.min(vis.data, d => parseFloat(d.pl_bmasse)), d3.max( vis.data, d => parseFloat(d.pl_bmasse))])
+    .range([0, vis.width]);
+
+  vis.yScale = d3.scaleLog()
+    .domain([d3.max(vis.data, d => parseFloat(d.pl_rade)), d3.min( vis.data, d => parseFloat(d.pl_rade))]) 
+    .range([0, vis.height])
+    .nice();
+
+  // Initialize axes
+  vis.xAxis = d3.axisBottom(vis.xScale)
+    .tickFormat(d3.format('.2f'))
+    .ticks(3);
+
+  vis.yAxis = d3.axisLeft(vis.yScale)
+    .tickFormat(d3.format('.2f'))
+    .ticks(3);
+
+  vis.xAxisGrid = d3.axisBottom(vis.xScale).tickSize(-vis.height).tickFormat('').ticks(3);
+  vis.yAxisGrid = d3.axisLeft(vis.yScale).tickSize(-vis.width).tickFormat('').ticks(3);
+
+  // Draw the axis
+  vis.xAxisGroup = vis.chart.append('g')
+    .attr('class', 'axis x-axis') 
+    .attr('transform', `translate(0,${vis.height})`)
+    .call(vis.xAxis);
+
+  vis.yAxisGroup = vis.chart.append('g')
+    .attr('class', 'axis y-axis')
+    .call(vis.yAxis);
+
+  // Create grids.
+  vis.chart.append('g')
+    .attr('class', 'x axis-grid')
+    .attr('transform', `translate(0,${vis.height})`)
+    .call(vis.xAxisGrid);
+
+  vis.chart.append('g')
+    .attr('class', 'y axis-grid')
+    .call(vis.yAxisGrid);
+
+
+  let starColorScale = d3.scaleOrdinal()
+    .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
+    .range(['#DFDF29', '#B0C4DE', '#65C253', '#FFFFFF', '#FFDAB9', '#00BFFF', '#CD5C5C']);
+
+  vis.circles = vis.chart.selectAll('circle')
+    .data(vis.data)
+    .join('circle')
+    .attr('class','planet')
+    .attr('fill', d => starColorScale(d.st_spectype[0]))
+    .attr('opacity', .8)
+    .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
+    .attr('stroke-width', 1)
+    .attr('r', (d) => 8) 
+    .attr('cy', (d) => vis.height ) 
+    .attr('cx',(d) =>  0 );
+  vis.circles
+    .on('mouseover', (event,d) => {
+      d3.select('#scatterplot-tooltip')
+      .style('display', 'block')
+      .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
+      .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
+      .html(`
+        <div class="tooltip-title">${d.pl_name}</div>
+        <div><i>Star Type: ${d.st_spectype[0]}</i></div>
+        <ul>
+          <li>Mass: ${d.pl_bmasse} Earth Masses</li>
+          <li>Radius: ${d.pl_rade} Earth Radii</li>
+        </ul>
+      `);
       })
       .on('mouseleave', () => {
         d3.select('#scatterplot-tooltip').style('display', 'none');
+      })
+      .on('click',(event,d) =>{
+        console.log(d)
+        setExoplanetFromScatterplot(d.pl_name)
       });
 
-      
+  vis.textarea = vis.svg.append('g')
+    .attr('class','planet')
+    .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+  vis.textarea1 = vis.svg.append('g')
+    .attr('class','planet')
+    .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+  vis.textarea2 = vis.svg.append('g')
+    .attr('class','planet')
+    .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
+
+  vis.brushSvgHolder
+    .call( d3.brush()  
+      .extent( [ [0,-10], [vis.width + 20,vis.height] ] ) 
+      .on('start brush', function({selection}) {
+        vis.circles.classed("selected", d => {
+          const cx = vis.xScale(d.pl_bmasse);
+          const cy = vis.yScale(d.pl_rade);
+          return selection[0][0] <= cx && cx <= selection[1][0] && selection[0][1] <= cy && cy <= selection[1][1];
+        });
+      })
+      .on('end', function({selection}) {
+        if (selection){
+            vis.callback(vis.xScale.invert(selection[0][0]), vis.xScale.invert(selection[1][0]), vis.yScale.invert(selection[1][1]), vis.yScale.invert(selection[0][1]))
+          }
+      })
+    )
+    
+    vis.circles.transition()
+      .duration(1000)
+      .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade))) 
+      .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)));
   }
 
-  toggleBrush(){
-    let vis = this;
+ renderVis() { 
 
-  }
-
-  /**
-   * Change the position slightly to better see if multiple symbols share the same coordinates (test) 
-   */
-  jitter(value) {
-    var num = Math.floor(Math.random()*5) + 1; // this will get a number between 1 and 5;
-    num *= Math.round(Math.random()) ? 1 : -1; // this will add minus sign in 50% of cases
-    console.log(num);
-    return value + num;
   }
 }
-
-

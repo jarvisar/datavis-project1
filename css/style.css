@@ -207,12 +207,6 @@ h4{
 	color: #333;
 }
 
-.toggle-brush-button{
-	position: absolute;
-	top: 20px;
-	right: 15px;
-}
-
 .table-container, .table-container:hover{
 	display: flex;
 	justify-content: center;
