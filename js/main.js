@@ -313,8 +313,6 @@ d3.csv('data/exoplanets-1.csv')
 	d3.selectAll('.system-close-button').on('click', function() {
 		document.getElementById("system-container").style.display = "none";
 		document.getElementById("content").style.filter = "none";
-		document.getElementById("reset-button").disabled = true;
-		buildTable(data);
 	});
 
 	// # of Planets in System Bar Chart
