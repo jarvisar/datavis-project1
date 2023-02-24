@@ -178,6 +178,7 @@ h4{
 	padding: 8px;
 	min-width: 110px;
 	color: #333;
+	z-index: 25;
 }
 
 #scatterplot-tooltip {
@@ -192,6 +193,7 @@ h4{
 	padding: 8px;
 	min-width: 110px;
 	color: #333;
+	z-index: 25;
 }
 
 #system-tooltip {

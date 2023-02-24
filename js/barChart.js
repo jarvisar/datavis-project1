@@ -123,8 +123,8 @@ class BarChart {
 				.style("cursor", "pointer");
 			d3.select('#barchart-tooltip')
 				.style('display', 'block')
-				.style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
-				.style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
+				.style('left', (event.pageX + 15) + 'px')   
+				.style('top', (event.pageY + 15) + 'px')
 				.html(`
 					<div class="tooltip-title">${vis.title}</div>
 					<br>
@@ -250,8 +250,8 @@ class BarChart {
 			.style("cursor", "pointer");
 		d3.select('#barchart-tooltip')
 			.style('display', 'block')
-			.style('left', (event.pageX) + 'px')   
-			.style('top', (event.pageY) + 'px')
+			.style('left', (event.pageX + 15) + 'px')   
+			.style('top', (event.pageY + 15) + 'px')
 			.html(`
 				<div class="tooltip-title" style="padding: 5px">${vis.title}</div>
 				<div style="padding: 5px">Key: <i>${d.key}</i></div>
