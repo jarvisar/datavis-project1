@@ -18,6 +18,25 @@ h4{
 	justify-content: center;
 }
 
+#tooltip {
+	position: absolute;
+	display: none;
+	background: #fff;
+	box-shadow: 3px 3px 3px 0px rgb(92 92 92 / 0.5);
+	border: 1px solid #ddd;
+	font-size: 12px;
+	font-weight: 500;
+	padding: 8px;
+	min-width: 160px;
+	color: #333;
+  }
+
+.selected {
+	opacity: 1 !important;
+	stroke: black;
+	stroke-width: 1px;
+  }
+
 .header-card{
 	background-color: #ffffff;
 	border-radius: 15px;
