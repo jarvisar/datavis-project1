@@ -180,10 +180,19 @@ class BarChart {
 			.attr("y", vis.height + 40)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "0.75em")
+			.style("font-size", "0.5em")
 			.text("# of Stars")
 			.attr('class', 'axis-title');
-	}
+	}  else if(vis.title == "Exoplanets by # of Planets in their System") {
+		vis.svg.selectAll('.axis-title').remove();
+		vis.charttitle = vis.svg.append("text")
+			.attr("x", vis.width/2 + 55)
+			.attr("y", vis.height + 45)
+			.attr("text-anchor", "middle")
+			.style("font-family", "Roboto")
+			.style("font-size", "0.5em")
+			.text("# of Planets")
+			.attr('class', 'axis-title');}
 
     vis.rects.on('click', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
@@ -303,7 +312,7 @@ class BarChart {
 			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "0.75em")
+			.style("font-size", "0.5em")
 			.text("# of Stars")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by # of Planets in their System") {
@@ -313,7 +322,7 @@ class BarChart {
 			.attr("y", vis.height + 45)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
-			.style("font-size", "0.75em")
+			.style("font-size", "0.5em")
 			.text("# of Planets")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by Star Type") {

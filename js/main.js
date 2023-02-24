@@ -60,7 +60,7 @@ d3.csv('data/exoplanets-1.csv')
 	let methodBar = new BarChart({
 		'parentElement': '#methodbar',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth) / 7
+		'containerWidth': (window.innerWidth - 360) / 6
 	}, getMethodCount(data), "Exoplanets by Discovery Method", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.discoverymethod))
@@ -72,7 +72,7 @@ d3.csv('data/exoplanets-1.csv')
 	let systemStarBar = new BarChart({
 		'parentElement': '#starbar',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth) / 7
+		'containerWidth': (window.innerWidth - 360) / 6
 	}, getStarCount(data), "Exoplanets by # of Stars in their System", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_snum));
@@ -84,7 +84,7 @@ d3.csv('data/exoplanets-1.csv')
 	let systemPlanetBar = new BarChart({
 		'parentElement': '#planetbar',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth ) / 7
+		'containerWidth': (window.innerWidth - 360) / 6
 	}, getPlanetCount(data), "Exoplanets by # of Planets in their System", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
@@ -96,7 +96,7 @@ d3.csv('data/exoplanets-1.csv')
 	let typeBar = new BarChart({
 		'parentElement': '#typebar',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth) / 7
+		'containerWidth': (window.innerWidth - 360) / 6
 	}, getTypeCount(data), "Exoplanets by Star Type", (filterData) => {
 		let selectedFilter = [filterData];
 		if (filterData != "reset" && filterData != "N/A"){
@@ -112,7 +112,7 @@ d3.csv('data/exoplanets-1.csv')
 	let habitabilityBar = new BarChart({
 		'parentElement': '#habitablebar',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth) / 7
+		'containerWidth': (window.innerWidth - 360) / 6
 	}, getHabitabilityCount(data), "Exoplanets by Habitability", (filterData) => { 
 		let selectedFilter = [filterData];
 		if (selectedFilter.includes("Habitable")){
@@ -185,7 +185,7 @@ d3.csv('data/exoplanets-1.csv')
 	let distanceHisto = new Histogram({
 		'parentElement': '#distancehisto',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth) / 7
+		'containerWidth': (window.innerWidth - 360) / 6
 	}, getHistoData(data), "Exoplanets by Distance", (filterData) => {
 		let selectedFilter = [filterData]; // Get an array of selected bin ranges
 		let filteredData = data.filter(d => {
