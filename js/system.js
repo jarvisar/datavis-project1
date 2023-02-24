@@ -150,7 +150,7 @@ class System {
             <ul>
               <li>Radius: ${d.st_rad} solar units</li>
               <li>Mass: ${d.st_mass} solar units</li>
-              <li>Type: ${d.st_spectype != "" ? d.st_spectype : " <i>Star Type Not Available</i>"}</li>
+              <li>Type: ${d.st_spectype != "" ? d.st_spectype : " <i>Type Not Available</i>"}</li>
             </ul>
           `);
       })
