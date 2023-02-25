@@ -320,6 +320,13 @@ d3.csv('data/exoplanets-1.csv')
 			distanceHisto.updateVis();
 			yearLine.updateVis();
 			scatterplot.updateVis();
+			d3.selectAll("#A").attr("class","legend-btn")
+			d3.selectAll("#B").attr("class","legend-btn")
+			d3.selectAll("#F").attr("class","legend-btn")
+			d3.selectAll("#G").attr("class","legend-btn")
+			d3.selectAll("#K").attr("class","legend-btn")
+			d3.selectAll("#M").attr("class","legend-btn")
+			d3.selectAll("#NA").attr("class","legend-btn")
 			loading.classList.remove("loading");
 		}, 100);
 	}
