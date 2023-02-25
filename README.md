@@ -2,7 +2,7 @@
 
 # Project 1: Out of this World
 
-This project aims to develop interactive and dynamic data visualizations using exoplanet data from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and [D3.js](https://d3js.org/).
+Project 1 aims to develop interactive and dynamic data visualizations using exoplanet data from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and [D3.js](https://d3js.org/).
 
 Check out the [documentation](https://sites.google.com/view/adam-jarvis/out-of-this-world) on the project site to learn more about the design and development process.
 
@@ -12,7 +12,7 @@ The exoplanet data used in this project was obtained from the [NASA Exoplanet Ar
 
 ## Tools
 
-Project 1 was created using [D3.js](https://d3js.org/), a popular JavaScript library for data visualization. D3.js provides a set of tools for creating interactive and dynamic data visualizations.
+This project was created using [D3.js](https://d3js.org/), a popular JavaScript library for data visualization. D3.js provides a set of tools for creating interactive and dynamic data visualizations.
 
 This project was developed using primarily JavaScript, HTML, and CSS.
 
