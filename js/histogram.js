@@ -107,12 +107,24 @@ class Histogram {
         d3.select("." + barClass)
             .style('filter', `brightness(80%)`)
 			.style('cursor', 'pointer');
+		d3.select('#barchart-tooltip')
+			.style('display', 'block')
+			.style('left', (event.pageX + 15) + 'px')   
+			.style('top', (event.pageY + 15) + 'px')
+			.html(`
+				<div class="tooltip-title">${vis.title}</div>
+				<br>
+				<div>Key: <i>${d.key}</i></div>
+				<div><i>Count: ${d.count}</</div>
+			  `);
     })
 
     vis.rects.on('mouseleave', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
         d3.select("." + barClass)
             .style('filter', `brightness(100%)`);
+		d3.select('#barchart-tooltip')
+			.style('display', 'none')
     });
 
 	function formatString(input, d){
@@ -125,6 +137,8 @@ class Histogram {
         vis.clicked[barClass] = true;
 		console.log(d.key);
 		vis.callback(d.key);
+		d3.select('#barchart-tooltip')
+			.style('display', 'none')
         vis.rects.style('filter', 'brightness(100%)');
 		d3.select("." + "bar-" + formatString(vis.title, d))
 		;
@@ -174,12 +188,24 @@ class Histogram {
 			d3.select("." + barClass)
 				.style('filter', `brightness(80%)`)
 				.style("cursor", "pointer");
+			d3.select('#barchart-tooltip')
+				.style('display', 'block')
+				.style('left', (event.pageX + 15) + 'px')   
+				.style('top', (event.pageY + 15) + 'px')
+				.html(`
+					<div class="tooltip-title">${vis.title}</div>
+					<br>
+					<div>Key: <i>${d.key}</i></div>
+					<div><i>Count: ${d.count}</</div>
+				  `);
 			})
 
 			vis.rects.on('mouseleave', (event, d) => {
 				let barClass = "bar-" + formatString(vis.title, d);
 				d3.select("." + barClass)
 					.style('filter', `brightness(100%)`);
+				d3.select('#barchart-tooltip')
+					.style('display', 'none')
 			});
 	});
 
@@ -203,6 +229,8 @@ class Histogram {
         vis.clicked[barClass] = true;
 		console.log(d.key);
 		vis.callback(d.key);
+		d3.select('#barchart-tooltip')
+			.style('display', 'none')
         vis.rects.style('filter', 'brightness(100%)');
 		d3.select("." + "bar-" + formatString(vis.title, d))
 		;
