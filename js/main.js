@@ -242,6 +242,25 @@ d3.csv('data/exoplanets-1.csv')
 
 	});
 
+	d3.selectAll('.legend-btn').on('click', function() {
+		// Toggle 'inactive' class
+		d3.select(this).classed('inactive', !d3.select(this).classed('inactive'));
+		// Check which categories are active
+		let selectedCategory = [];
+		d3.selectAll('.legend-btn:not(.inactive)').each(function() {
+		  selectedCategory.push(d3.select(this).attr('category'));
+		});
+
+		// Filter data accordingly and update vis
+		//filteredData = (data.filter(d => selectedCategory.includes(d.st_spectype[0]))) ;
+		if (selectedCategory.includes('N/A')){
+			filteredData = (data.filter(d => d.st_spectype == "" || selectedCategory.includes(d.st_spectype[0])));
+		} else {
+			filteredData = (data.filter(d => selectedCategory.includes(d.st_spectype[0]))) ;
+		}
+		updateData(filteredData);
+	  });
+
 	
 	function updateData(filteredData){
 		// Show the loading message

@@ -81,8 +81,9 @@ class System {
     // Remove any existing circles
 
     let starColorScale = d3.scaleOrdinal()
-      .domain(['A', 'F', 'G', 'K', 'M'])
-      .range(['#ffffff', '#fff5ee', '#ffff00', '#ffa500', '#ff0000']);
+      .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
+      .range(['#DFDF29', '#B0C4DE', '#65C253', '#FFFFFF', '#FFDAB9', '#00BFFF', '#CD5C5C']);
+
 
     vis.svg.selectAll('.star').remove();
     vis.svg.selectAll('.planet').remove();
