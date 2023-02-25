@@ -273,7 +273,9 @@ d3.csv('data/exoplanets-1.csv')
 	  
 	// Reset data
 	d3.selectAll('.reset-button').on('click', function() {
+		document.getElementById("system-container").style.display = "none";
 		resetData();
+		document.getElementById("content").style.filter = "none";
 	});
 
 	function resetData(){
