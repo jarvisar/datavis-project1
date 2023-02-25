@@ -244,7 +244,7 @@ d3.csv('data/exoplanets-1.csv')
 		// Show the loading message
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
-		document.getElementById("reset-button").style.display = "block";
+		document.getElementById("reset-button").style.display = "flex";
 		setTimeout(function() {
 			methodBar.data = getMethodCount(filteredData);
 			systemStarBar.data = getStarCount(filteredData);
@@ -324,7 +324,7 @@ d3.csv('data/exoplanets-1.csv')
 
 function setExoplanet(exoplanetData){
 	document.getElementById("system-container").style.display = "flex";
-	document.getElementById("reset-button").style.display = "block";
+	document.getElementById("reset-button").style.display = "flex";
 	filteredData = globalData.filter(d => d.sys_name == exoplanetData[0].sys_name)
 	buildTable(filteredData);
 	system.data = filteredData;
