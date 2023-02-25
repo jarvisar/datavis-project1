@@ -48,8 +48,9 @@ class Scatterplot {
       
     //Title
     vis.svg.append("text")
-      .attr('transform', `translate(${vis.width/2 - 80}, ${vis.config.margin.top -20 })`)
+      .attr('transform', `translate(${45}, ${vis.config.margin.top -20 })`)
       .attr("font-size", "16px")
+      .attr('text-anchor', 'left')
       .text("Exoplanets by Mass & Radius")
       .style("font-family", "Roboto")
       .style("color", "black");
