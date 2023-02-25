@@ -70,7 +70,7 @@ d3.csv('data/exoplanets-1.csv')
 		'parentElement': '#starbar',
 		'containerHeight': (window.innerHeight) * 0.324,
 		'containerWidth': (window.innerWidth - 250) * 0.15
-	}, getStarCount(data), "Exoplanets by # of Stars in their System", (filterData) => {
+	}, getStarCount(data), "Exoplanets by # of Stars in System", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_snum));
 		updateData(filteredData);
@@ -82,7 +82,7 @@ d3.csv('data/exoplanets-1.csv')
 		'parentElement': '#planetbar',
 		'containerHeight': (window.innerHeight) * 0.324,
 		'containerWidth': (window.innerWidth - 250) * 0.2
-	}, getPlanetCount(data), "Exoplanets by # of Planets in their System", (filterData) => {
+	}, getPlanetCount(data), "Exoplanets by # of Planets in System", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
 		updateData(filteredData);

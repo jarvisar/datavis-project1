@@ -203,7 +203,7 @@ class BarChart {
 			.style("font-size", "12px")
 			.text("Habitability")
 			.attr('class', 'axis-title');
-	} else if(vis.title == "Exoplanets by # of Stars in their System") {
+	} else if(vis.title == "Exoplanets by # of Stars in System") {
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
@@ -213,7 +213,7 @@ class BarChart {
 			.style("font-size", "12px")
 			.text("# of Stars")
 			.attr('class', 'axis-title');
-	} else if(vis.title == "Exoplanets by # of Planets in their System") {
+	} else if(vis.title == "Exoplanets by # of Planets in System") {
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
