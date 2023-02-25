@@ -113,9 +113,10 @@ class Histogram {
 			.style('top', (event.pageY + 15) + 'px')
 			.html(`
 				<div class="tooltip-title">${vis.title}</div>
-				<br>
-				<div>Key: <i>${d.key}</i></div>
-				<div><i>Count: ${d.count}</</div>
+				<ul>
+				<li><div>Key: <i>${d.key}</i></div>
+				<li><div>Count: <i>${d.count}</i></div>
+				</ul>
 			  `);
     })
 
@@ -194,9 +195,10 @@ class Histogram {
 				.style('top', (event.pageY + 15) + 'px')
 				.html(`
 					<div class="tooltip-title">${vis.title}</div>
-					<br>
-					<div>Key: <i>${d.key}</i></div>
-					<div><i>Count: ${d.count}</</div>
+					<ul>
+					<li><div>Key: <i>${d.key}</i></div>
+					<li><div>Count: <i>${d.count}</i></div>
+					</ul>
 				  `);
 			})
 

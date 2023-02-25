@@ -127,9 +127,10 @@ class BarChart {
 				.style('top', (event.pageY + 15) + 'px')
 				.html(`
 					<div class="tooltip-title">${vis.title}</div>
-					<br>
-					<div>Key: <i>${d.key}</i></div>
-					<div><i>Count: ${d.count}</</div>
+					<ul>
+					<li><div>Key: <i>${d.key}</i></div>
+					<li><div>Count: <i>${d.count}</i></div>
+					</ul>
 			  	`);
 			})
 			vis.rects.on('mouseleave', (event, d) => {
@@ -264,8 +265,10 @@ class BarChart {
 			.style('top', (event.pageY + 15) + 'px')
 			.html(`
 				<div class="tooltip-title" style="padding: 5px">${vis.title}</div>
-				<div style="padding: 5px">Key: <i>${d.key}</i></div>
-				<div style="padding: 5px">Count: <i>${d.count}</</div>
+				<ul>
+				<li><div>Key: <i>${d.key}</i></div>
+				<li><div>Count: <i>${d.count}</i></div>
+				</ul>
 		  	`);
     })
 
