@@ -59,7 +59,7 @@ class Line {
     vis.xAxisG = vis.chart.append('g')
         .attr('class', 'axis x-axis')
         .attr('transform', `translate(0,${vis.height})`)
-        .call(d3.axisBottom(vis.xScale).tickFormat(formatYear));
+        .call(d3.axisBottom(vis.xScale).tickFormat(formatYear).ticks(6));
     
     // Append y-axis group
     vis.yAxisG = vis.chart.append('g')
@@ -71,8 +71,7 @@ class Line {
 		.attr("y", 20)
 		.attr("text-anchor", "middle")
 		.style("font-family", "Roboto")
-		.style("font-size", "18px")
-        .style('text-decoration', 'underline')
+		.style("font-size", "16px")
 		.text("Exoplanets by Discovery Year")
 		.attr('class', 'chart-title');
 
