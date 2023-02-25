@@ -276,11 +276,12 @@ h4{
 }
 
 .system-close-button:hover{
-	filter: brightness(80%)
+	filter: brightness(80%);
+	cursor: pointer;
 }
 
 .system-close-button:active{
-	filter: brightness(80%)
+	filter: brightness(80%);
 }
 
 /* Legend */
