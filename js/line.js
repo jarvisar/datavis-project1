@@ -67,7 +67,7 @@ class Line {
         .call(vis.yAxis); 
 
     vis.charttitle = vis.svg.append("text")
-		.attr("x", vis.width/2)
+		.attr("x", vis.width/2 + vis.config.margin.left)
 		.attr("y", 20)
 		.attr("text-anchor", "middle")
 		.style("font-family", "Roboto")
@@ -76,12 +76,12 @@ class Line {
 		.attr('class', 'chart-title');
 
     vis.charttitle = vis.svg.append("text")
-        .attr("x", vis.width)
+        .attr("x", vis.width/2 + vis.config.margin.left)
         .attr("y", vis.height + 40)
-        .attr("text-anchor", "left")
+        .attr("text-anchor", "middle")
         .style("font-family", "Roboto")
         .style("font-size", "14px")
-        .text("Year Discovered")
+        .text("Discovery Year")
         .attr('class', 'axis-title');
             
     // Initialize area generator- helper function 
