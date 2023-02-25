@@ -72,7 +72,7 @@ class System {
       .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 3)), vis.width - (vis.data[0].pl_rade * 3) - 30]);
 
     vis.rScale = d3.scaleLog()
-      .domain(d3.extent(vis.data, d => parseFloat(d.pl_bmasse)))
+      .domain(d3.extent(vis.data, d => parseFloat(d.pl_rade)))
       .range([5, 15]);
 
     let data = vis.data;
@@ -227,7 +227,7 @@ class System {
       .enter()
       .append('circle')
       .attr('class', 'planet')
-      .attr('r', d => vis.rScale(parseFloat(d.pl_bmasse)))
+      .attr('r', d => vis.rScale(parseFloat(d.pl_rade)))
       .attr('fill', d => vis.planetColorScale(getPlanetType(d.pl_bmasse)))
       .attr('cx', d => vis.xScale(d.pl_orbsmax))
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
@@ -259,7 +259,7 @@ class System {
       .enter()
       .append('text')
       .attr('x', d => vis.xScale(d.pl_orbsmax))
-      .attr('y', d => ((vis.height/2) - vis.rScale(parseFloat(d.pl_bmasse)) - 10))
+      .attr('y', d => ((vis.height/2) - vis.rScale(parseFloat(d.pl_rade)) - 10))
       .attr("text-anchor", "middle")
       .attr('class', "star-name")
       .text(d => d.pl_name)
