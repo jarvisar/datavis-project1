@@ -177,23 +177,32 @@ class BarChart {
 		vis.svg.selectAll('.x-axis').remove();
 		vis.svg.selectAll('.axis-title').remove();
 		vis.svg.append('g')
-		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
-		.call(d3.axisBottom(vis.xScale))
-		.selectAll("text")
-		.on("click", (event, d) => {
-			vis.callback(d);
-		})
-		.style("text-anchor", "start")
-		.style("word-wrap", "break-word")
-		.style("font-family", "Roboto")
-		.style("color", "black")
-		.style("font-size", "9px")
-		.attr("dx", "0.5em")
-		.attr("dy", "-0.5em")
-		.attr("transform", "rotate(-90)")
-		.style("cursor", "pointer")
-		.attr('class', 'x-axis')
-		.style('z-index', '10');
+			.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
+			.call(d3.axisBottom(vis.xScale))
+			.selectAll("text")
+			.on("click", (event, d) => {
+				vis.callback(d);
+			})
+			.style("text-anchor", "start")
+			.style("word-wrap", "break-word")
+			.style("font-family", "Roboto")
+			.style("color", "black")
+			.style("font-size", "9px")
+			.attr("dx", "0.5em")
+			.attr("dy", "-0.5em")
+			.attr("transform", "rotate(-90)")
+			.style("cursor", "pointer")
+			.attr('class', 'x-axis')
+			.style('z-index', '10');
+			
+		vis.charttitle = vis.svg.append("text")
+			.attr("x", vis.width/2 + 75)
+			.attr("y", vis.height + 40)
+			.attr("text-anchor", "middle")
+			.style("font-family", "Roboto")
+			.style("font-size", "12px")
+			.text("Habitability")
+			.attr('class', 'axis-title');
 	}
 
     vis.rects.on('click', (event, d) => {
