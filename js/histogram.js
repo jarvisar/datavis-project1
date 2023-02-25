@@ -88,7 +88,7 @@ class Histogram {
 	// Add the y axis
 	vis.svg.append('g')
 		.attr('transform', `translate(${margin}, 0)`)
-		.call(d3.axisLeft(vis.yScale))
+		.call(d3.axisLeft(vis.yScale).ticks(6))
 		.attr('class', 'y-axis');
 
     vis.rects = vis.svg.selectAll('rect')
