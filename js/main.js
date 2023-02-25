@@ -9,9 +9,7 @@ d3.csv('data/exoplanets-1.csv')
   	console.log('Data loading complete. Work with dataset.');
 	var loading = document.getElementById("loading");
 	loading.classList.add("loading");
-	console.log(data)
 	setTimeout(function() {
-		console.log(fontSize = Number(window.getComputedStyle(document.body).getPropertyValue('font-size').match(/\d+/)[0])) 
 	solarSystemData.push({"planetType":"Mercurian","pl_bmasse": 0.0553, "pl_rade":.3825, "pl_name":"Mercury","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.3871",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
 	solarSystemData.push({"planetType":"Terran","pl_bmasse": 0.815, "pl_rade":.9489, "pl_name":"Venus","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"0.7233",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
 	solarSystemData.push({"planetType":"Terran","pl_bmasse": 1, "pl_rade":1, "pl_name":"Earth","hostname":"Sun", "sys_name":"Our Solar System", "pl_orbsmax":"1",  "st_rad":"1",  "st_mass":"1", "st_spectype":"G2V"});
@@ -234,7 +232,6 @@ d3.csv('data/exoplanets-1.csv')
 		scatData = scatData.filter(d => parseFloat(d.pl_bmasse) <= maxM)
 		scatData = scatData.filter(d => parseFloat(d.pl_rade) >= minR)
 		scatData = scatData.filter(d => parseFloat(d.pl_rade) <= maxR)
-		console.log(scatData)
 		if(scatData.length != 0){
 			updateData(scatData)
 		} else {
@@ -285,7 +282,6 @@ d3.csv('data/exoplanets-1.csv')
 		setTimeout(function() {
 			document.getElementById("reset-button").disabled = true;
 			methodBar.data = getMethodCount(data);
-			console.log(methodBar.data);
 			systemStarBar.data = getStarCount(data);
 			systemPlanetBar.data = getPlanetCount(data);
 			typeBar.data = getTypeCount(data);
@@ -332,7 +328,6 @@ function setExoplanet(exoplanetData){
 	document.getElementById("system-container").style.display = "flex";
 	document.getElementById("reset-button").disabled = false;
 	filteredData = globalData.filter(d => d.sys_name == exoplanetData[0].sys_name)
-	console.log(exoplanetData[0].sys_name);
 	buildTable(filteredData);
 	system.data = filteredData;
 	document.getElementById("content").style.filter = "blur(5px)";
@@ -425,7 +420,6 @@ function getYearCount(datar){
 	for (let key in counts) {
 		dataArray.push({key: key, count: counts[key]});
 	}
-	console.log(dataArray) ;
 	return dataArray;
 }
 
@@ -615,13 +609,11 @@ function buildTable(data) {
 	cells.on("click", (event, d) => {
 		let selectedPlanet = data.filter(da => da.pl_name == d.name);
 		setExoplanet(selectedPlanet);
-		console.log(selectedPlanet);
 	});
 }
 
 function setExoplanetFromScatterplot(pl_name){
 	let selectedPlanet = globalData.filter(da => da.pl_name == pl_name);
 	setExoplanet(selectedPlanet);
-	console.log(selectedPlanet);
 }
   
