@@ -221,7 +221,7 @@ d3.csv('data/exoplanets-1.csv')
 	scatterplot = new Scatterplot({
 		'parentElement': '#scatterplot',
 		'containerHeight': (window.innerHeight) * 0.4,
-		'containerWidth': (window.innerWidth - 480) * 0.6
+		'containerWidth': (window.innerWidth - 490) * 0.6
 	},  getScatterData(data.concat(solarSystemData)), (m1,m2,r1,r2) => {
 		scatData = data;
 		let minM = parseFloat(m1)
