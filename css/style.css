@@ -13,7 +13,52 @@ h4{
 	left: -38px;
 }
 
+/* Toolbar */
+.toolbar{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	background-color: #010621;
+	color: white;
+	font-weight: 600;
+	width: 100%;
+}
+  
+.toolbar #github-logo {
+	height: 40px;
+	margin: 0 8px;
+}
+
+.spacer {
+	flex: 1;
+}
+
+.header-title:hover {
+	text-shadow: 0px 1px 0px #818181, 0px 2px 0.5px #818181, 0px 3px 0.5px #818181, 0px 3px 0.5px #818181;
+	transform: translateY(1px);
+}
+
+.header-title:active {
+	text-shadow: 0px 1px 0px #717171, 0px 2px 0.5px #717171, 0px 2px 0.5px #717171;
+	transform: translateY(2px);
+}
+
+.header-title {
+	font-size: 24pt;
+	font-family: Roboto, Helvetica Neue, sans-serif;
+	margin-left: 10px;
+	font-weight: 500;
+	text-shadow: 0px 1px 0.5px #919191, 0px 2px 0.5px #919191, 0px 3px 0.5px #919191, 0px 4px 0.5px #919191;
+	transition: transform 0.1s ease, text-shadow 0.1s ease;
+	transform: translateY(0px);
+	cursor: pointer;
+}
+
 .content{
+	margin-top: 65px;
 	transition: 0.5s filter;
 }
 

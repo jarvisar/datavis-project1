@@ -1,5 +1,4 @@
 console.log("Hello world");
-document.getElementById("reset-button").disabled = true;
 var filterApplied = false;
 let solarSystemData = [];
 let globalData;
@@ -245,7 +244,7 @@ d3.csv('data/exoplanets-1.csv')
 		// Show the loading message
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
-		document.getElementById("reset-button").disabled = false;
+		document.getElementById("reset-button").style.display = "block";
 		setTimeout(function() {
 			methodBar.data = getMethodCount(filteredData);
 			systemStarBar.data = getStarCount(filteredData);
@@ -278,9 +277,8 @@ d3.csv('data/exoplanets-1.csv')
 		// Show the loading message
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
-		document.getElementById("reset-button").disabled = true;
+		document.getElementById("reset-button").style.display = "none";
 		setTimeout(function() {
-			document.getElementById("reset-button").disabled = true;
 			methodBar.data = getMethodCount(data);
 			systemStarBar.data = getStarCount(data);
 			systemPlanetBar.data = getPlanetCount(data);
@@ -326,7 +324,7 @@ d3.csv('data/exoplanets-1.csv')
 
 function setExoplanet(exoplanetData){
 	document.getElementById("system-container").style.display = "flex";
-	document.getElementById("reset-button").disabled = false;
+	document.getElementById("reset-button").style.display = "block";
 	filteredData = globalData.filter(d => d.sys_name == exoplanetData[0].sys_name)
 	buildTable(filteredData);
 	system.data = filteredData;
