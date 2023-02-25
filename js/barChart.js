@@ -128,7 +128,7 @@ class BarChart {
 				.html(`
 					<div class="tooltip-title">${vis.title}</div>
 					<br>
-					<div>${d.key}</div>
+					<div>Key: <i>${d.key}</i></div>
 					<div><i>Count: ${d.count}</</div>
 			  	`);
 			})
