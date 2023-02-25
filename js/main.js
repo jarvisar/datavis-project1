@@ -69,7 +69,7 @@ d3.csv('data/exoplanets-1.csv')
 	let systemStarBar = new BarChart({
 		'parentElement': '#starbar',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth - 250) * 0.2
+		'containerWidth': (window.innerWidth - 250) * 0.15
 	}, getStarCount(data), "Exoplanets by # of Stars in their System", (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_snum));
@@ -109,7 +109,7 @@ d3.csv('data/exoplanets-1.csv')
 	let habitabilityBar = new BarChart({
 		'parentElement': '#habitablebar',
 		'containerHeight': (window.innerHeight) * 0.324,
-		'containerWidth': (window.innerWidth - 360) * 0.1
+		'containerWidth': (window.innerWidth - 360) * 0.15
 	}, getHabitabilityCount(data), "Exoplanets by Habitability", (filterData) => { 
 		let selectedFilter = [filterData];
 		if (selectedFilter.includes("Habitable")){
