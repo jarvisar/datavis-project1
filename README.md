@@ -30,13 +30,13 @@ This project includes the following visualizations:
 
 - Data Table: Users can view and interact with the exoplanet data in a table format.
 
-- Host System Simulation: Users can view a simulation of a host star system.
+- Host System Simulation: Users can view a scale model of an exoplanet's solar system.
 
 # Usage
 
 To run this project locally, clone the `main` branch of this repository and open the `index.html` file in a web browser. The data will be loaded automatically and the visualizations will be displayed on the screen.
 
-This project is also accessible through the [project site](https://sites.google.com/view/adam-jarvis/out-of-this-world/project-1-deployment?authuser=0).
+This project is also accessible through the [project site](https://sites.google.com/view/adam-jarvis/out-of-this-world/project-1-deployment).
 
 # Credits
 
