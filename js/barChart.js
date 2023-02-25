@@ -196,7 +196,7 @@ class BarChart {
 			.style('z-index', '10');
 
 		vis.charttitle = vis.svg.append("text")
-			.attr("x", vis.width/2 + 75)
+			.attr("x", vis.width/2 + vis.config.margin.left)
 			.attr("y", vis.height + 40)
 			.attr("text-anchor", "middle")
 			.style("font-family", "Roboto")
