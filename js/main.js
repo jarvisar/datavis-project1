@@ -53,7 +53,7 @@ d3.csv('data/exoplanets-1.csv')
 		window.open('https://exoplanets.nasa.gov/alien-worlds/ways-to-find-a-planet/');
 	});
 
-	let firstRowOffset = 270;
+	let firstRowOffset = 285;
 
 	// Discovery Method Bar Chart
 	let methodBar = new BarChart({
@@ -179,7 +179,7 @@ d3.csv('data/exoplanets-1.csv')
 		}
 	}, '#a1e9f7');
 
-	let secondRowOffset = 165;
+	let secondRowOffset = 185;
 
 	// Exoplanet Distance Histogram
 	let distanceHisto = new Histogram({
