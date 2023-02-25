@@ -5,7 +5,7 @@ class BarChart {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 500,
       containerHeight: _config.containerHeight || 140,
-      margin: {top: 40, right: 50, bottom: 10, left: 50}
+      margin: {top: 40, right: 40, bottom: 10, left: 40}
     }
 	
 	this.callback = _callback;
