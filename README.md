@@ -30,7 +30,7 @@ This project includes the following visualizations:
 
 - Data Table: Users can view and interact with the exoplanet data in a table format.
 
-- Host System Simulation: Users can view a simulation of a host star system.
+- Host System Simulation: Users can view a scale model of an exoplanet's solar system.
 
 # Usage
 
