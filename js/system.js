@@ -82,8 +82,7 @@ class System {
 
     let starColorScale = d3.scaleOrdinal()
       .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
-      .range(['#DFDF29', '#B0C4DE', '#65C253', '#FFFFFF', '#FFDAB9', '#00BFFF', '#CD5C5C']);
-
+      .range(['#6ebfc2', '#eaeaea', '#424fdb', '#e8ed9a', '#d8e617', '#eda218', '#c94134']);
 
     vis.svg.selectAll('.star').remove();
     vis.svg.selectAll('.planet').remove();

@@ -345,31 +345,31 @@ h4{
 }
 
 .legend-btn[category="A"] .legend-symbol {
-	background: #B0C4DE;
-}
-
-.legend-btn[category="B"] .legend-symbol {
-	background: #65C253;
-}
-
-.legend-btn[category="F"] .legend-symbol {
 	background: #eaeaea;
 }
 
+.legend-btn[category="B"] .legend-symbol {
+	background: #424fdb;
+}
+
+.legend-btn[category="F"] .legend-symbol {
+	background: #e8ed9a;
+}
+
 .legend-btn[category="G"] .legend-symbol {
-	background: #FFDAB9;
+	background: #d8e617;
 }
 
 .legend-btn[category="K"] .legend-symbol {
-	background: #00BFFF;
+	background: #eda218;
 }
 
 .legend-btn[category="M"] .legend-symbol {
-	background: #CD5C5C;
+	background: #c94134;
 }
 
 .legend-btn[category="N/A"] .legend-symbol {
-	background: #DFDF29;
+	background: #6ebfc2;
 }
 
 .table-container, .table-container:hover{
