@@ -205,7 +205,7 @@ class Scatterplot {
       });
     
     vis.ourSystem.append('circle')
-      .attr('fill', 'pink') // Or any color you prefer
+      .attr('fill', '#e663e6') // Or any color you prefer
       .attr('opacity', .8)
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
       .attr('stroke-width', 1)
@@ -215,10 +215,10 @@ class Scatterplot {
     
     vis.ourSystem.append('text')
       .attr('x', (d) => vis.xScale(d.pl_bmasse))
-      .attr('y', (d) => vis.yScale(d.pl_rade) + 4)
+      .attr('y', (d) => vis.yScale(d.pl_rade) + 4.5)
       .attr('text-anchor', 'middle')
-      .attr("font-size", "12px")
-      .style('fill', '#777')
+      .attr("font-size", "11px")
+      .style('fill', '#ccc')
       .style("pointer-events", "none")
       .text((d) => d.pl_name[0]);
 
