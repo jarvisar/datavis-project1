@@ -48,9 +48,14 @@ d3.csv('data/exoplanets-1.csv')
 		planet.planetType = planetType;
 	});
 
-	// Help button
+	// Discovery Method Help button
 	d3.selectAll('.help-button').on('click', function() {
 		window.open('https://exoplanets.nasa.gov/alien-worlds/ways-to-find-a-planet/');
+	});
+
+	// Star Type Help button
+	d3.selectAll('.type-help-button').on('click', function() {
+		window.open('https://exoplanets.nasa.gov/what-is-an-exoplanet/stars/#:~:text=Astronomers%20use%20these%20characteristics%20to,biggest%20to%20coolest%20and%20smallest.');
 	});
 
 	let firstRowOffset = 285;

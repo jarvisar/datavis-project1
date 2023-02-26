@@ -211,7 +211,32 @@ h4{
 	color: #777;
 }
 
+.type-help-button {
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+	display: inline-block;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 24px;
+	padding: 0;
+	color: #888;
+}
+  
+.type-help-button:hover {
+	color: #999;
+}
+
+.type-help-button:active {
+	color: #777;
+}
+
 .methodbar-container{
+	position: relative;
+}
+
+.typebar-container{
 	position: relative;
 }
 
