@@ -159,6 +159,8 @@ class Scatterplot {
     .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
     .range(['#6ebfc2', '#eaeaea', '#424fdb', '#e8ed9a', '#d8e617', '#eda218', '#c94134']);
 
+  let ourSolarSystemData = vis.data.filter(d => d.sys_name == "Our Solar System");
+
   vis.circles = vis.chart.selectAll('circle')
     .data(vis.data)
     .join('circle')
@@ -185,10 +187,10 @@ class Scatterplot {
       .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
       .html(`
         <div class="tooltip-title">${d.pl_name}</div>
-        <div><i>Star Type: ${d.st_spectype[0]}</i></div>
+        <li>Star Type: ${d.st_spectype != "" ? d.st_spectype[0] : " <i>n/a</i>"}</li>
         <ul>
           <li>Mass: ${d.pl_bmasse} Earth Masses</li>
-          <li>Radius: ${d.pl_rade} Earth Radii</li>
+          <li>Radius: ${d.pl_rade} Earth Radius</li>
         </ul>
       `);
       })
