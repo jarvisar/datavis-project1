@@ -100,72 +100,70 @@ class Scatterplot {
   }
 
 
- updateVis() {
-  let vis = this;
+  updateVis() {
+    let vis = this;
 
-  vis.svg.selectAll('.y-axis').remove();
-  vis.svg.selectAll('.x-axis').remove();
-  vis.svg.selectAll('.axis-grid').remove();
-  vis.svg.selectAll('.chart').remove();
-  vis.svg.selectAll('.planet').remove();
-  vis.chart.selectAll('text').remove();
+    vis.svg.selectAll('.y-axis').remove();
+    vis.svg.selectAll('.x-axis').remove();
+    vis.svg.selectAll('.axis-grid').remove();
+    vis.svg.selectAll('.chart').remove();
+    vis.svg.selectAll('.planet').remove();
+    vis.chart.selectAll('text').remove();
 
-  vis.brushSvgHolder = vis.brushSvg.append('g')
-    .attr("class","planet")
+    vis.brushSvgHolder = vis.brushSvg.append('g')
+      .attr("class","planet")
 
-  vis.xScale = d3.scaleLog()
-    .domain([d3.min(vis.data, d => parseFloat(d.pl_bmasse)), d3.max( vis.data, d => parseFloat(d.pl_bmasse))])
-    .range([0, vis.width]);
+    vis.xScale = d3.scaleLog()
+      .domain([d3.min(vis.data, d => parseFloat(d.pl_bmasse)), d3.max( vis.data, d => parseFloat(d.pl_bmasse))])
+      .range([0, vis.width]);
 
-  vis.yScale = d3.scaleLog()
-    .domain([d3.max(vis.data, d => parseFloat(d.pl_rade)), d3.min( vis.data, d => parseFloat(d.pl_rade))]) 
-    .range([0, vis.height])
-    .nice();
+    vis.yScale = d3.scaleLog()
+      .domain([d3.max(vis.data, d => parseFloat(d.pl_rade)), d3.min( vis.data, d => parseFloat(d.pl_rade))]) 
+      .range([0, vis.height])
+      .nice();
 
-  // Initialize axes
-  vis.xAxis = d3.axisBottom(vis.xScale)
-    .tickFormat(d3.format('.2f'))
-    .ticks(3);
+    // Initialize axes
+    vis.xAxis = d3.axisBottom(vis.xScale)
+      .tickFormat(d3.format('.2f'))
+      .ticks(3);
 
-  vis.yAxis = d3.axisLeft(vis.yScale)
-    .tickFormat(d3.format('.2f'))
-    .ticks(3);
+    vis.yAxis = d3.axisLeft(vis.yScale)
+      .tickFormat(d3.format('.2f'))
+      .ticks(3);
 
-  vis.xAxisGrid = d3.axisBottom(vis.xScale).tickSize(-vis.height).tickFormat('').ticks(3);
-  vis.yAxisGrid = d3.axisLeft(vis.yScale).tickSize(-vis.width).tickFormat('').ticks(3);
+    vis.xAxisGrid = d3.axisBottom(vis.xScale).tickSize(-vis.height).tickFormat('').ticks(3);
+    vis.yAxisGrid = d3.axisLeft(vis.yScale).tickSize(-vis.width).tickFormat('').ticks(3);
 
-  // Draw the axis
-  vis.xAxisGroup = vis.chart.append('g')
-    .attr('class', 'axis x-axis') 
-    .attr('transform', `translate(0,${vis.height})`)
-    .call(vis.xAxis);
+    // Draw the axis
+    vis.xAxisGroup = vis.chart.append('g')
+      .attr('class', 'axis x-axis') 
+      .attr('transform', `translate(0,${vis.height})`)
+      .call(vis.xAxis);
 
-  vis.yAxisGroup = vis.chart.append('g')
-    .attr('class', 'axis y-axis')
-    .call(vis.yAxis);
+    vis.yAxisGroup = vis.chart.append('g')
+      .attr('class', 'axis y-axis')
+      .call(vis.yAxis);
 
-  // Create grids.
-  vis.chart.append('g')
-    .attr('class', 'axis-grid')
-    .attr('transform', `translate(0,${vis.height})`)
-    .call(vis.xAxisGrid);
+    // Create grids.
+    vis.chart.append('g')
+      .attr('class', 'axis-grid')
+      .attr('transform', `translate(0,${vis.height})`)
+      .call(vis.xAxisGrid);
 
-  vis.chart.append('g')
-    .attr('class', 'axis-grid')
-    .call(vis.yAxisGrid);
-
-
-  let starColorScale = d3.scaleOrdinal()
-    .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
-    .range(['#6ebfc2', '#eaeaea', '#424fdb', '#e8ed9a', '#d8e617', '#eda218', '#c94134']);
-
-    // Filter the data for "Our Solar System"
-  let ourSolarSystemData = vis.data.filter(d => d.sys_name === "Our Solar System");
+    vis.chart.append('g')
+      .attr('class', 'axis-grid')
+      .call(vis.yAxisGrid);
 
 
+    let starColorScale = d3.scaleOrdinal()
+      .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
+      .range(['#6ebfc2', '#eaeaea', '#424fdb', '#e8ed9a', '#d8e617', '#eda218', '#c94134']);
 
-  // Draw the circles for the remaining data
-  vis.circles = vis.chart.selectAll('.planet:not(.our-solar-system)')
+      // Filter the data for "Our Solar System"
+    let ourSolarSystemData = vis.data.filter(d => d.sys_name === "Our Solar System");
+
+    // Draw the circles for the remaining data
+    vis.circles = vis.chart.selectAll('.planet:not(.our-solar-system)')
       .data(vis.data)
       .join('circle')
       .attr('class', 'planet')
@@ -183,36 +181,46 @@ class Scatterplot {
       .attr('cy', (d) => vis.height) 
       .attr('cx',(d) =>  0 );
 
-    // Draw the circles for "Our Solar System"
     vis.ourSystem = vis.chart.selectAll('.our-solar-system')
       .data(ourSolarSystemData)
       .enter()
-      .append('circle')
+      .append('g')
       .attr('class', 'planet our-solar-system')
+      .on('mouseover', (event, d) => {
+        d3.select('#scatterplot-tooltip')
+          .style('display', 'block')
+          .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')
+          .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
+          .html(`
+              <div class="tooltip-title">${d.pl_name}</div>
+              <i>${d.st_spectype != "" ? d.st_spectype[0] + "-type Star" : "Star Type Not Available"}</i>
+              <ul>
+                <li>Mass: ${d.pl_bmasse} Earth Masses</li>
+                <li>Radius: ${d.pl_rade} Earth Radius</li>
+              </ul>
+            `);
+      })
+      .on('mouseleave', () => {
+        d3.select('#scatterplot-tooltip').style('display', 'none');
+      });
+    
+    vis.ourSystem.append('circle')
       .attr('fill', 'pink') // Or any color you prefer
       .attr('opacity', .8)
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
       .attr('stroke-width', 1)
       .attr('r', (d) => 8)
-      .attr('cy', (d) => vis.yScale(d.pl_rade)) 
-      .attr('cx',(d) => vis.xScale(d.pl_bmasse))
-      .on('mouseover', (event,d) => {
-        d3.select('#scatterplot-tooltip')
-        .style('display', 'block')
-        .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
-        .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
-        .html(`
-          <div class="tooltip-title">${d.pl_name}</div>
-          <i>${d.st_spectype != "" ? d.st_spectype[0] + "-type Star" : "Star Type Not Available"}</i>
-          <ul>
-            <li>Mass: ${d.pl_bmasse} Earth Masses</li>
-            <li>Radius: ${d.pl_rade} Earth Radius</li>
-          </ul>
-        `);
-        })
-        .on('mouseleave', () => {
-          d3.select('#scatterplot-tooltip').style('display', 'none');
-        });
+      .attr('cy', (d) => vis.yScale(d.pl_rade))
+      .attr('cx', (d) => vis.xScale(d.pl_bmasse));
+    
+    vis.ourSystem.append('text')
+      .attr('x', (d) => vis.xScale(d.pl_bmasse))
+      .attr('y', (d) => vis.yScale(d.pl_rade) + 4)
+      .attr('text-anchor', 'middle')
+      .attr("font-size", "12px")
+      .style('fill', '#777')
+      .style("pointer-events", "none")
+      .text((d) => d.pl_name[0]);
 
   vis.circles
     .on('mouseover', (event,d) => {
