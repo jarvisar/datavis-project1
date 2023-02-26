@@ -73,7 +73,7 @@ class System {
 
     vis.rScale = d3.scaleLog()
       .domain(d3.extent(vis.data, d => parseFloat(d.pl_rade)))
-      .range([5, 15]);
+      .range([5, 20]);
 
     let data = vis.data;
     console.log(vis.width)

@@ -202,7 +202,12 @@ class Scatterplot {
       })
       .on('mouseleave', () => {
         d3.select('#scatterplot-tooltip').style('display', 'none');
+      })
+      .on('click',(event,d) =>{
+        console.log(d)
+        setExoplanetFromScatterplot(d.pl_name)
       });
+
     
     vis.ourSystem.append('circle')
       .attr('fill', '#e663e6') // Or any color you prefer

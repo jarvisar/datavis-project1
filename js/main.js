@@ -361,7 +361,12 @@ d3.csv('data/exoplanets-1.csv')
 function setExoplanet(exoplanetData){
 	document.getElementById("system-container").style.display = "flex";
 	document.getElementById("reset-button").style.display = "flex";
-	filteredData = globalData.filter(d => d.sys_name == exoplanetData[0].sys_name)
+	console.log(exoplanetData)
+	if (exoplanetData == "solarsystem"){
+		filteredData = solarSystemData;
+	} else {
+		filteredData = globalData.filter(d => d.sys_name == exoplanetData[0].sys_name)
+	}
 	buildTable(filteredData);
 	system.data = filteredData;
 	document.getElementById("content").style.filter = "blur(5px)";
@@ -648,6 +653,11 @@ function buildTable(data) {
 
 function setExoplanetFromScatterplot(pl_name){
 	let selectedPlanet = globalData.filter(da => da.pl_name == pl_name);
-	setExoplanet(selectedPlanet);
+	if (pl_name == "Mercury" || pl_name == "Venus" || pl_name == "Earth" || pl_name == "Mars" || pl_name == "Jupiter" || pl_name == "Saturn" || pl_name == "Uranus" || pl_name == "Neptune"){
+		setExoplanet("solarsystem")
+	} else {
+		setExoplanet(selectedPlanet);
+	}
+	
 }
   
