@@ -94,6 +94,14 @@ h4{
 	box-shadow: 0px 1px 3px #aaaaaa, 0px 2px 3px #aaaaaa;
 }
 
+.reset-button:hover{
+	filter: brightness(80%)
+}
+
+.reset-button:active{
+	filter: brightness(70%)
+}
+
 .cool-button{
 	height: 30px;
 	width: 90px;
