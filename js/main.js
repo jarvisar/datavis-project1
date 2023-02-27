@@ -568,7 +568,7 @@ function buildTable(data) {
   
 	// Define table properties
 	const tableid = "#exoplanettable";
-	const columns = ["Planet Name", "System Name", "Discover Facility", "Planet Radius", "Planet Mass"];
+	const columns = ["Planet Name", "System Name", "Discover Facility", "Planet Radius (Re)", "Planet Mass (Me)"];
 
 	const tableWidth = exoplanettable.offsetWidth;
 	const tableHeight = exoplanettable.offsetHeight;
