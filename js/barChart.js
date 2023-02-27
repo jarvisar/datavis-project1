@@ -19,12 +19,11 @@ class BarChart {
   initVis(){
 	let vis = this;
 	let dataArray = vis.data;
+
 	// Width and height as the inner dimensions of the chart area- as before
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
-    // Define 'svg' as a child-element (g) from the drawing area and include spaces
-    // Add <svg> element (drawing space)
     vis.svg = d3.select(vis.config.parentElement)
         .attr('width', vis.config.containerWidth)
         .attr('height', vis.config.containerHeight)
@@ -41,15 +40,15 @@ class BarChart {
 	const width = vis.config.containerWidth;
 	const height = vis.config.containerHeight;
 	const margin = 40;
-	// Add the x axis
 
-	// Set the scales
+	// Set xScale
 	vis.xScale = d3.scaleBand()
 		.domain(dataArray.map(d => d.key))
 		.range([margin, width - margin])
 		.padding(0.1);
-	
-	if(vis.title != "Exoplanets by Discovery Method"){
+
+	// Draw axis if not discovery method or habitability barcharts
+	if(vis.title != "Exoplanets by Discovery Method" || vis.title != "Exoplanets by Habitability" ){
 		vis.svg.append('g')
 		.attr('transform', `translate(0, ${vis.config.containerHeight - vis.config.margin.top})`)
 		.call(d3.axisBottom(vis.xScale))
@@ -64,13 +63,11 @@ class BarChart {
 	}
 
 	vis.updateVis();
-	
   }
 
   updateVis(){
 	let vis = this;
 	let dataArray = vis.data;
-    vis.clicked = {};
 
 	const width = vis.config.containerWidth;
 	const height = vis.config.containerHeight;
@@ -237,8 +234,6 @@ class BarChart {
 
     vis.rects.on('click', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
-		vis.clicked = {};
-        vis.clicked[barClass] = true;
 		console.log(d.key);
 		d3.select('#barchart-tooltip')
 			.style('display', 'none');
