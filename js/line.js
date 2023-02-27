@@ -258,18 +258,27 @@ class Line {
         .style('display', 'none');
 
     vis.tooltip.append('rect')
-        .attr('min-width', 130)
-        .attr('height', 40)
-        .style('background', '#fff')
-        .style('box-shadow', '3px 3px 3px 0px rgb(92 92 92 / 0.5);')
-        .style('color', '#333')
-        .style('padding', 8);
+        .attr('width', 120)
+        .attr('height', 50)
+        .attr('fill', 'white')
+        .style('stroke', '#eaeaea')
+        .style('stroke-width', 1)
+        .attr('filter', 'drop-shadow(3px 3px 3px rgba(92, 92, 92, 0.5))');
 
     vis.tooltip.append('text')
-        .attr('x', 10)
-        .attr('y', 25)
-        .attr('size', 14)
-        .attr('color', '#333');
+        .attr('x', 60)
+        .attr('y', 40)
+        .attr('font-size', 14)
+        .attr('text-anchor', 'middle')
+        .attr('class', 'count-text');
+
+    vis.tooltip.append('text')
+        .attr('x', 60)
+        .attr('y', 20)
+        .attr('font-size', 15)
+        .attr('text-anchor', 'middle')
+        .style('font-weight', '700')
+        .attr('class', 'year-text');
 
     vis.tooltip.append('circle')
         .attr('r', 4)
@@ -311,9 +320,15 @@ class Line {
                 .attr('transform', `translate(${vis.xScale(d.key)},${vis.yScale(d.count)})`)
                 .style('z-index', '10');
 
-            vis.tooltip.select('text')
+            vis.tooltip.select('.count-text')
                 .attr('transform', `translate(${vis.xScale(d.key) + 5},${vis.yScale(d.count) - 50})`)
                 .text(Math.round(d.count) + " Exoplanets")
+                .style('display', 'block')
+                .style('z-index', '10');
+            
+            vis.tooltip.select('.year-text')
+                .attr('transform', `translate(${vis.xScale(d.key) + 5},${vis.yScale(d.count) - 50})`)
+                .text(Math.round(d.key))
                 .style('display', 'block')
                 .style('z-index', '10');
         })

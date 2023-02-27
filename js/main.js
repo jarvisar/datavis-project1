@@ -94,7 +94,7 @@ d3.csv('data/exoplanets-1.csv')
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.sy_pnum))
 		updateData(filteredData);
-	}, '#104494');
+	}, '#648198');
 
 
 	// Star Type Bar Chart
@@ -211,7 +211,7 @@ d3.csv('data/exoplanets-1.csv')
 			}
 		});
 		updateData(filteredData);
-	}, '#648198');
+	}, '#104494');
 
 
 	// Year Line Chart
