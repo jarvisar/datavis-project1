@@ -254,6 +254,21 @@ h4{
 	z-index: 25;
 }
 
+#year-tooltip {
+	font-family: Roboto;
+	position: absolute;
+	display: none;
+	background: #fff;
+	box-shadow: 3px 3px 3px 0px rgb(92 92 92 / 0.5);
+	border: 1px solid #ddd;
+	font-size: 14px;
+	font-weight: 500;
+	padding: 8px;
+	min-width: 110px;
+	color: #333;
+	z-index: 25;
+}
+
 #scatterplot-tooltip {
 	font-family: Roboto;
 	position: absolute;
