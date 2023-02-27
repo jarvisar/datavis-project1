@@ -73,13 +73,16 @@ class BarChart {
 	const height = vis.config.containerHeight;
 	const margin = 40;
 
+	// Prevents duplicate titles and axis
 	vis.svg.selectAll('.y-axis').remove();
 	vis.svg.selectAll('.chart-title').remove();
 	
+	// Set yScale
 	vis.yScale = d3.scaleLinear()
 		.domain([0, d3.max(dataArray, d => d.count)])
 		.range([height - margin, margin]);
 
+	// Add chart titles
 	vis.charttitle = vis.svg.append("text")
 		.attr("x", width/2)
 		.attr("y", 20)
@@ -95,15 +98,18 @@ class BarChart {
 		.call(d3.axisLeft(vis.yScale).ticks(5))
 		.attr('class', 'y-axis');
 
+	// Used to create a class for each bar (formats input string into valid CSS class name)
 	function formatString(input, d){
 		return input.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase() + d.key.replace(/\s+/g, '-').replace(/[/\\*]/g, "").toLowerCase();
 	}
 
+	// Add bars to chart
     vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
         .join('rect')
 		.attr('class', 'bar-rect-' + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase())
 
+	// Define transition
 	vis.rects.transition()
 		.duration(1000)
 		.attr('x', d => vis.xScale(d.key))
@@ -114,16 +120,16 @@ class BarChart {
 		.attr('class', (d) => "bar-" + formatString(vis.title, d))
 		.on('end', () => {
 			vis.rects.on('mouseover', (event, d) => {
-			let barClass = "bar-" + formatString(vis.title, d);
+			let barClass = "bar-" + formatString(vis.title, d); // Darken bars on mouseover
 			d3.select("." + barClass)
 				.style('filter', `brightness(80%)`)
 				.style("cursor", "pointer");
 			d3.select('#barchart-tooltip')
 				.style('display', 'block')
 				.style('left', (event.pageX + 15) + 'px')   
-				.style('top', (event.pageY + 15) + 'px')
+				.style('top', (event.pageY + 15) + 'px')	// Add tooltip
 				.html(`
-					<div class="tooltip-title">${vis.title}</div>
+					<div class="tooltip-title">${vis.title}</div>	
 					<ul>
 					<li><div>Key: <i>${d.key}</i></div>
 					<li><div>Count: <i>${d.count}</i></div>
@@ -133,13 +139,14 @@ class BarChart {
 			vis.rects.on('mouseleave', (event, d) => {
 				let barClass = "bar-" + formatString(vis.title, d);
 				d3.select("." + barClass)
-					.style('filter', `brightness(100%)`);
+					.style('filter', `brightness(100%)`); // Reset brightness
 				d3.select('#barchart-tooltip')
-					.style('display', 'none');
+					.style('display', 'none'); // Remove tooltip
 			});
 	});
 
 	if(vis.title == "Exoplanets by Discovery Method"){
+		// Discovery methods are vertical on x-axis
 		vis.svg.selectAll('.x-axis').remove();
 		vis.svg.selectAll('.axis-title').remove();
 		vis.svg.append('g')
@@ -171,6 +178,7 @@ class BarChart {
 			.attr('class', 'axis-title');
 
 	} else if(vis.title == "Exoplanets by Habitability"){
+		// Habitability is vertical on x-axis
 		vis.svg.selectAll('.x-axis').remove();
 		vis.svg.selectAll('.axis-title').remove();
 		vis.svg.append('g')
@@ -201,6 +209,7 @@ class BarChart {
 			.text("Habitability")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by # of Stars in System") {
+		// Add axis title
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
@@ -211,6 +220,7 @@ class BarChart {
 			.text("# of Stars")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by # of Planets in System") {
+		// Add axis title
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
@@ -221,6 +231,7 @@ class BarChart {
 			.text("# of Planets")
 			.attr('class', 'axis-title');
 	} else if(vis.title == "Exoplanets by Star Type") {
+		// Add axis title
 		vis.svg.selectAll('.axis-title').remove();
 		vis.charttitle = vis.svg.append("text")
 			.attr("x", vis.width/2 + 55)
@@ -235,12 +246,11 @@ class BarChart {
     vis.rects.on('click', (event, d) => {
         let barClass = "bar-" + formatString(vis.title, d);
 		console.log(d.key);
-		d3.select('#barchart-tooltip')
-			.style('display', 'none');
-		vis.callback(d.key);
-        vis.rects.style('filter', 'brightness(100%)'); // 2 seconds;
-		d3.select("." + "bar-" + formatString(vis.title, d))
-		;
+		d3.select('#barchart-tooltip') 
+			.style('display', 'none'); // Remove tooltip on click
+		vis.callback(d.key); // Callback to main function to filter data
+        vis.rects.style('filter', 'brightness(100%)'); // Reset brightness
+		d3.select("." + "bar-" + formatString(vis.title, d));
     });
 
   }
