@@ -236,8 +236,9 @@ d3.csv('data/exoplanets-1.csv')
 		let minR = parseFloat(r1)
 		let maxR = parseFloat(r2)
 		filteredData = data.filter(d => parseFloat(d.pl_bmasse) >= minM).filter(d => parseFloat(d.pl_bmasse) <= maxM).filter(d => parseFloat(d.pl_rade) >= minR).filter(d => parseFloat(d.pl_rade) <= maxR)
-		if(filteredData.length != 0){
-			updateData(filteredData)
+		filteredSolarSystemData = solarSystemData.filter(d => parseFloat(d.pl_bmasse) >= minM).filter(d => parseFloat(d.pl_bmasse) <= maxM).filter(d => parseFloat(d.pl_rade) >= minR).filter(d => parseFloat(d.pl_rade) <= maxR)
+		if(filteredData.length != 0 || filteredSolarSystemData.length != 0){
+			updateData(filteredData, filteredSolarSystemData)
 		} else {
 			resetData();
 		}
@@ -264,7 +265,7 @@ d3.csv('data/exoplanets-1.csv')
 	  });
 
 	
-	function updateData(filteredData){
+	function updateData(filteredData, filteredSolarSystemData = false){
 		// Show the loading message
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
@@ -277,8 +278,10 @@ d3.csv('data/exoplanets-1.csv')
 			habitabilityBar.data = getHabitabilityCount(filteredData);
 			distanceHisto.data = getHistoData(filteredData);
 			yearLine.data = getYearCount(filteredData);
-			scatterplot.data = getScatterData(filteredData);
-			buildTable(filteredData);
+			if (filteredSolarSystemData != false){
+				scatterplot.data = getScatterData(filteredData.concat(filteredSolarSystemData));
+				buildTable(filteredData.concat(filteredSolarSystemData));
+			}
 			methodBar.updateVis();
 			typeBar.updateVis();
 			systemStarBar.updateVis();
