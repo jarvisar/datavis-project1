@@ -281,6 +281,9 @@ d3.csv('data/exoplanets-1.csv')
 			if (filteredSolarSystemData != false){
 				scatterplot.data = getScatterData(filteredData.concat(filteredSolarSystemData));
 				buildTable(filteredData.concat(filteredSolarSystemData));
+			} else {
+				scatterplot.data = getScatterData(filteredData);
+				buildTable(filteredData);
 			}
 			methodBar.updateVis();
 			typeBar.updateVis();
