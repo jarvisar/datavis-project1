@@ -68,9 +68,9 @@ h4{
 
 .selected {
 	opacity: 1 !important;
-	stroke: black;
+	stroke: #555;
 	stroke-width: 1px;
-  }
+}
 
 .header-card{
 	background-color: #ffffff;

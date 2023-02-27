@@ -259,6 +259,11 @@ class Scatterplot {
             const cy = vis.yScale(d.pl_rade);
             return selection[0][0] <= cx && cx <= selection[1][0] && selection[0][1] <= cy && cy <= selection[1][1];
           });
+          vis.ourSystem.classed("selected", d => {
+            const cx = vis.xScale(d.pl_bmasse);
+            const cy = vis.yScale(d.pl_rade);
+            return selection[0][0] <= cx && cx <= selection[1][0] && selection[0][1] <= cy && cy <= selection[1][1];
+          });
         })
         .on('end', function({selection}) {
           if (selection){
@@ -271,8 +276,12 @@ class Scatterplot {
       .duration(1000)
       .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade))) 
       .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)));
-  }
 
+    vis.ourSystem.transition()
+      .duration(1000)
+      .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade))) 
+      .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)));
+  }
 
  renderVis() { 
 
