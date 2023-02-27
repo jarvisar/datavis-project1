@@ -140,11 +140,12 @@ class System {
           .style('left', (event.pageX + 15) + 'px')   
           .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
           .html(`
-            <div class="tooltip-title">${d.hostname}</div>
+            <div class="tooltip-title"><b>${d.hostname}</b></div>
+            <div><i>${d.st_spectype != "" ? d.st_spectype + " Star" : "Unknown Star Type"}</i></div>
             <ul>
               <li>Radius: ${d.st_rad} solar units</li>
               <li>Mass: ${d.st_mass} solar units</li>
-              <li>Type: ${d.st_spectype != "" ? d.st_spectype : " <i>n/a</i>"}</li>
+
             </ul>
           `);
       })
@@ -153,8 +154,8 @@ class System {
       });
 
     vis.svg.append('text')
-      .attr('x', (vis.data[0].st_rad * 50) + 25)
-      .attr('y', ((vis.height/2) - (vis.data[0].st_rad * 50) - 40))
+      .attr('x', (vis.data[0].st_rad * 50) + 20)
+      .attr('y', ((vis.height/2) - (vis.data[0].st_rad * 50) - 20))
       .attr("text-anchor", "middle")
       .attr('class', "star-name")
       .text(vis.data[0].hostname)
@@ -221,24 +222,23 @@ class System {
       .append('circle')
       .attr('class', 'planet')
       .attr('r', d => vis.rScale(parseFloat(d.pl_rade)))
-      .attr('fill', d => vis.planetColorScale(getPlanetType(d.pl_bmasse)))
+      .attr('fill', d => vis.planetColorScale(d.planetType))
       .attr('cx', d => vis.xScale(d.pl_orbsmax))
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
       .style('filter', 'url(#planet-shadow)') // Add the radial shadow as a filter to the circle
       .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)') // Add the radial shadow as a CSS box-shadow property to the circle
       .attr('cy', vis.height/2)
       .on('mouseover', (event, d) => {
-        const planetType = getPlanetType(d.pl_bmasse);
         d3.select('#system-tooltip')
           .style('display', 'block')
           .style('left', (event.pageX + 15) + 'px')   
           .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
           .html(`
-            <div class="tooltip-title">${d.pl_name}</div>
+            <div class="tooltip-title"><b>${d.pl_name}</b></div>
+            <div><i>${d.planetType} Planet</i></div>
             <ul>
               <li>Radius: ${d.pl_rade} Re</li>
               <li>Mass: ${d.pl_bmasse} Me</li>
-              <li>Type: ${planetType}</li>
               <li>Orbital Axis: ${d.pl_orbsmax} au</li>
             </ul>
           `);
@@ -246,28 +246,6 @@ class System {
       .on('mouseleave', () => {
         d3.select('#system-tooltip').style('display', 'none');
       });
-
-
-
-    function getPlanetType(mass) {
-      if (mass < 0.00001) {
-        return 'Asteroidan';
-      } else if (mass >= 0.00001 && mass < 0.1) {
-        return 'Mercurian';
-      } else if (mass >= 0.1 && mass < 0.5) {
-        return 'Subterran';
-      } else if (mass >= 0.5 && mass < 2) {
-        return 'Terran';
-      } else if (mass >= 2 && mass < 10) {
-        return 'Superterran';
-      } else if (mass >= 10 && mass < 50) {
-        return 'Neptunian';
-      } else if (mass >= 50 && mass <= 5000) {
-        return 'Jovian';
-      } else {
-        return 'Unknown';
-      }
-    } 
   }
 
   renderVis(brushEnabled) {

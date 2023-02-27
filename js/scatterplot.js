@@ -234,11 +234,12 @@ class Scatterplot {
       .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
       .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
       .html(`
-        <div class="tooltip-title">${d.pl_name}</div>
-        <i>${d.st_spectype != "" ? d.st_spectype[0] + "-type Star" : "Star Type Not Available"}</i>
+        <div class="tooltip-title"><b>${d.pl_name}</b></div>
+        <div><i>${d.planetType} Planet</i></div>
         <ul>
-          <li>Mass: ${d.pl_bmasse} Earth Masses</li>
-          <li>Radius: ${d.pl_rade} Earth Radius</li>
+          <li>Radius: ${d.pl_rade} Re</li>
+          <li>Mass: ${d.pl_bmasse} Me</li>
+          <li>Orbital Axis: ${d.pl_orbsmax} au</li>
         </ul>
       `);
       })
