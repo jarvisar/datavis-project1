@@ -1,5 +1,6 @@
 console.log("Hello world");
 var filterApplied = false;
+document.getElementById("reset-button").disabled = true;
 let solarSystemData = [];
 let globalData;
 
@@ -271,7 +272,7 @@ d3.csv('data/exoplanets-1.csv')
 		// Show the loading message
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
-		document.getElementById("reset-button").style.display = "flex";
+		document.getElementById("reset-button").disabled = false;
 		setTimeout(function() {
 			methodBar.data = getMethodCount(filteredData);
 			systemStarBar.data = getStarCount(filteredData);
@@ -306,7 +307,7 @@ d3.csv('data/exoplanets-1.csv')
 		// Show the loading message
 		var loading = document.getElementById("loading");
 		loading.classList.add("loading");
-		document.getElementById("reset-button").style.display = "none";
+		document.getElementById("reset-button").disabled = true;
 		setTimeout(function() {
 			methodBar.data = getMethodCount(data);
 			systemStarBar.data = getStarCount(data);
@@ -360,7 +361,7 @@ d3.csv('data/exoplanets-1.csv')
 
 function setExoplanet(exoplanetData){
 	document.getElementById("system-container").style.display = "flex";
-	document.getElementById("reset-button").style.display = "flex";
+	document.getElementById("reset-button").disabled = false;
 	console.log(exoplanetData)
 	if (exoplanetData == "solarsystem"){
 		filteredData = solarSystemData;
