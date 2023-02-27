@@ -62,13 +62,14 @@ class System {
 
   updateVis() {
     let vis = this;
-    let minOrbsmax = d3.min(vis.data, d => d.pl_orbsmax);
-    let maxOrbsmax = d3.max(vis.data, d => d.pl_orbsmax);
-
+    let minOrbsmax = d3.min(vis.data, d => parseFloat(d.pl_orbsmax));
+    let maxOrbsmax = d3.max(vis.data, d => parseFloat(d.pl_orbsmax));
+    console.log(maxOrbsmax)
+    console.log(vis.data)
     // Create an xScale
     vis.xScale = d3.scaleLinear()
       .domain([minOrbsmax, maxOrbsmax])
-      .range([((vis.data[0].st_rad * 50) + 100 + (vis.data[0].pl_rade * 3)), vis.width - (vis.data[0].pl_rade * 3) - 30]);
+      .range([((parseFloat(vis.data[0].st_rad) * 50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
 
     vis.rScale = d3.scaleLog()
       .domain(d3.extent(vis.data, d => parseFloat(d.pl_rade)))
@@ -246,17 +247,7 @@ class System {
         d3.select('#system-tooltip').style('display', 'none');
       });
 
-    vis.svg.selectAll('.planet-name')
-      .data(vis.data)
-      .enter()
-      .append('text')
-      .attr('x', d => vis.xScale(d.pl_orbsmax))
-      .attr('y', d => ((vis.height/2) - vis.rScale(parseFloat(d.pl_rade)) - 10))
-      .attr("text-anchor", "middle")
-      .attr('class', "star-name")
-      .text(d => d.pl_name)
-      .attr("font-size", "12px")
-      .style('pointer-events', 'none');
+
 
     function getPlanetType(mass) {
       if (mass < 0.00001) {
