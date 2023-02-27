@@ -107,43 +107,13 @@ class BarChart {
     vis.rects = vis.svg.selectAll('rect')
         .data(dataArray)
         .join('rect')
-		.attr('class', 'bar-rect-' + vis.title.replace(/\s+/g, '-').replace(/[/\\*]/g, "").replace(/\#/g, "").toLowerCase())
-
-	// Define transition
-	vis.rects.transition()
-		.duration(1000)
 		.attr('x', d => vis.xScale(d.key))
-		.attr('y', d => vis.yScale(d.count))
+		.attr('y', d => vis.height)
 		.attr('width', vis.xScale.bandwidth())
-		.attr('height', d => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))
+		.attr('height', d => 0)
 		.style('fill', vis.color)
 		.attr('class', (d) => "bar-" + formatString(vis.title, d))
-		.on('end', () => {
-			vis.rects.on('mouseover', (event, d) => {
-			let barClass = "bar-" + formatString(vis.title, d); // Darken bars on mouseover
-			d3.select("." + barClass)
-				.style('filter', `brightness(80%)`)
-				.style("cursor", "pointer");
-			d3.select('#barchart-tooltip')
-				.style('display', 'block')
-				.style('left', (event.pageX + 15) + 'px')   
-				.style('top', (event.pageY + 15) + 'px')	// Add tooltip
-				.html(`
-					<div class="tooltip-title">${vis.title}</div>	
-					<ul>
-					<li><div>Key: <i>${d.key}</i></div>
-					<li><div>Count: <i>${d.count}</i></div>
-					</ul>
-			  	`);
-			})
-			vis.rects.on('mouseleave', (event, d) => {
-				let barClass = "bar-" + formatString(vis.title, d);
-				d3.select("." + barClass)
-					.style('filter', `brightness(100%)`); // Reset brightness
-				d3.select('#barchart-tooltip')
-					.style('display', 'none'); // Remove tooltip
-			});
-	});
+
 
 	if(vis.title == "Exoplanets by Discovery Method"){
 		// Discovery methods are vertical on x-axis
@@ -252,6 +222,37 @@ class BarChart {
         vis.rects.style('filter', 'brightness(100%)'); // Reset brightness
 		d3.select("." + "bar-" + formatString(vis.title, d));
     });
+
+	vis.rects.transition()
+		.duration(1000)
+		.attr('y', (d) => vis.yScale(d.count) ) 
+		.attr('height', (d) => vis.config.containerHeight - vis.config.margin.top - vis.yScale(d.count))		
+		.on('end', () => {
+			vis.rects.on('mouseover', (event, d) => {
+			let barClass = "bar-" + formatString(vis.title, d);
+			d3.select("." + barClass)
+				.style('filter', `brightness(80%)`) // Darken bars on mouseover
+				.style("cursor", "pointer");
+			d3.select('#barchart-tooltip')
+				.style('display', 'block')
+				.style('left', (event.pageX + 15) + 'px')   
+				.style('top', (event.pageY + 15) + 'px')	// Add tooltip
+				.html(`
+					<div class="tooltip-title">${vis.title}</div>	
+					<ul>
+					<li><div>Key: <i>${d.key}</i></div>
+					<li><div>Count: <i>${d.count}</i></div>
+					</ul>
+			  	`);
+			})
+			vis.rects.on('mouseleave', (event, d) => {
+				let barClass = "bar-" + formatString(vis.title, d);
+				d3.select("." + barClass)
+					.style('filter', `brightness(100%)`); // Reset brightness
+				d3.select('#barchart-tooltip')
+					.style('display', 'none'); // Remove tooltip
+			});
+		});
 
   }
 
