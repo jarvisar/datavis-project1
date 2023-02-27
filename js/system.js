@@ -227,8 +227,9 @@ class System {
       .attr('r', d => vis.xScale(d.pl_orbsmax) - (d.st_rad * 50) - 20)
       .attr('stroke', 'gray')
       .attr('stroke-width', 1)
-      .attr('fill', 'none')
+      .attr('fill', 'none');
 
+    let unknownOffset = 0;
     vis.planets = vis.svg.selectAll('.planet')
       .data(vis.data)
       .enter()
@@ -236,11 +237,24 @@ class System {
       .attr('class', 'planet')
       .attr('r', d => vis.rScale(parseFloat(d.pl_rade)))
       .attr('fill', d => vis.planetColorScale(d.planetType))
-      .attr('cx', d => vis.xScale(d.pl_orbsmax))
+      .attr('cx', d => {
+        if (d.pl_orbsmax != ""){
+          return vis.xScale(d.pl_orbsmax)
+        } else {
+          let offset = unknownOffset;
+          unknownOffset += (vis.rScale(parseFloat(d.pl_rade)) * 2) + 10;
+          return vis.rScale(parseFloat(d.pl_rade)) + 10 + offset;
+      }})
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
       .style('filter', 'url(#planet-shadow)') // Add the radial shadow as a filter to the circle
       .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)') // Add the radial shadow as a CSS box-shadow property to the circle
-      .attr('cy', vis.height/2)
+      .attr('cy', d => {
+        if (d.pl_orbsmax != ""){
+          console.log(d.pl_orbsmax);
+          return vis.height/2;
+        } else {
+          return vis.height - vis.rScale(parseFloat(d.pl_rade)) - 10;
+      }})
       .on('mouseover', (event, d) => {
         d3.select('#system-tooltip')
           .style('display', 'block')
@@ -252,7 +266,7 @@ class System {
             <ul>
               <li>Radius: ${d.pl_rade} Re</li>
               <li>Mass: ${d.pl_bmasse} Me</li>
-              <li>Orbital Axis: ${d.pl_orbsmax} au</li>
+              <li>Orbital Axis: ${d.pl_orbsmax == "" ? "Unknown" : d.pl_orbsmax} au</li>
             </ul>
           `);
       })
