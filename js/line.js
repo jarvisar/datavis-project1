@@ -145,8 +145,8 @@ class Line {
             vis.tooltip.style('display', 'block');
         })
         .on('mouseleave', () => {
-        vis.tooltip.style('display', 'none');
-        d3.select('#scatterplot-tooltip').style('display', 'none');
+            vis.tooltip.style('display', 'none');
+            d3.select('#year-tooltip').style('display', 'none');
         })
         .on('mousemove', function(event) {
             // Get date that corresponds to current mouse x-coordinate
@@ -166,8 +166,8 @@ class Line {
 
             d3.select('#year-tooltip')
                 .style('display', 'block')
-                .style('left', (vis.xScale(d.key)) + 'px')   
-                .style('top', (vis.yScale(d.count)) + 'px')
+                .style('left', (vis.xScale(d.key) + 5) + 'px')   
+                .style('top', (vis.yScale(d.count) - 40) + 'px')
                 .html(`
                   <div style="text-align: center"><b>${d.key}</b></div>
                   <div style="text-align: center">${d.count} Exoplanets</div>
