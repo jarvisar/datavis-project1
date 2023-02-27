@@ -231,17 +231,13 @@ d3.csv('data/exoplanets-1.csv')
 		'containerHeight': (window.innerHeight) * 0.4,
 		'containerWidth': (window.innerWidth - secondRowOffset) * 0.5
 	},  getScatterData(data.concat(solarSystemData)), (m1,m2,r1,r2) => {
-		scatData = data;
 		let minM = parseFloat(m1)
 		let maxM = parseFloat(m2)
 		let minR = parseFloat(r1)
 		let maxR = parseFloat(r2)
-		scatData = scatData.filter(d => parseFloat(d.pl_bmasse) >= minM)
-		scatData = scatData.filter(d => parseFloat(d.pl_bmasse) <= maxM)
-		scatData = scatData.filter(d => parseFloat(d.pl_rade) >= minR)
-		scatData = scatData.filter(d => parseFloat(d.pl_rade) <= maxR)
-		if(scatData.length != 0){
-			updateData(scatData)
+		filteredData = data.filter(d => parseFloat(d.pl_bmasse) >= minM).filter(d => parseFloat(d.pl_bmasse) <= maxM).filter(d => parseFloat(d.pl_rade) >= minR).filter(d => parseFloat(d.pl_rade) <= maxR)
+		if(filteredData.length != 0){
+			updateData(filteredData)
 		} else {
 			resetData();
 		}
