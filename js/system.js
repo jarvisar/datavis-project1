@@ -62,7 +62,6 @@ class System {
 
   updateVis() {
     let vis = this;
-    console.log(vis.globalData);
     let minOrbsmax = d3.min(vis.data, d => d.pl_orbsmax);
     let maxOrbsmax = d3.max(vis.data, d => d.pl_orbsmax);
 
@@ -74,11 +73,6 @@ class System {
     vis.rScale = d3.scaleLog()
       .domain(d3.extent(vis.data, d => parseFloat(d.pl_rade)))
       .range([5, 20]);
-
-    let data = vis.data;
-    console.log(vis.width)
-    console.log(vis.height)
-    // Remove any existing circles
 
     let starColorScale = d3.scaleOrdinal()
       .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
@@ -140,7 +134,6 @@ class System {
       .attr('cx', d => (d.st_rad * 50) + 20)
       .attr('cy', vis.height/2)
       .on('mouseover', (event, d) => {
-        console.log("test")
         d3.select('#system-tooltip')
           .style('display', 'block')
           .style('left', (event.pageX + 15) + 'px')   
@@ -221,7 +214,6 @@ class System {
       .attr("stop-color", "#000000")
       .attr("stop-opacity", 0.8);
 
-    console.log(vis.data)
     vis.svg.selectAll('.planet')
       .data(vis.data)
       .enter()
