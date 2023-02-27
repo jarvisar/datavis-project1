@@ -533,23 +533,23 @@ function getHabitabilityCount(datar){
 function getHistoData(datar){
 	const counts = {
 		'0-50': 0, 
-		'50-100': 0, 
-		'100-250': 0, 
-		'250-500': 0, 
-		'>500': 0
+		'50-500': 0, 
+		'500-1000': 0, 
+		'1000-1500': 0, 
+		'>1500': 0
 	};
 	
 	datar.forEach(d => {
 		if (d.sy_dist >= 0 && d.sy_dist < 50) {
 			counts['0-50']++;
-		} else if (d.sy_dist >= 50 && d.sy_dist < 100) {
-			counts['50-100']++;
-		} else if (d.sy_dist >= 100 && d.sy_dist < 250) {
-			counts['100-250']++;
-		} else if (d.sy_dist >= 250 && d.sy_dist < 500) {
-			counts['250-500']++;
-		} else if (d.sy_dist >= 500) {
-			counts['>500']++;
+		} else if (d.sy_dist >= 50 && d.sy_dist < 500) {
+			counts['50-500']++;
+		} else if (d.sy_dist >= 500 && d.sy_dist < 1000) {
+			counts['500-1000']++;
+		} else if (d.sy_dist >= 1000 && d.sy_dist < 1500) {
+			counts['1000-1500']++;
+		} else if (d.sy_dist >= 1500) {
+			counts['>1500']++;
 		}
 	});
 
