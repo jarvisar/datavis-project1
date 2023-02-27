@@ -14,7 +14,6 @@ class Histogram {
 	this.data = _data; 
 	this.initVis();
   }
-  
    
   initVis(){
 	let vis = this;
