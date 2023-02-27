@@ -64,12 +64,17 @@ class System {
     let vis = this;
     let minOrbsmax = d3.min(vis.data, d => parseFloat(d.pl_orbsmax));
     let maxOrbsmax = d3.max(vis.data, d => parseFloat(d.pl_orbsmax));
-    console.log(maxOrbsmax)
-    console.log(vis.data)
+
     // Create an xScale
-    vis.xScale = d3.scaleLinear()
-      .domain([minOrbsmax, maxOrbsmax])
-      .range([((parseFloat(vis.data[0].st_rad) * 50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
+    if (vis.data[0].st_rad == ""){
+      vis.xScale = d3.scaleLinear()
+        .domain([minOrbsmax, maxOrbsmax])
+        .range([((50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
+    } else {
+      vis.xScale = d3.scaleLinear()
+        .domain([minOrbsmax, maxOrbsmax])
+        .range([((parseFloat(vis.data[0].st_rad) * 50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
+    }
 
     vis.rScale = d3.scaleLog()
       .domain(d3.extent(vis.data, d => parseFloat(d.pl_rade)))
@@ -245,9 +250,9 @@ class System {
           unknownOffset += (vis.rScale(parseFloat(d.pl_rade)) * 2) + 10;
           return vis.rScale(parseFloat(d.pl_rade)) + 10 + offset;
       }})
-      .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
-      .style('filter', 'url(#planet-shadow)') // Add the radial shadow as a filter to the circle
-      .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)') // Add the radial shadow as a CSS box-shadow property to the circle
+      .attr('stroke', 'url(#planet-gradient)')
+      .style('filter', 'url(#planet-shadow)')
+      .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)')
       .attr('cy', d => {
         if (d.pl_orbsmax != ""){
           console.log(d.pl_orbsmax);
