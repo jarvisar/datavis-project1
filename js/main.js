@@ -190,7 +190,7 @@ d3.csv('data/exoplanets-1.csv')
 	let distanceHisto = new Histogram({
 		'parentElement': '#distancehisto',
 		'containerHeight': (window.innerHeight) * 0.4,
-		'containerWidth': (window.innerWidth - secondRowOffset) * 0.2
+		'containerWidth': (window.innerWidth - secondRowOffset) * 0.175
 	}, getHistoData(data), "Exoplanets by Distance", (filterData) => {
 		let selectedFilter = [filterData]; // Get an array of selected bin ranges
 		let filteredData = data.filter(d => {
@@ -217,7 +217,7 @@ d3.csv('data/exoplanets-1.csv')
 	let yearLine = new Line({
 		'parentElement': '#yearline',
 		'containerHeight': (window.innerHeight) * 0.4,
-		'containerWidth': (window.innerWidth - secondRowOffset) * 0.3
+		'containerWidth': (window.innerWidth - secondRowOffset) * 0.325
 	}, getYearCount(data), (filterData) => {
 		let selectedFilter = [filterData];
 		let filteredData = data.filter(d => selectedFilter.includes(d.disc_year))
