@@ -85,6 +85,7 @@ class System {
     vis.svg.selectAll('.star-name').remove();
     vis.svg.selectAll('.planet-name').remove();
     vis.svg.selectAll('.no-data').remove();
+    vis.svg.selectAll('.orbit').remove();
     
     vis.svg.append("text")
       .attr("x", vis.width/2)
@@ -216,7 +217,19 @@ class System {
       .attr("stop-color", "#000000")
       .attr("stop-opacity", 0.8);
 
-    vis.svg.selectAll('.planet')
+    vis.orbits = vis.svg.selectAll('.orbit')
+      .data(vis.data)
+      .enter()
+      .append('circle')
+      .attr('class', 'orbit')
+      .attr('cx', d => (d.st_rad * 50) + 20)
+      .attr('cy', vis.height/2)
+      .attr('r', d => vis.xScale(d.pl_orbsmax) - (d.st_rad * 50) - 20)
+      .attr('stroke', 'gray')
+      .attr('stroke-width', 1)
+      .attr('fill', 'none')
+
+    vis.planets = vis.svg.selectAll('.planet')
       .data(vis.data)
       .enter()
       .append('circle')
