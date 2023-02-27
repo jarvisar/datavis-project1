@@ -58,7 +58,7 @@ d3.csv('data/exoplanets-1.csv')
 		window.open('https://exoplanets.nasa.gov/what-is-an-exoplanet/stars/#:~:text=Astronomers%20use%20these%20characteristics%20to,biggest%20to%20coolest%20and%20smallest.');
 	});
 
-	let firstRowOffset = 285;
+	let firstRowOffset = 282;
 
 	// Discovery Method Bar Chart
 	let methodBar = new BarChart({
@@ -184,7 +184,7 @@ d3.csv('data/exoplanets-1.csv')
 		}
 	}, '#a1e9f7');
 
-	let secondRowOffset = 185;
+	let secondRowOffset = 182;
 
 	// Exoplanet Distance Histogram
 	let distanceHisto = new Histogram({
