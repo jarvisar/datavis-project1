@@ -40,4 +40,4 @@ This project is also accessible through the [project site](https://sites.google.
 
 # Credits
 
-This project was created by Adam Jarvis for CS 5124. The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and the visualizations were created using [D3.js](https://d3js.org/).
+This project was created by Adam Jarvis for CS5124 Visual Interfaces Data. The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/) and the visualizations were created using [D3.js](https://d3js.org/).
