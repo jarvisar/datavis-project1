@@ -215,8 +215,8 @@ class Scatterplot {
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
       .attr('stroke-width', 1)
       .attr('r', (d) => 10)
-      .attr('cx', (d) => 0);
-      .attr('cy', (d) => vis.height)
+      .attr('cx', (d) => 0) // Set to 0 to animate later
+      .attr('cy', (d) => vis.height);
     
     vis.ourSystemText = vis.ourSystem.append('text')
       .attr('x', (d) => 0)
@@ -275,8 +275,8 @@ class Scatterplot {
     
     vis.circles.transition()
       .duration(1000)
-      .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)));
-      .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade))) 
+      .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)))
+      .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade)));
 
     vis.ourSystemCircles.transition()
       .duration(1000)
