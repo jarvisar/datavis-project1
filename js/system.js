@@ -184,6 +184,7 @@ class System {
       .attr("y", vis.height - 70)
     }
 
+    // Create planet color scale
     vis.planetColorScale = d3.scaleOrdinal()
       .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian', 'Unknown'])
       .range(['#555555', 'grey', 'yellow', 'green', 'brown', 'blue', 'orange', '#6ebfc2']);
