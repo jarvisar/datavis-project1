@@ -69,14 +69,13 @@ class System {
     if (vis.data[0].st_rad == ""){ // Check if star radius is missing
       vis.xScale = d3.scaleLinear()
         .domain([minOrbsmax, maxOrbsmax])
-        .range([((50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - 50]);
+        .range([(170), vis.width - 50]);
     } else {
       vis.xScale = d3.scaleLinear()
         .domain([minOrbsmax, maxOrbsmax])
         .range([((parseFloat(vis.data[0].st_rad) * 50) + 120), vis.width - 50]);
     }
 
-    // Planet radius scale
     vis.rScale = d3.scaleLog()
       .domain(d3.extent(vis.data, d => parseFloat(d.pl_rade)))
       .range([5, 20]);
@@ -256,10 +255,8 @@ class System {
         if (d.pl_rade != ""){ // Handle if planet radius is empty
           return vis.rScale(parseFloat(d.pl_rade));
         } else {
-          console.log(d.pl_name)
           d.unknownFlag = true;
-          d.temp_pl_rade = 30;
-          return vis.rScale(parseFloat(d.temp_pl_rade));
+          return 15;
         }
       })
       .attr('fill', d => vis.planetColorScale(d.planetType))
@@ -282,11 +279,10 @@ class System {
       .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)')
       .attr('cy', d => {
         if (d.pl_orbsmax != "" && d.unknownFlag != true){ // Handle if either radius or orbit is missing
-          console.log(d.pl_orbsmax);
           return vis.height/2;
         } else {
           if (d.unknownFlag == true) { // Add to "limited data" list at bottom of window
-            return vis.height - 30 - 10;
+            return vis.height - 30;
           } else {
             return vis.height - vis.rScale(parseFloat(d.pl_rade)) - 10;
           }
