@@ -233,7 +233,7 @@ class System {
       .attr('cx', d => (d.st_rad * 50) + 20)
       .attr('cy', vis.height/2)
       .attr('r', d => {
-        if (d.pl_orbsmax != ""){ // Handle if pl_orbsmax is empty
+        if (d.pl_orbsmax != "" && d.pl_rade != ""){ // Handle if pl_orbsmax and pl_rade is empty
           return vis.xScale(d.pl_orbsmax) - (d.st_rad * 50) - 20
         } else {
           return 0;
