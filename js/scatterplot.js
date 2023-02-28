@@ -209,18 +209,18 @@ class Scatterplot {
       });
 
     
-    vis.ourSystem.append('circle')
+    vis.ourSystemCircles = vis.ourSystem.append('circle')
       .attr('fill', '#e663e6') // Or any color you prefer
       .attr('opacity', .8)
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
       .attr('stroke-width', 1)
       .attr('r', (d) => 10)
-      .attr('cy', (d) => vis.yScale(d.pl_rade))
-      .attr('cx', (d) => vis.xScale(d.pl_bmasse));
+      .attr('cy', (d) => vis.height)
+      .attr('cx', (d) => 0);
     
-    vis.ourSystem.append('text')
-      .attr('x', (d) => vis.xScale(d.pl_bmasse))
-      .attr('y', (d) => vis.yScale(d.pl_rade) + 4.5)
+    vis.ourSystemText = vis.ourSystem.append('text')
+      .attr('x', (d) => 0)
+      .attr('y', (d) => vis.height)
       .attr('text-anchor', 'middle')
       .attr("font-size", "12px")
       .style('fill', '#ddd')
@@ -278,10 +278,15 @@ class Scatterplot {
       .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade))) 
       .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)));
 
-    vis.ourSystem.transition()
+    vis.ourSystemCircles.transition()
       .duration(1000)
       .attr('cy', (d) => vis.yScale(parseFloat(d.pl_rade))) 
       .attr('cx',(d) =>  vis.xScale(parseFloat(d.pl_bmasse)));
+
+    vis.ourSystemText.transition()
+      .duration(1000)
+      .attr('x', (d) => vis.xScale(d.pl_bmasse)) 
+      .attr('y',(d) =>  vis.yScale(d.pl_rade) + 4.5);
   }
 
  renderVis() { 
