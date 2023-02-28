@@ -290,7 +290,6 @@ class System {
           } else {
             return vis.height - vis.rScale(parseFloat(d.pl_rade)) - 10;
           }
-          
       }})
       .on('mouseover', (event, d) => {
         d3.select('#system-tooltip')
