@@ -65,8 +65,8 @@ class System {
     let minOrbsmax = d3.min(vis.data, d => parseFloat(d.pl_orbsmax));
     let maxOrbsmax = d3.max(vis.data, d => parseFloat(d.pl_orbsmax));
 
-    // Create an xScale
-    if (vis.data[0].st_rad == ""){
+    // Create an xScale using pl_orbsmax
+    if (vis.data[0].st_rad == ""){ // Check if star radius is missing
       vis.xScale = d3.scaleLinear()
         .domain([minOrbsmax, maxOrbsmax])
         .range([((50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
@@ -76,14 +76,17 @@ class System {
         .range([((parseFloat(vis.data[0].st_rad) * 50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
     }
 
+    // Planet radius scale
     vis.rScale = d3.scaleLog()
       .domain(d3.extent(vis.data, d => parseFloat(d.pl_rade)))
       .range([5, 20]);
 
+    // Star color scale
     let starColorScale = d3.scaleOrdinal()
       .domain([undefined, 'A', 'B', 'F', 'G', 'K', 'M'])
       .range(['#6ebfc2', '#eaeaea', '#424fdb', '#e8ed9a', '#d8e617', '#eda218', '#c94134']);
 
+    // Remove previous elements
     vis.svg.selectAll('.star').remove();
     vis.svg.selectAll('.planet').remove();
     vis.svg.selectAll('.system-description').remove();
@@ -92,6 +95,7 @@ class System {
     vis.svg.selectAll('.no-data').remove();
     vis.svg.selectAll('.orbit').remove();
     
+    // System summary
     vis.svg.append("text")
       .attr("x", vis.width/2)
       .attr("y", vis.height - 10)
@@ -121,7 +125,7 @@ class System {
       .attr("stop-color", "#808080")
       .attr("stop-opacity", 0.8);
 
-    // Append a star circle for each data point
+    // Star circle
     vis.svg.selectAll('.star')
       .data(vis.data)
       .enter()
@@ -144,7 +148,7 @@ class System {
         d3.select('#system-tooltip')
           .style('display', 'block')
           .style('left', (event.pageX + 15) + 'px')   
-          .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
+          .style('top', (event.pageY + 15 - window.pageYOffset) + 'px') // Star Tooltip
           .html(`
             <div class="tooltip-title"><b>${d.hostname}</b></div>
             <div><i>${d.st_spectype != "" ? d.st_spectype + " Star" : "Unknown Star Type"}</i></div>
@@ -159,7 +163,7 @@ class System {
         d3.select('#system-tooltip').style('display', 'none');
       });
 
-    vis.svg.append('text')
+    vis.svg.append('text') // Star name label
       .attr('x', (vis.data[0].st_rad * 50) + 20)
       .attr('y', ((vis.height/2) - (vis.data[0].st_rad * 50) - 20))
       .attr("text-anchor", "middle")
@@ -167,7 +171,7 @@ class System {
       .text(vis.data[0].hostname)
       .style('pointer-events', 'none');
 
-    if (vis.data[0].st_rad == ""){
+    if (vis.data[0].st_rad == ""){ // Handle if stellar data is missing
       vis.svg.append('text')
       .attr('x', vis.width/2)
       .attr("y", vis.height - 50)
@@ -222,53 +226,79 @@ class System {
       .attr("stop-color", "#000000")
       .attr("stop-opacity", 0.8);
 
-    vis.orbits = vis.svg.selectAll('.orbit')
+    vis.orbits = vis.svg.selectAll('.orbit') // Orbit ellipse
       .data(vis.data)
       .enter()
       .append('circle')
       .attr('class', 'orbit')
       .attr('cx', d => (d.st_rad * 50) + 20)
       .attr('cy', vis.height/2)
-      .attr('r', d => vis.xScale(d.pl_orbsmax) - (d.st_rad * 50) - 20)
+      .attr('r', d => {
+        if (d.pl_orbsmax != ""){ // Handle if pl_orbsmax is empty
+          return vis.xScale(d.pl_orbsmax) - (d.st_rad * 50) - 20
+        } else {
+          return 0;
+        }
+      })
       .attr('stroke', 'gray')
       .attr('stroke-width', 1)
       .attr('fill', 'none');
 
     let unknownOffset = 0;
     let unknownPlanets = false;
-    vis.planets = vis.svg.selectAll('.planet')
+    let unknownRadius = false;
+    vis.planets = vis.svg.selectAll('.planet') // Planet circles
       .data(vis.data)
       .enter()
       .append('circle')
       .attr('class', 'planet')
-      .attr('r', d => vis.rScale(parseFloat(d.pl_rade)))
+      .attr('r', d => {
+        if (d.pl_rade != ""){ // Handle if planet radius is empty
+          return vis.rScale(parseFloat(d.pl_rade));
+        } else {
+          console.log(d.pl_name)
+          d.unknownFlag = true;
+          d.temp_pl_rade = 30;
+          return vis.rScale(parseFloat(d.temp_pl_rade));
+        }
+      })
       .attr('fill', d => vis.planetColorScale(d.planetType))
-      .attr('cx', d => {
-        if (d.pl_orbsmax != ""){
+      .attr('cx', d => { // Handle if either radius or orbit is missing
+        if (d.pl_orbsmax != "" && d.unknownFlag != true){
           return vis.xScale(d.pl_orbsmax)
         } else {
           let offset = unknownOffset;
           unknownPlanets = true;
-          unknownOffset += (vis.rScale(parseFloat(d.pl_rade)) * 2) + 10;
-          return vis.rScale(parseFloat(d.pl_rade)) + 10 + offset;
+          if (d.unknownFlag == true) { // Add to "limited data" list at bottom of window
+            unknownOffset += 40 + 10;
+            return 40 + offset;
+          } else {
+            unknownOffset += (vis.rScale(parseFloat(d.pl_rade)) * 2) + 10;
+            return vis.rScale(parseFloat(d.pl_rade)) + 10 + offset;
+          }
       }})
       .attr('stroke', 'url(#planet-gradient)')
       .style('filter', 'url(#planet-shadow)')
       .style('box-shadow', '0px 0px 10px rgba(0, 0, 0, 0.8)')
       .attr('cy', d => {
-        if (d.pl_orbsmax != ""){
+        if (d.pl_orbsmax != "" && d.unknownFlag != true){ // Handle if either radius or orbit is missing
           console.log(d.pl_orbsmax);
           return vis.height/2;
         } else {
-          return vis.height - vis.rScale(parseFloat(d.pl_rade)) - 10;
+          if (d.unknownFlag == true) { // Add to "limited data" list at bottom of window
+            return vis.height - 30 - 10;
+          } else {
+            return vis.height - vis.rScale(parseFloat(d.pl_rade)) - 10;
+          }
+          
       }})
       .on('mouseover', (event, d) => {
         d3.select('#system-tooltip')
           .style('display', 'block')
           .style('left', (event.pageX + 15) + 'px')   
-          .style('top', (event.pageY + 15 - window.pageYOffset) + 'px')
+          .style('top', (event.pageY + 15 - window.pageYOffset) + 'px') // Tooltip for planets
           .html(`
-            <div class="tooltip-title"><b>${d.pl_name}</b></div>
+            <div class="tooltip-title"><b>${d.pl_name}</b></div> 
             <div><i>${d.planetType} Planet</i></div>
             <ul>
               <li>Radius: ${d.pl_rade} Re</li>
@@ -281,7 +311,17 @@ class System {
         d3.select('#system-tooltip').style('display', 'none');
       });
 
-      if (unknownPlanets == true){
+      if (unknownPlanets == true){ // Add "Limited Data" list if necessary
+        vis.svg.append('text')
+        .attr('x', 10)
+        .attr("y", vis.height - 65)
+        .attr("text-anchor", "left")
+        .attr('class', "no-data")
+        .text("Planets with Limited Data")
+        .style('text-decoration', 'underline');
+      }
+
+      if (unknownRadius == true){ // Add "Limited Data" list if necessary
         vis.svg.append('text')
         .attr('x', 10)
         .attr("y", vis.height - 65)
