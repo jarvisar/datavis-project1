@@ -185,8 +185,8 @@ class System {
     }
 
     vis.planetColorScale = d3.scaleOrdinal()
-      .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian'])
-      .range(['#555555', 'grey', 'yellow', 'green', 'brown', 'blue', 'orange']);
+      .domain(['Asteroidan', 'Mercurian', 'Subterran', 'Terran', 'Superterran', 'Neptunian', 'Jovian', 'Unknown'])
+      .range(['#555555', 'grey', 'yellow', 'green', 'brown', 'blue', '#6ebfc2']);
 
     vis.planetGradient = vis.svg.append("defs")
       .append("radialGradient")

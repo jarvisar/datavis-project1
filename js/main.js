@@ -43,8 +43,11 @@ d3.csv('data/exoplanets-1.csv')
 		  case (mass < 50):
 			planetType = "Neptunian"; // Mass between 10 and 50 Earth masses
 			break;
+		  case (mass < 5000):
+				planetType = "Jovian"; // Mass between 10 and 50 Earth masses
+				break;
 		  default:
-			planetType = "Jovian"; // Mass greater than or equal to 50 Earth masses
+			planetType = "Unknown"; // Mass greater than or equal to 50 Earth masses
 		}
 		planet.planetType = planetType;
 	});
