@@ -235,6 +235,7 @@ class System {
       .attr('fill', 'none');
 
     let unknownOffset = 0;
+    let unknownPlanets = false;
     vis.planets = vis.svg.selectAll('.planet')
       .data(vis.data)
       .enter()
@@ -247,6 +248,7 @@ class System {
           return vis.xScale(d.pl_orbsmax)
         } else {
           let offset = unknownOffset;
+          unknownPlanets = true;
           unknownOffset += (vis.rScale(parseFloat(d.pl_rade)) * 2) + 10;
           return vis.rScale(parseFloat(d.pl_rade)) + 10 + offset;
       }})
@@ -271,13 +273,23 @@ class System {
             <ul>
               <li>Radius: ${d.pl_rade} Re</li>
               <li>Mass: ${d.pl_bmasse} Me</li>
-              <li>Orbital Axis: ${d.pl_orbsmax == "" ? "Unknown" : d.pl_orbsmax} au</li>
+              <li>Orbital Axis: ${d.pl_orbsmax == "" ? "<i>unknown</i>" : d.pl_orbsmax + " au"} </li>
             </ul>
           `);
       })
       .on('mouseleave', () => {
         d3.select('#system-tooltip').style('display', 'none');
       });
+
+      if (unknownPlanets == true){
+        vis.svg.append('text')
+        .attr('x', 10)
+        .attr("y", vis.height - 65)
+        .attr("text-anchor", "left")
+        .attr('class', "no-data")
+        .text("Planets with Limited Data")
+        .style('text-decoration', 'underline');
+      }
   }
 
   renderVis(brushEnabled) {

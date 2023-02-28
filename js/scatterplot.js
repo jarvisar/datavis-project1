@@ -214,7 +214,7 @@ class Scatterplot {
       .attr('opacity', .8)
       .attr('stroke', 'url(#planet-gradient)') // Add the planet gradient as the stroke
       .attr('stroke-width', 1)
-      .attr('r', (d) => 8)
+      .attr('r', (d) => 10)
       .attr('cy', (d) => vis.yScale(d.pl_rade))
       .attr('cx', (d) => vis.xScale(d.pl_bmasse));
     
@@ -222,8 +222,8 @@ class Scatterplot {
       .attr('x', (d) => vis.xScale(d.pl_bmasse))
       .attr('y', (d) => vis.yScale(d.pl_rade) + 4.5)
       .attr('text-anchor', 'middle')
-      .attr("font-size", "11px")
-      .style('fill', '#ccc')
+      .attr("font-size", "12px")
+      .style('fill', '#ddd')
       .style("pointer-events", "none")
       .text((d) => d.pl_name[0]);
 
