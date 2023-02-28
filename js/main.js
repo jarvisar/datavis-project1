@@ -21,33 +21,34 @@ d3.csv('data/exoplanets-1.csv')
 
 	globalData = data;
 
+	// Add planet type
 	data.forEach(planet => {
 		const mass = parseFloat(planet.pl_bmasse);
 		let planetType;
 		switch (true) {
 		  case (mass < 0.00001):
-			planetType = "Asteroidan"; // Mass less than 0.00001 Earth masses
+			planetType = "Asteroidan";
 			break;
 		  case (mass < 0.1):
-			planetType = "Mercurian"; // Mass between 0.00001 and 0.1 Earth masses
+			planetType = "Mercurian";
 			break;
 		  case (mass < 0.5):
-			planetType = "Subterran"; // Mass between 0.1 and 0.5 Earth masses
+			planetType = "Subterran";
 			break;
 		  case (mass < 2):
-			planetType = "Terran"; // Mass between 0.5 and 2 Earth masses
+			planetType = "Terran"; 
 			break;
 		  case (mass < 10):
-			planetType = "Superterran"; // Mass between 2 and 10 Earth masses
+			planetType = "Superterran"; 
 			break;
 		  case (mass < 50):
-			planetType = "Neptunian"; // Mass between 10 and 50 Earth masses
+			planetType = "Neptunian"; 
 			break;
 		  case (mass < 5000):
-				planetType = "Jovian"; // Mass between 10 and 50 Earth masses
+				planetType = "Jovian"; 
 				break;
 		  default:
-			planetType = "Unknown"; // Mass greater than or equal to 50 Earth masses
+			planetType = "Unknown";
 		}
 		planet.planetType = planetType;
 	});
