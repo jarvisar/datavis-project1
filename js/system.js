@@ -69,11 +69,11 @@ class System {
     if (vis.data[0].st_rad == ""){ // Check if star radius is missing
       vis.xScale = d3.scaleLinear()
         .domain([minOrbsmax, maxOrbsmax])
-        .range([((50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
+        .range([((50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - 50]);
     } else {
       vis.xScale = d3.scaleLinear()
         .domain([minOrbsmax, maxOrbsmax])
-        .range([((parseFloat(vis.data[0].st_rad) * 50) + 110 + (parseFloat(vis.data[0].pl_rade) * 3)), vis.width - (parseFloat(vis.data[0].pl_rade) * 3) - 30]);
+        .range([((parseFloat(vis.data[0].st_rad) * 50) + 120), vis.width - 50]);
     }
 
     // Planet radius scale
