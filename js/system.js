@@ -301,8 +301,8 @@ class System {
             <div class="tooltip-title"><b>${d.pl_name}</b></div> 
             <div><i>${d.planetType} Planet</i></div>
             <ul>
-              <li>Radius: ${d.pl_rade} Re</li>
-              <li>Mass: ${d.pl_bmasse} Me</li>
+              <li>Radius: ${d.pl_rade == "" ? "<i>unknown</i>" : d.pl_rade + " Re"}</li>
+              <li>Mass: ${d.pl_bmasse == "" ? "<i>unknown</i>" : d.pl_bmasse + " Me"}</li>
               <li>Orbital Axis: ${d.pl_orbsmax == "" ? "<i>unknown</i>" : d.pl_orbsmax + " au"} </li>
             </ul>
           `);
