@@ -198,13 +198,13 @@ d3.csv('data/exoplanets-1.csv')
 			let dist = d.sy_dist;
 			if (dist >= 0 && dist < 50 && selectedFilter.includes('0-50')) {
 				return true;
-			} else if (dist >= 50 && dist < 100 && selectedFilter.includes('50-100')) {
+			} else if (dist >= 50 && dist < 500 && selectedFilter.includes('50-500')) {
 				return true;
-			} else if (dist >= 100 && dist < 250 && selectedFilter.includes('100-250')) {
+			} else if (dist >= 500 && dist < 1000 && selectedFilter.includes('500-1000')) {
 				return true;
-			} else if (dist >= 250 && dist < 500 && selectedFilter.includes('250-500')) {
+			} else if (dist >= 1000 && dist < 1500 && selectedFilter.includes('1000-1500')) {
 				return true;
-			} else if (dist >= 500 && selectedFilter.includes('>500')) {
+			} else if (dist >= 1500 && selectedFilter.includes('>1500')) {
 				return true;
 			} else {
 				return false;
