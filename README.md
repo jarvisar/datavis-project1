@@ -6,6 +6,8 @@ Project 1 aims to develop interactive and dynamic data visualizations using exop
 
 Check out the [documentation](https://sites.google.com/view/adam-jarvis/out-of-this-world) on the project site to learn more about the design and development process.
 
+Demo video: https://youtu.be/xEhZycvQ93s
+
 ## Data
 
 The exoplanet data used in this project was obtained from the [NASA Exoplanet Archive](https://exoplanetarchive.ipac.caltech.edu/).
